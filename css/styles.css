@@ -1,0 +1,221 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box; 
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+
+	background: url(../images/background-2.jpg) no-repeat fixed rgba(255,255,255,0.9);
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	background-blend-mode: white;
+	/*height: 0;*/
+	min-height: 100vh;
+}
+
+header {
+	background: rgba(255,255,255,0.5)!important;
+	height: 10vh;
+	border: 1px solid red;
+}
+
+header a {
+	color: #000;
+}
+
+.reg-background {
+	border: 3px solid black;
+	width: 100%;
+	height: max-content;
+	min-height: 90%;
+	margin: 30px 0;
+	padding: 50px 30px;
+	background: url(../images/background-2.jpg) no-repeat fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	background-blend-mode: white;
+
+	color: #fff;
+
+	background: rgba(0,0,0,0.35);
+}
+
+.container {
+	/*height: max-content;*/
+	min-height: 90vh;
+	border: 1px solid red;
+}
+
+.background-center {
+	border: 3px solid green;
+	width: 100%;
+	display: flex;
+	height: 10%;
+}
+
+.background-center .reg-background{
+	/*margin-top: -70px;*/
+}
+
+.test {
+	display: flex;
+	/*border: 1px solid green;*/
+	height: 100%;
+}
+
+.site-header{
+	display: flex;
+	justify-content: space-between;
+}
+
+.header-button {
+	display: flex;
+	align-items: center;
+	font-size: 1.5rem;
+	justify-content: space-between;
+	align-content: flex-start;
+}
+
+.header-button1 {
+	display: flex;
+	align-items: center;
+	font-size: 2rem;
+	justify-content: space-between;
+	align-content: flex-start;
+}
+
+.menu-button {
+	margin-right: 2%;
+}
+
+.event-button {
+}
+
+.logo-img {
+}
+
+.btn-text{
+	margin: 0 10px;
+}
+
+.reg-text {
+}
+
+.reg-fields {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	justify-content: space-around;
+	width: 100%;
+	height: 70%;
+}
+
+.reg-fields input {
+	box-sizing: border-box;
+	height: 40px;
+	width: 30%;
+	margin-top: 20px;
+}
+
+.reg-fields form {
+	width: 100%;
+	height: 70%;
+	display: flex;
+	flex-wrap:  wrap;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.reg-errors {
+	margin-top: 24px;
+	margin-bottom: 20px;
+}
+
+.login-fields {
+	/*border: 1px solid red;*/
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 60px;
+}
+
+.login-fields input {
+	width: 30%;
+	height: 40px;
+	margin-top: 20px;
+}
+
+.login-fields input:first-child {
+	margin-top: 0;
+}
+
+.dynamic-changer {
+	margin-top: 90px;
+}
+
+.res-margin {
+	margin: 0 10px;
+}
+
+.event-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.event-table th, td {
+	padding: 10px;
+	text-align: center;
+	border: 3px solid black;
+}
+
+.event-table thead th {
+	font-size: 1.5rem;
+}
+
+.event-table thead th:nth-child(1) {
+	width: 40%;
+}
+
+.event-table a {
+	text-decoration: none;
+	color: inherit;
+	text-align: center;	
+}
+
+.event-table tbody tr:hover {
+	background: #f3bd48; 
+	font-size: 1.3rem;
+	color: #000;
+}
+
+.after-info {
+	margin-top: 100px;
+}
+
+.my-events {
+	display: inline-block;
+	font-size: 1.5rem;
+	/*margin-bottom: 50px;*/
+}
+
+.my-qr {
+	width: 150px;
+	float: right;
+	display: inline-block;
+}
+
+.qr-decoder {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 150px;
+	font-size: 1.5rem;
+}
+

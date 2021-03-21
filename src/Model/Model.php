@@ -3,7 +3,7 @@ namespace HseEvents\Model;
 
 abstract class Model
 {
-    abstract static public function find($id): ?Model;
-    abstract static public function findAll(): array;
+    abstract public static function find(int $id): ?Model;
+    abstract public static function findAll(): array;
 }
 

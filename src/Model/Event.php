@@ -3,28 +3,34 @@
 namespace HseEvents\Model;
 
 
-use PDO;
+use PDO, PDOException;
 
 class Event extends Model
 {
-    private $id = null;
-    private $name = null;
-    private $description = null;
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?string $description = null;
 
 
-    public function __construct($data)
+    private function __construct(array $eventData)
     {
-        $this->id = isset($data['id']) ? $data['id'] : null;
-        $this->name = isset($data['name']) ? $data['name'] : null;
-        $this->description = isset($data['description']) ? $data['description'] : null;
+        $this->id = $eventData['id'] ?? null;
+        $this->name = isset($eventData['name']) ? filter_var(
+            $eventData['name'],
+            FILTER_SANITIZE_SPECIAL_CHARS
+        ) : null;
+        $this->description = isset($eventData['description']) ? filter_var(
+            $eventData['description'],
+            FILTER_SANITIZE_SPECIAL_CHARS
+        ) : null;
     }
 
 
-    public function validate()
+    public static function validate(array $eventData): ?array
     {
         $errs = array();
 
-        if (is_null($this->name)) {
+        if (is_null($eventData['name'])) {
             $errs[] = "Необходимо указать название!";
         } else {
             try {
@@ -34,7 +40,7 @@ class Event extends Model
                 $sql = "SELECT * FROM events WHERE name = :name";
 
                 $sth = $conn->prepare($sql);
-                $sth->bindParam(':name', $this->name, PDO::PARAM_STR);
+                $sth->bindParam(':name', $eventData['name'], PDO::PARAM_STR);
                 $sth->execute();
 
                 $sth->setFetchMode(PDO::FETCH_ASSOC);
@@ -50,13 +56,13 @@ class Event extends Model
             }
         }
 
-        if (is_null($this->description)) {
+        if (is_null($eventData['description'])) {
             $errs[] = "Необходимо указать описание!";
         }
 
-        if (!is_null($this->id) && !is_int($this->id)) {
-            $errs[] = "ID должно быть числом!";
-        }
+//        if (isset($eventData['id']) && !is_int($eventData['id'])) {
+//            $errs[] = "ID должно быть числом!";
+//        }
 
         if (empty($errs))
             return null;
@@ -65,46 +71,59 @@ class Event extends Model
 
     }
 
+    public function getInfo(): array
+    {
+        $info = array();
 
-    public function get_id()
+        $info['id'] = $this->id;
+        $info['name'] = $this->name;
+        $info['description'] = $this->description;
+
+        return $info;
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function get_name()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function get_description()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
 
-    public function insert()
+    public static function insert(array $eventData): ?array
     {
-        $errors = $this->validate();
+        $errors = Event::validate($eventData);
         if (!is_null($errors))
             return $errors;
 
 
-        if (!is_null($this->id))
-            trigger_error("EVENT::insert() : Попытка занести в БД событие с уже установленным id, равным id = $this->id", E_USER_ERROR);
+        if (isset($eventData['id']))
+            trigger_error("EVENT::insert() : Попытка занести в БД событие с уже установленным id, 
+            равным id =" . $eventData["id"], E_USER_ERROR);
         try {
             $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $data = [
-                "name" => $this->name,
-                "description" => $this->description
+                "name" => $eventData['name'],
+                "description" => $eventData['description']
             ];
 
             $sql = "INSERT INTO events(name, description) VALUES (:name, :description)";
             $sth = $conn->prepare($sql);
             $sth->execute($data);
 
-        } catch (\PDOException $err) {
+            return null;
+
+        } catch (PDOException $err) {
             echo $err->getMessage();
         } finally {
             $conn = null;
@@ -112,7 +131,7 @@ class Event extends Model
     }
 
 
-    public static function find($id): ?Event
+    public static function find(int $id): ?Event
     {
         try {
             $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
@@ -133,34 +152,6 @@ class Event extends Model
                 return null;
 
         } catch (PDOException $err) {
-            print_r($err);
-        } finally {
-            $conn = null;
-        }
-    }
-
-
-    public static function findByEmail(?string $email): ?Event
-    {
-        try {
-            $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $sql = "SELECT * FROM events WHERE email=:email";
-            $sth = $conn->prepare($sql);
-            $sth->bindValue(":email", $email, PDO::PARAM_INT);
-            $sth->execute();
-
-            $sth->setFetchMode(PDO::FETCH_ASSOC);
-
-            $event = $sth->fetch();
-
-            if ($event)
-                return new Event ($event);
-            else
-                return null;
-
-        } catch (\PDOException $err) {
             print_r($err);
         } finally {
             $conn = null;
@@ -193,112 +184,6 @@ class Event extends Model
             $conn = null;
         }
     }
-
-
-    // public function reg_student_to_event( $student_id ) {
-    // 	$errors = array();
-    // 	$has_registered = $this->is_student_registered( $student_id );
-
-    // 	if ( $has_registered )
-    // 		return false;
-
-    // 	try{
-    // 		$conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-    // 		$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-
-    // 		$data = [
-    // 			'event_id' => $this->id,
-    // 			'student_id' => $student_id
-    // 		];
-
-    // 		$sql = "INSERT INTO event_student VALUES (:event_id, :student_id)";
-    // 		$sth = $conn->prepare($sql);
-    // 		$sth->execute($data);
-
-    // 		$errors['has_error'] = true;
-    // 		$errors['error_messages'][] = "Такой студент уже зарегистрирован на данное мероприятие";
-    // 		return true;
-
-    // 	} catch ( PDOException $err ) {
-    // 		print_r( $err );
-    // 	} finally {
-    // 		$conn = null;
-    // 	}
-    // }
-
-
-    // public function unreg_student_from_event( $student_id ) {
-    // 	$errors = array();
-    // 	$has_registered = $this->is_student_registered( $student_id );
-
-    // 	if ( !$has_registered )
-    // 		return false;
-
-    // 	try{
-    // 		$conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-    // 		$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-
-    // 		$data = [
-    // 			'event_id' => $this->id,
-    // 			'student_id' => $student_id
-    // 		];
-
-    // 		$sql = "DELETE FROM event_student WHERE event_id = :event_id AND student_id = :student_id";
-    // 		$sth = $conn->prepare($sql);
-    // 		$sth->execute($data);
-
-    // 		$errors['has_error'] = true;
-    // 		$errors['error_messages'][] = "Такой студент уже зарегистрирован на данное мероприятие";
-    // 		return true;
-
-    // 	} catch ( PDOException $err ) {
-    // 		print_r( $err );
-    // 	} finally {
-    // 		$conn = null;
-    // 	}
-    // }
-
-
-    // public function is_student_registered ( $student_id ) {
-    // 	try{
-    // 		$conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-    // 		$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-
-    // 		$data = [
-    // 			'event_id' => $this->id,
-    // 			'student_id' => $student_id
-    // 		];
-
-    // 		$sql = "SELECT * FROM event_student WHERE event_id = :event_id AND student_id = :student_id";
-    // 		$sth = $conn->prepare($sql);
-    // 		$sth->execute($data);
-
-    // 		$res = $sth->fetch();
-
-    // 		if ( $res )
-    // 			return true;
-    // 		else
-    // 			return false;
-
-    // 	} catch ( PDOException $err ) {
-    // 		print_r( $err );
-    // 	} finally {
-    // 		$conn = null;
-    // 	}
-    // }
-
-
-    public function get_info()
-    {
-        $info = array();
-
-        $info['id'] = $this->id;
-        $info['name'] = $this->name;
-        $info['description'] = $this->description;
-
-        return $info;
-    }
-
 
 }
 

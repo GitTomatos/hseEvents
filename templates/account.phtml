@@ -1,0 +1,131 @@
+<?php
+/**
+ * @var $currentUser
+ */
+
+use HseEvents\Model\Event;
+
+//if (isset($_POST['readQr'])) {
+//    require_once(get_template_directory() . "/qr/qr-decoder.php");
+//    $res = decodeQr();
+//    echo "Результат: " . $res;
+//}
+//
+//
+//$validationErrors = null;
+//
+//if (isset($_POST['addEvent'])) {
+//    global $validationErrors;
+//
+////	require_once (CLASS_PATH . "/Event.php");
+//
+//    $data = array();
+//
+//    $data['name'] = !empty($_POST['eventName']) ? $_POST['eventName'] : null;
+//    $data['description'] = !empty($_POST['eventDescription']) ? $_POST['eventDescription'] : null;
+//
+//    $validationErrors = Event::insert($data);
+//    if (is_null($validationErrors))
+//        header("Location: ./");
+//}
+
+?>
+
+
+<div class="container">
+    <div class="my-info">
+
+        <p class="text-center">
+            ID: <?php echo !is_null($currentUser->getId()) ? $currentUser->getId() : "Не указано" ?>
+        </p>
+        <p class="text-center">
+            Email: <?php echo !is_null($currentUser->getEmail()) ? $currentUser->getEmail() : "Не указано" ?>
+        </p>
+        <p class="text-center">
+            Фамилия: <?php echo !is_null($currentUser->getLastName()) ? $currentUser->getLastName() : "Не указано" ?>
+        </p>
+        <p class="text-center">
+            Имя: <?php echo !is_null($currentUser->getFirstName()) ? $currentUser->getFirstName() : "Не указано" ?>
+        </p>
+        <p class="text-center">
+            Отчество: <?php echo !is_null($currentUser->getPatronymic()) ? $currentUser->getPatronymic() : "Не указано" ?>
+        </p>
+        <p class="text-center">
+            Университет: <?php echo !is_null($currentUser->getUniversity()) ? $currentUser->getUniversity() : "Не указано" ?>
+        </p>
+        <p class="text-center">
+            Специальность: <?php echo !is_null($currentUser->getSpeciality()) ? $currentUser->getSpeciality() : "Не указано" ?>
+        </p>
+        <p class="text-center">
+            Курс: <?php echo !is_null($currentUser->getYear()) ? $currentUser->getYear() : "Не указано" ?>
+        </p>
+        <p class="text-center">
+            Телефон: <?php echo !is_null($currentUser->getPhone()) ? $currentUser->getPhone() : "Не указано" ?>
+        </p>
+    </div>
+
+    <div class="after-info">
+        <div class="my-events">
+            <p>Мои мероприятия:</p>
+            <?php
+            $userEvents = $currentUser->getEvents();
+            if (!is_null($userEvents)):
+                foreach ($userEvents as $event):
+                    echo "<p>";
+                    echo "<a href='./view-event?eventId=" . $event->getId() . "'>";
+                    echo $event->getName();
+                    echo "</a>";
+                    echo "</p>";
+                endforeach;
+            endif;
+
+            ?>
+        </div>
+        <div class="my-qr">
+            <?php $imgSrc = ('https://api.qrserver.com/v1/create-qr-code/?data=' . $currentUser->getId() . '&size=150x150') ?>
+            <img src="<?php echo $imgSrc ?>" alt="qr-code"/>
+        </div>
+    </div>
+
+
+    <div class='qr-decoder'>
+        <form enctype="multipart/form-data" action="" method="POST">
+            <input type="hidden" name="MAX_FILE_SIZE" value="1048576"/>
+            Расшифровать QR-код: <input name="file" type="file"/>
+            <input type="submit" name="readQr" value="Read QR code"/>
+        </form>
+    </div>
+
+
+    <div>
+
+        <?php
+        if (!empty($validationErrors)) {
+            echo "<div class='form-errors'>";
+            foreach ($validationErrors as $errNum => $errDescript) {
+                echo "<p class='from-error'>";
+                echo $errDescript;
+                echo "</p>";
+            }
+            echo "</div>";
+        }
+        ?>
+
+        <form action="" method="post">
+            <div class='login-fields'>
+                <input type="text" name="eventName" placeholder="Название мероприятия"
+                       value="<?php echo isset($_POST['eventName']) ? $_POST['eventName'] : null ?>">
+                <input type="text" name="eventDescription" placeholder="Описание мероприятия"
+                       value="<?php echo isset($_POST['eventDescription']) ? $_POST['eventDescription'] : null ?>">
+            </div>
+            <div class="text-center">
+                <button class="reg-button btn btn-primary btn-lg mt-5" type="submit" name="addEvent">Добавить
+                    мероприятие
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<?php //require_once('includes/footer.php') ?>

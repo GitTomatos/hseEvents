@@ -1,0 +1,149 @@
+<div class="container d-flex align-items-center">
+    <div class="reg-background">
+        <div class="reg-text text-center">
+            <h1> Регистрация</h1>
+        </div>
+
+
+        <?php
+
+        if (isset($validationErrors)) {
+            echo "<div class='form-errors'>";
+            foreach ($validationErrors as $errNum => $errDescript) {
+                echo "<p class='from-error'>";
+                echo $errDescript;
+                echo "</p>";
+            }
+            echo "</div>";
+        }
+
+
+        ?>
+
+
+        <form class="needs-validation" method="post" action="" novalidate>
+
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Фамилия*</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" required>
+                <div class="invalid-feedback">
+                    Необходимо указать Фамилию
+                </div>
+
+<!--                --><?php //if (!is_null($validationErrors['lastName'])): ?>
+<!--                    <div class="invalid-feedback">-->
+<!--                        --><?php
+//                        echo $validationErrors['lastName'];
+//                        ?>
+<!--                    </div>-->
+<!--                --><?php //endif ?>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Имя*</label>
+                <input type="text" class="form-control" name="firstName"
+                       value="<?php echo $postData['firstName'] ?? null ?>" required>
+                <div class="invalid-feedback">
+                    Необходимо указать Имя
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="patronymic" class="form-label">Отчество</label>
+                <input type="text" class="form-control" id="patronymic" name="patronymic"
+                       value="<?php echo $postData['patronymic'] ?? null ?>">
+            </div>
+
+            <div class="mb-3">
+                <label for="university" class="form-label">Вуз*</label>
+                <input type="text" id="university" class="form-control" name="university"
+                       value="<?php echo $postData['university'] ?? null ?>" required>
+                <div class="invalid-feedback">
+                    Необходимо указать Вуз
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="speciality" class="form-label">Специальность*</label>
+                <input type="text" id="speciality" class="form-control" name="speciality"
+                       value="<?php echo $postData['speciality'] ?? null ?>" required>
+                <div class="invalid-feedback">
+                    Необходимо указать Специальность
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="studyYear" class="form-label">Курс*</label>
+                <input type="number" id="studyYear" class="form-control" name="studyYear"
+                       value="<?php echo $postData['studyYear'] ?? null ?>" required>
+                <div class="invalid-feedback">
+                    Необходимо указать Курс
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">Телефон*</label>
+                <input type="text" id="phone" class="form-control" name="phone"
+                       value="<?php echo $postData['phone'] ?? null ?>" required>
+                <div class="invalid-feedback">
+                    Необходимо указать Телефон
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Почта*</label>
+                <input type="email" id="email" class="form-control" name="email"
+                       value="<?php echo $postData['email'] ?? null ?>" required>
+                <div class="invalid-feedback">
+                    Необходимо указать Почту
+                </div>
+
+                <div id="invalidCheck3Feedback" class="invalid-feedback">
+                    Некорректная почта
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="pass" class="form-label">Пароль*</label>
+                <input type="password" id="pass" class="form-control" name="pass" placeholder=""
+                       value="<?php echo $postData['pass'] ?? null ?>" required>
+                <div class="invalid-feedback">
+                    Необходимо указать Пароль
+                </div>
+            </div>
+
+
+            <!--            <div class="form-check mt-5">-->
+            <!--                <input class="form-check-input" type="checkbox" name="pers_info_handling" id="pers_info_handling">-->
+            <!--                <label for="pers_info_handling">-->
+            <!--                    Согласен(на) на обработку персональных данных-->
+            <!--                </label>-->
+            <!--            </div>-->
+
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" required>
+                <label class="form-check-label" for="flexCheckChecked">
+                    Согласен(на) на обработку персональных данных
+                </label>
+                <div class="invalid-feedback">
+                    Необходимо согласие на обработку персональных данных
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="reg-button btn btn-primary btn-lg mt-5" type="submit" name="addStudent"
+                        value="Register">Регистрация
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+
+</div>
+
+
+<script src="/assets/js/registrationValidation.js"></script>

@@ -1,0 +1,47 @@
+<?php
+//require_once('includes/header.php');
+// require_once('config/db_connection.php');
+?>
+
+<div class="container">
+    <div class='reg-background'>
+
+        <div class="text-center">
+            <h1> Мероприятия</h1>
+        </div>
+
+        <table class="event-table mt-5">
+            <thead>
+            <tr>
+                <th>Название мероприятия</th>
+                <th>Описание</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <?php
+            if (!empty($events)) {
+                foreach ($events as $event) {
+                    ?>
+                    <tr>
+                        <td>
+                            <a href="/view-event/?eventId=<?php echo $event->getId() ?> "> <?php echo $event->getName() ?> </a>
+                        </td>
+                        <td> <?php echo $event->getDescription() ?> </td>
+                    </tr>
+                    <?php
+                }
+            }
+
+
+            ?>
+
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+
+<?php //require_once('includes/footer.php') ?>

@@ -1,0 +1,44 @@
+<?php 
+//require_once('includes/header.php');
+?>
+
+
+
+<div class="container">
+	<!-- <div class="background-center"> -->
+		<div class="reg-background">
+
+			<div class="text-center">
+				<h1> Войти в аккаунт </h1>
+			</div>
+
+			<?php 
+			if ( !empty( $errors ) ){
+				foreach ($errors as $error){
+					echo "<p>";
+					echo $error;
+					echo "</p>";
+				}
+			}
+			?>
+
+			<form action="" method="post">
+				<div class='login-fields'>
+					<input type="text" name="userLogin" placeholder="Введите логин" value="<?php echo (isset($postData['userLogin'])) ? $postData['userLogin'] : null ?>">
+					<input type="text" name="userPass" placeholder="Введите пароль" value="<?php echo (isset($postData['userPass'])) ? $postData['userPass'] : null ?>">
+				</div>
+
+				<div class="text-center">
+					<button class="reg-button btn btn-primary btn-lg mt-5" type="submit"  name="login" value="Register">Регистрация</button>
+				</div>
+
+			</form>
+
+		</div>
+		<!-- </div> -->
+
+
+
+	</div>
+
+<?php //require_once('includes/footer.php') ?>

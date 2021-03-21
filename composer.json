@@ -1,0 +1,13 @@
+{
+    "require": {
+        "symfony/var-dumper": "^5.2",
+      "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "HseEvents\\": "src/"
+        }
+    },
+    "name": "",
+    "description": ""
+}

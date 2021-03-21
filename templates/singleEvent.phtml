@@ -1,0 +1,33 @@
+<?php //require_once('includes/header.php'); ?>
+
+<div class="container">
+	<div class='reg-background'>
+		<div class="text-center py-5">
+			<h1>
+				<p>ID мероприятия: <?php echo $currentEvent->getId() ?></p>
+			</h1>
+			<h1>
+				<p> Название: <?php echo $currentEvent->getName() ?> </p>
+			</h1>
+			<p> Описание: <?php echo $currentEvent->getDescription() ?> </p>
+		</div>
+
+		<?php if ( !is_null( $currentUser ) ): ?>
+			<form action="" method="post">
+				<?php if ( !$currentUser->isRegedToEvent($currentEvent->getId()) ): ?>
+					<div class="text-center">
+						<button class="reg-button btn btn-primary btn-lg mt-5" name="regStudToEvent">Зарегистрироваться</button>
+					</div>
+					<?php else: ?>
+						<div class="text-center">
+							<button class="reg-button btn btn-primary btn-lg mt-5" name="unregStudFromEvent">Отменить регистрацию</button>
+						</div>
+					<?php endif; ?>
+				</form>
+			<?php endif; ?>
+
+			<p><a href="/view-event-points?eventId=<?php echo $currentEvent->getId() ?>">Посмотреть этапы</a></p>
+		</div>
+	</div>
+
+<?php //require_once('includes/footer.php') ?>

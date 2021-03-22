@@ -4,8 +4,8 @@ use \HseEvents\Database\Connection;
 
 session_start();
 
-require_once '../vendor/autoload.php';
 include '../config/config.php';
+include '../bootstrap.php';
 
 
 

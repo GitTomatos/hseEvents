@@ -3,14 +3,25 @@
 namespace HseEvents\View;
 
 use Exception;
+use HseEvents\Config;
 use Throwable;
 
 class View
 {
     private string $templatePath;
+    private static ?View $instance = null;
 
-    public function __construct(string $templatePath){
+    private function __construct(string $templatePath){
         $this->templatePath = $templatePath;
+    }
+
+
+    public static function getInstance(): View {
+        if (is_null(self::$instance)) {
+            self::$instance = new View(Config::getInstance()->templatePath);
+        }
+
+        return self::$instance;
     }
 
     public function renderError(Throwable $e) {

@@ -3,6 +3,7 @@
 namespace HseEvents\Model;
 
 
+use HseEvents\Database\Connection;
 use PDO, PDOException;
 
 class Event extends Model
@@ -10,7 +11,7 @@ class Event extends Model
     private ?int $id = null;
     private ?string $name = null;
     private ?string $description = null;
-
+//    private static ?PDO $conn = new Conn;
 
     private function __construct(array $eventData)
     {
@@ -159,30 +160,29 @@ class Event extends Model
     }
 
 
-    public static function findAll(): array
+    public static function findAll(): ?array
     {
-        try {
-            $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//            $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+//            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "SELECT * FROM events";
-            $sth = $conn->query($sql);
+//            $conn = \connectDb();
+//            global $conn;
+        $sql = "SELECT * FROM events";
+        $sth = Connection::getInstance()->query($sql);
 
-            $events = [];
+        $events = [];
 
-            $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
 
-            while ($event = $sth->fetch()) {
-                $events[] = new Event ($event);
-            }
-
-            return $events;
-
-        } catch (PDOException $err) {
-            print_r($err);
-        } finally {
-            $conn = null;
+        while ($event = $sth->fetch()) {
+            $events[] = new Event ($event);
         }
+
+        if (!empty($events))
+            return $events;
+        else
+            return null;
+
     }
 
 }

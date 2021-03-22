@@ -1,5 +1,7 @@
 <?php
 
+use \HseEvents\Database\Connection;
+
 session_start();
 
 require_once '../vendor/autoload.php';
@@ -19,8 +21,6 @@ if (isset($_SERVER['PATH_INFO'])) {
 }
 
 $a = $_SESSION['username'] ?? null;
-echo $a . "<br>";
-echo $path . "<br>";
 
 
 /*
@@ -66,12 +66,27 @@ switch ($path) {
         $controllerName = 'HseEvents\Controller\HomepageController';
 }
 
+try {
+//    $conn = new Connection();
+//    Connection::connectDb();
 
-echo $controllerName;
-$controller = new $controllerName;
-$controller->action();
+    Connection::getInstance()->beginTransaction();
 
+    $controller = new $controllerName;
+    $controller->action();
 
+    if (Connection::getInstance()->inTransaction()) {
+        Connection::getInstance()->commit();
+    }
+} catch (Throwable $e) {
+    if (Connection::getInstance()->inTransaction()) {
+        Connection::getInstance()->rollBack();
+    }
+    throw $e;
+} finally {
+    $conn = Connection::getInstance();
+    $conn = null;
+}
 
 
 //require_once '../src/config/config.php';

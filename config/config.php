@@ -1,5 +1,8 @@
 <?php
 // error_reporting(E_ALL);
+
+use \HseEvents\View\View;
+
 ini_set("display_errors", true);
 date_default_timezone_set( "Europe/Moscow" );
 
@@ -25,6 +28,11 @@ set_error_handler(function ($errno, $errstr, $errfile, $errline ) {
     throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
 });
 
+
+set_exception_handler(function ($exception) {
+    (new View("../templates/"))->renderError($exception);
+//    echo "Неперехваченное исключение: " , $exception->getMessage(), "\n";
+});
 
 // function my_error_handler( $exception ){
 // 	echo "<p>Проблемы в обработчике</p>";

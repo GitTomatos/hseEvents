@@ -68,6 +68,30 @@ class Student extends Model
         ) : null;
 
     }
+//    /**
+//     * Student constructor.
+//     * @param string|null $lastName
+//     * @param string|null $firstName
+//     * @param string|null $patronymic
+//     * @param string|null $university
+//     * @param string|null $speciality
+//     * @param int|null $year
+//     * @param string|null $phone
+//     * @param string|null $email
+//     * @param string|null $password
+//     */
+//    public function __construct(?string $lastName, ?string $firstName, ?string $patronymic, ?string $university, ?string $speciality, ?int $year, ?string $phone, ?string $email, ?string $password)
+//    {
+//        $this->lastName = $lastName;
+//        $this->firstName = $firstName;
+//        $this->patronymic = $patronymic;
+//        $this->university = $university;
+//        $this->speciality = $speciality;
+//        $this->year = $year;
+//        $this->phone = $phone;
+//        $this->email = $email;
+//        $this->password = $password;
+//    }
 
 
     public static function validate(array $studentData): ?array
@@ -83,12 +107,24 @@ class Student extends Model
             $errs[] = "Необходимо указать фамилию!";
         };
 
+        if (mb_strlen($studentData['lastName']) >= 30) {
+            $errs[] = "Фамилия должна быть не более 30 символов";
+        };
+
         if (is_null($studentData['firstName'])) {
             $errs[] = "Необходимо указать имя!";
         };
 
+        if (mb_strlen($studentData['firstName']) >= 30) {
+            $errs[] = "Имя должно быть не более 30 символов";
+        };
+
         if (is_null($studentData['university'])) {
             $errs[] = "Необходимо указать университет!";
+        };
+
+        if (mb_strlen($studentData['university']) >= 30) {
+            $errs[] = "Фамилия должна быть не более 30 символов";
         };
 
         if (is_null($studentData['speciality'])) {
@@ -169,7 +205,7 @@ class Student extends Model
                 'year' => $studentData['year'],
                 'phone' => $studentData['phone'],
                 'email' => $studentData['email'],
-                'password' => $studentData['password']
+                'password' => md5 ($studentData['password'])
             ];
 
             $sql = "INSERT INTO students (`last_name`, first_name, patronymic, university, speciality, year, phone, email, password) VALUES (:lastName, :firstName, :patronymic, :university, :speciality, :year, :phone, :email, :password)";
@@ -237,7 +273,7 @@ class Student extends Model
         }
     }
 
-    public static function findAll(): array
+    public static function findAll(): ?array
     {
         try {
             $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
@@ -254,7 +290,10 @@ class Student extends Model
             while ($stud = $sth->fetch())
                 $allStudents[] = $stud;
 
-            return $allStudents;
+            if (!empty($allStudents))
+                return $allStudents;
+            else
+                return null;
         } catch (PDOException $err) {
             echo $err->getMessage();
         } finally {
@@ -312,7 +351,7 @@ class Student extends Model
 
             $events = array();
             while ($event = $sth->fetch())
-                $events[] = Event::getById($event['eventId']);
+                $events[] = Event::find($event['event_id']);
 
             if (!is_null($events))
                 return $events;
@@ -332,11 +371,10 @@ class Student extends Model
             $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "SELECT * FROM student_event_point WHERE student_id=:studentId AND event_id = :eventId";
+            $sql = "SELECT * FROM student_point WHERE student_id=:studentId";
 
             $sth = $conn->prepare($sql);
             $sth->bindValue(":studentId", $this->id);
-            $sth->bindValue(":eventId", $eventId);
             $sth->execute();
 
             $sth->setFetchMode(PDO::FETCH_ASSOC);
@@ -405,9 +443,8 @@ class Student extends Model
 
     public function regToEvent(int $eventId): bool
     {
-        $errors = array();
-        $isRegistered = $this->isRegedToEvent($eventId);
 
+        $isRegistered = $this->isRegedToEvent($eventId);
         if ($isRegistered)
             return false;
 
@@ -420,16 +457,13 @@ class Student extends Model
                 'studentId' => $this->id
             ];
 
-            $sql = "INSERT INTO student_event VALUES (:eventId, :studentId)";
+            $sql = "INSERT INTO student_event(student_id, event_id) VALUES (:studentId, :eventId)";
             $sth = $conn->prepare($sql);
             $sth->execute($data);
 
             // $errors['hasError'] = true;
             // $errors['errorMessages'][] = "Такой студент уже зарегистрирован на данное мероприятие";
             return true;
-
-        } catch (PDOException $err) {
-            print_r($err);
         } finally {
             $conn = null;
         }
@@ -527,7 +561,7 @@ class Student extends Model
                 'pointId' => $pointId
             ];
 
-            $sql = "INSERT INTO student_event_point VALUES (:studentId, :eventId, :pointId)";
+            $sql = "INSERT INTO student_point VALUES (:studentId, :eventId, :pointId)";
             $sth = $conn->prepare($sql);
             $sth->execute($data);
 
@@ -559,11 +593,10 @@ class Student extends Model
 
             $data = [
                 'studentId' => $this->id,
-                'eventId' => $eventId,
                 'pointId' => $pointId
             ];
 
-            $sql = "DELETE FROM student_event_point WHERE student_id = :studentId AND event_id = :eventId AND point_id = :pointId";
+            $sql = "DELETE FROM student_point WHERE student_id = :studentId AND point_id = :pointId";
             $sth = $conn->prepare($sql);
             $sth->execute($data);
 
@@ -590,11 +623,10 @@ class Student extends Model
 
             $data = [
                 'studentId' => $this->id,
-                'eventId' => $eventId,
                 'pointId' => $pointId
             ];
 
-            $sql = "SELECT * FROM student_event_point WHERE student_id = :studentId AND event_id = :eventId AND point_id = :pointId";
+            $sql = "SELECT * FROM student_point WHERE student_id = :studentId AND point_id = :pointId";
             $sth = $conn->prepare($sql);
             $sth->execute($data);
 
@@ -623,11 +655,10 @@ class Student extends Model
 
             $data = [
                 'studentId' => $this->id,
-                'eventId' => $eventId,
                 'pointId' => $pointId
             ];
 
-            $sql = "SELECT * FROM student_event_point WHERE student_id = :studentId AND event_id = :eventId AND point_id <> :pointId";
+            $sql = "SELECT * FROM student_point WHERE student_id = :studentId AND point_id <> :pointId";
             $sth = $conn->prepare($sql);
             $sth->execute($data);
 
@@ -656,11 +687,10 @@ class Student extends Model
 
             $data = [
                 'studentId' => $this->id,
-                'eventId' => $eventId
                 // 'pointId' => $pointId
             ];
 
-            $sql = "SELECT * FROM student_event_point WHERE student_id = :studentId AND event_id = :eventId";
+            $sql = "SELECT * FROM student_point WHERE student_id = :studentId";
             $sth = $conn->prepare($sql);
             $sth->execute($data);
 

@@ -7,6 +7,7 @@ class HomepageController extends Controller
 {
     public function action(): void
     {
+//        throw new \Exception();
         $data = [
             'events' => Event::findAll()
         ];

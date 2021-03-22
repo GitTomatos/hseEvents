@@ -32,7 +32,7 @@ class LoginController extends Controller
             }
 
             if (empty ($data['errors'])) {
-                $loginResult = Student::login($email, $password);
+                $loginResult = Student::login($email, md5($password));
                 if ($loginResult['hasError']) {
 //                    dd($loginResult['errorMessages']);
                     $data['errors'] = array_merge($data['errors'], $loginResult['errorMessages']);

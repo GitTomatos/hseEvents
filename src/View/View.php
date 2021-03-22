@@ -3,13 +3,24 @@
 namespace HseEvents\View;
 
 use Exception;
+use Throwable;
 
 class View
 {
+    private string $templatePath;
+
+    public function __construct(string $templatePath){
+        $this->templatePath = $templatePath;
+    }
+
+    public function renderError(Throwable $e) {
+        include $this->templatePath . 'errorLayout.phtml';
+    }
+
     public function render(string $layout, string $templateView, ?array $data = null): void
     {
-        $filename = "../templates/$templateView";
-        echo "<br>" . $filename;
+        $filename = $this->templatePath . $templateView;
+//        echo "<br>" . $filename;
 
         try {
 
@@ -20,16 +31,14 @@ class View
                 ob_start();
                 include $filename;
                 $content = ob_get_clean();
-                include "../templates/$layout";
+                include $this->templatePath . $layout;
             } else {
-                include "../templates/emptyPage.php";
+                include $this->templatePath . "emptyPage.php";
             }
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             ob_end_clean();
-            include '../templates/errorLayout.phtml';
+            $this->renderError($e);
         }
 
     }
 }
-
-?>

@@ -15,7 +15,7 @@ class ViewEventPointsController extends Controller
         $eventId = $_GET['eventId'];
         if (isset($username))
             $data['currentUser'] = Student::findByEmail($username);
-        $data['points'] = Point::getAllEventPoints($eventId);
+        $data['points'] = Point::findAllEventPoints($eventId);
 
         $this->view->render('layout.phtml', 'eventPoints.phtml', $data);
     }

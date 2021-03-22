@@ -43,7 +43,7 @@
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Имя*</label>
                 <input type="text" class="form-control" name="firstName"
-                       value="<?php echo $postData['firstName'] ?? null ?>" required>
+                       value="<?php echo $postData['firstName'] ?? null ?>" maxlength="30" required>
                 <div class="invalid-feedback">
                     Необходимо указать Имя
                 </div>

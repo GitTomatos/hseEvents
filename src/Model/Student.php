@@ -4,6 +4,7 @@ namespace HseEvents\Model;
 
 use HseEvents\CreateObject;
 use HseEvents\Database\Connection;
+use HseEvents\Registry;
 use PDO, PDOException;
 use ReflectionClass;
 
@@ -143,10 +144,13 @@ class Student extends Model
 
         $sql = "INSERT INTO students (`last_name`, first_name, patronymic, university, speciality, year, phone, email, password) VALUES (:lastName, :firstName, :patronymic, :university, :speciality, :year, :phone, :email, :password)";
 
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute($data);
 
-        $this->id = (int)Connection::getInstance()->lastInsertId();
+//        $this->id = (int)($conn->lastInsertId());
     }
 
 
@@ -231,7 +235,9 @@ class Student extends Model
     {
         $sql = "SELECT * FROM student_event WHERE student_id=:studentId";
 
-        $sth = Connection::getInstance()->prepare($sql);
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->bindValue(":studentId", $this->id);
         $sth->execute();
 
@@ -252,7 +258,9 @@ class Student extends Model
     {
         $sql = "SELECT * FROM student_point WHERE student_id=:studentId";
 
-        $sth = Connection::getInstance()->prepare($sql);
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->bindValue(":studentId", $this->id);
         $sth->execute();
 
@@ -337,7 +345,10 @@ class Student extends Model
         ];
 
         $sql = "INSERT INTO student_event(student_id, event_id) VALUES (:studentId, :eventId)";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute($data);
 
         // $errors['hasError'] = true;
@@ -360,7 +371,10 @@ class Student extends Model
         ];
 
         $sql = "DELETE FROM student_event WHERE event_id = :eventId AND student_id = :studentId";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute($data);
 
         return true;
@@ -376,7 +390,10 @@ class Student extends Model
         ];
 
         $sql = "SELECT * FROM student_event WHERE event_id = :eventId AND student_id = :studentId";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute($data);
 
         $sth->setFetchMode(PDO::FETCH_ASSOC);
@@ -417,7 +434,10 @@ class Student extends Model
         ];
 
         $sql = "INSERT INTO student_point VALUES (:studentId, :eventId, :pointId)";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute($data);
 
         // $errors['hasError'] = true;
@@ -444,7 +464,10 @@ class Student extends Model
         ];
 
         $sql = "DELETE FROM student_point WHERE student_id = :studentId AND point_id = :pointId";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute($data);
 
         // $errors['hasError'] = true;
@@ -466,7 +489,10 @@ class Student extends Model
         ];
 
         $sql = "SELECT * FROM student_point WHERE student_id = :studentId AND point_id = :pointId";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute($data);
 
         $sth->setFetchMode(PDO::FETCH_ASSOC);
@@ -490,7 +516,10 @@ class Student extends Model
         ];
 
         $sql = "SELECT * FROM student_point WHERE student_id = :studentId AND point_id <> :pointId";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute($data);
 
         $sth->setFetchMode(PDO::FETCH_ASSOC);
@@ -513,7 +542,10 @@ class Student extends Model
         ];
 
         $sql = "SELECT * FROM student_point WHERE student_id = :studentId";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute($data);
 
         $sth->setFetchMode(PDO::FETCH_ASSOC);

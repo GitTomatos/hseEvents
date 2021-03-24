@@ -2,6 +2,7 @@
 namespace HseEvents\Controller;
 
 use HseEvents\Model\Model;
+use HseEvents\Registry;
 use HseEvents\View\View;
 
 abstract class Controller
@@ -11,8 +12,7 @@ abstract class Controller
 
     public function __construct()
     {
-        $this->view = View::getInstance();
-
+        $this->view = Registry::get("view");
     }
 
     abstract public function action(): void;

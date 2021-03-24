@@ -2,27 +2,19 @@
 
 namespace HseEvents\View;
 
-use Exception;
-use HseEvents\Config;
+use HseEvents\Registry;
 use Throwable;
 
 class View
 {
-    private static ?View $instance = null;
     private string $templatePath;
 
-    private function __construct(string $templatePath){
-        $this->templatePath = $templatePath;
+    public function __construct(){
+        $configs = Registry::get("config")->getConfigs();
+//        dd(Registry::get("config"));
+        $this->templatePath = $configs['templatePath'];
     }
 
-
-    public static function getInstance(): View {
-        if (is_null(self::$instance)) {
-            self::$instance = new View(Config::getInstance()->templatePath);
-        }
-
-        return self::$instance;
-    }
 
     public function renderError(Throwable $e): void {
         include $this->templatePath . 'errorLayout.phtml';

@@ -2,32 +2,58 @@
 
 namespace HseEvents;
 
-class Config
+use ArrayAccess;
+
+class Config implements ArrayAccess
 {
-    private static ?Config $instance = null;
+//    private static ?Config $instance = null;
     private array $configs;
 
 
-    private function __construct(array $configs)
+    public function __construct(array $configs)
     {
         $this->configs = $configs;
     }
 
-    public static function getInstance()
+    public function getConfigs(): array
     {
-        if (is_null(self::$instance)) {
-            self::$instance = new Config(include __DIR__ . '/../config/config.php');
-        }
-
-        return self::$instance;
+        return $this->configs;
     }
 
-    public function __get($name)
+//    public static function getInstance()
+//    {
+//        if (is_null(self::$instance)) {
+//            self::$instance = new Config(include __DIR__ . '/../config/config.php');
+//        }
+//
+//        return self::$instance;
+//    }
+//
+//    public function __get($name)
+//    {
+//        if (array_key_exists($name, $this->configs)) {
+//            return $this->configs[$name];
+//        }
+//
+//        return null;
+//    }
+    public function offsetExists($offset): bool
     {
-        if (array_key_exists($name, $this->configs)) {
-            return $this->configs[$name];
-        }
+        return array_key_exists($offset, $this->configs);
+    }
 
-        return null;
+    public function offsetGet($offset)
+    {
+        return $this->configs[$offset];
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->configs[$offset] = $value;
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->configs[$offset]);
     }
 }

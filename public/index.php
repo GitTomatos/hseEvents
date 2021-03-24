@@ -1,6 +1,7 @@
 <?php
 
 use \HseEvents\Database\Connection;
+use HseEvents\Registry;
 
 session_start();
 include __DIR__ . "/../config/config.php";
@@ -69,19 +70,20 @@ try {
 //    $conn = new Connection();
 //    Connection::connectDb();
 
-    Connection::getInstance()->beginTransaction();
+
+    /** @var PDO $conn */
+    $conn = Registry::get("connection")->getConnection();
+//    Connection::getInstance()->beginTransaction();
 
     $controller = new $controllerName;
     $controller->action();
 
-    if (Connection::getInstance()->inTransaction()) {
-        Connection::getInstance()->commit();
+    if ($conn->inTransaction()) {
+        $conn->commit();
     }
 } catch (Throwable $e) {
-    if (Connection::getInstance()->inTransaction()) {
-        Connection::getInstance()->rollBack();
+    if ($conn->inTransaction()) {
+        $conn->rollBack();
     }
     throw $e;
-} finally {
-    Connection::close();
 }

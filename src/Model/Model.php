@@ -4,6 +4,7 @@ namespace HseEvents\Model;
 
 use HseEvents\CreateObject;
 use HseEvents\Database\Connection;
+use HseEvents\Registry;
 use PDO;
 
 abstract class Model
@@ -15,7 +16,8 @@ abstract class Model
         $tableName = static::getTableName();
         $sql = "SELECT * FROM $tableName WHERE id=:id";
 
-        $sth = Connection::getInstance()->prepare($sql);
+        $conn = Registry::get("connection")->getConnection();
+        $sth = $conn->prepare($sql);
         $sth->bindValue(":id", $id);
         $sth->execute();
 
@@ -35,7 +37,8 @@ abstract class Model
         $tableName = static::getTableName();
         $sql = "SELECT * FROM $tableName";
 
-        $sth = Connection::getInstance()->prepare($sql);
+        $conn = Registry::get("connection")->getConnection();
+        $sth = $conn->prepare($sql);
         $sth->execute();
 
         $sth->setFetchMode(PDO::FETCH_ASSOC);
@@ -51,7 +54,8 @@ abstract class Model
 
     public static function createObject(array $data): Model
     {
-        return (new CreateObject())(get_called_class(), $data);
+
+        return (Registry::get("createObject"))(get_called_class(), $data);
     }
 
     public static function findBy(array $data): array
@@ -109,7 +113,8 @@ abstract class Model
 
         //        $sql = "SELECT * FROM $tableName WHERE $data=:email";
 
-        $sth = Connection::getInstance()->prepare($sql);
+        $conn = Registry::get("connection")->getConnection();
+        $sth = $conn->prepare($sql);
 //        $sth->bindValue(":email", $email);
 //        echo $sql;
 //        dd($data);
@@ -160,7 +165,8 @@ abstract class Model
 
         //        $sql = "SELECT * FROM $tableName WHERE $data=:email";
 
-        $sth = Connection::getInstance()->prepare($sql);
+        $conn = Registry::get("connection")->getConnection();
+        $sth = $conn->prepare($sql);
 //        $sth->bindValue(":email", $email);
 //        echo $sql;
 //        dd($data);
@@ -177,10 +183,10 @@ abstract class Model
         }
     }
 
-    public static function __callStatic($name, $arguments)
-    {
-//        if (mb_substr)
-        $name(extract($arguments));
-    }
+//    public static function __callStatic($name, $arguments)
+//    {
+////        if (mb_substr)
+//        $name(extract($arguments));
+//    }
 }
 

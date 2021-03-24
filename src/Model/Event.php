@@ -4,6 +4,7 @@ namespace HseEvents\Model;
 
 
 use HseEvents\Database\Connection;
+use HseEvents\Registry;
 use PDO, PDOException;
 
 class Event extends Model
@@ -37,7 +38,10 @@ class Event extends Model
         } else {
             $sql = "SELECT * FROM events WHERE name = :name";
 
-            $sth = Connection::getInstance()->prepare($sql);
+
+            $conn = Registry::get("connection")->getConnection();
+
+            $sth = $conn->prepare($sql);
             $sth->bindParam(':name', $eventData['name']);
             $sth->execute();
 
@@ -107,7 +111,10 @@ class Event extends Model
         ];
 
         $sql = "INSERT INTO events(name, description) VALUES (:name, :description)";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute($data);
 
         return null;

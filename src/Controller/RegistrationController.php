@@ -2,12 +2,15 @@
 
 namespace HseEvents\Controller;
 
+use HseEvents\CreateObject;
 use HseEvents\Database\Connection;
 use \HseEvents\Model\ModelRegistration;
 
 use HseEvents\Model\Student;
+use HseEvents\Registry;
 use HseEvents\Validation\RegistrationValidator;
 use HseEvents\Filter\RegistrationFilter;
+use Reflection;
 
 class RegistrationController extends Controller
 {
@@ -44,14 +47,29 @@ class RegistrationController extends Controller
             $studentData = (new RegistrationFilter())->filter($studentData);
 
             $validator = new RegistrationValidator();
-            if (! $validator->isValid($studentData)){
+            if (!$validator->isValid($studentData)) {
                 $data['validationErrors'] = $validator->getErrors();
+//                dd($data['validationErrors']);
             }
 
 
 //            $data['validationErrors'] = Student::insert($studentData);
             if (empty($data['validationErrors'])) {
-                $student = new Student(extract($studentData));
+//                $a = Registry::get("createObject");
+//                dd(extract($studentData));
+                $student = new Student(
+                    $studentData['lastName'],
+                    $studentData['firstName'],
+                    $studentData['patronymic'],
+                    $studentData['university'],
+                    $studentData['speciality'],
+                    $studentData['year'],
+                    $studentData['phone'],
+                    $studentData['email'],
+                    $studentData['password']
+                );
+//                dd($student);
+//                $student = new Student(extract($studentData));
                 $student->insert();
                 header("Location: ./login");
             }

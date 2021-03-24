@@ -9,13 +9,13 @@ class RegistrationFilter implements FilterInterface
 
     public function filter($data)
     {
-        $data['last_name'] = $data['last_name'] ?? filter_var(
-            $data['last_name'],
+        $data['lastName'] = $data['lastName'] ?? filter_var(
+            $data['lastName'],
             FILTER_SANITIZE_SPECIAL_CHARS
         );
 
-        $data['first_name'] = $data['first_name'] ?? filter_var(
-            $data['first_name'],
+        $data['firstName'] = $data['firstName'] ?? filter_var(
+            $data['firstName'],
             FILTER_SANITIZE_SPECIAL_CHARS
         );
 

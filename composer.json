@@ -1,7 +1,8 @@
 {
     "require": {
         "symfony/var-dumper": "^5.2",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+        "pimple/pimple": "^3.0"
     },
     "autoload": {
         "files": [

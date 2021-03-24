@@ -57,6 +57,12 @@ class RegistrationValidator implements ValidatorInterface
         } else if (strlen($data['phone']) > 12 || strlen($data['phone']) < 11) {
             $this->errors['phone'][] = "Некорректный номер телефона";
         };
+        if (!is_null($data['email'])) {
+//            dd($data['email']);
+            $student = Student::findOneBy(["phone"=>$data['phone']]);
+            if (!is_null($student))
+                $this->errors['phone'][] = "Такой номер уже занят!";
+        }
 
 
         if (is_null($data['email'])) {
@@ -66,7 +72,8 @@ class RegistrationValidator implements ValidatorInterface
             $this->errors['email'][] = "Должно быть не более 255 символов";
         };
         if (!is_null($data['email'])) {
-            $student = Student::findByEmail($data['email']);
+//            dd($data['email']);
+            $student = Student::findOneBy(["email"=>$data['email']]);
             if (!is_null($student))
                 $this->errors['email'][] = "Такая почта уже занята!";
         }

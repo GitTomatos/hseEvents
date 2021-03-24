@@ -2,19 +2,19 @@
 
 namespace HseEvents\Database;
 
-use HseEvents\Config;
+use HseEvents\Registry;
 use PDO;
 
 class Connection
 {
 //    private static ?PDO $instance = null;
 
-    private PDO $pdo;
+    private ?PDO $pdo;
 
     public function __construct()
     {
-        $config = Registery::get('config');
-        $this->pdo = new PDO($config->dbDsn, $config->dbUsername, $config->dbPassword);
+        $configs = Registry::get('config')->getConfigs();
+        $this->pdo = new PDO($configs['dbDsn'], $configs['dbUsername'], $configs['dbPassword']);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 

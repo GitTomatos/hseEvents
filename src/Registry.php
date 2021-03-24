@@ -3,7 +3,7 @@
 
 namespace HseEvents;
 
-
+use InvalidArgumentException;
 abstract class Registry
 {
 
@@ -14,7 +14,7 @@ abstract class Registry
      * @var Service[]
      */
 //    private static ?Registry $instance = null;
-    private static array $objects = [];
+    public static array $objects = [];
 
 
 //    private function __construct() {
@@ -33,9 +33,11 @@ abstract class Registry
         self::$objects[$key] = $value;
     }
 
-    public static function get(string $key): Service
+    public static function get(string $key): object
     {
-        if (!in_array($key, self::$objects) || !isset(self::$objects[$key])) {
+//        dd(array_keys(self::$objects));
+//        dd(isset(self::$objects[$key]));
+        if (!key_exists($key, self::$objects) || !isset(self::$objects[$key])) {
             throw new InvalidArgumentException('Invalid key given');
         }
 
@@ -43,16 +45,16 @@ abstract class Registry
     }
 
 
-    public static function getConnection() {
-        if (!array_key_exists("connection", self::$services) or is_null(self::$services['connection'])) {
-            self::$services['connection'] = new PDO(
-                Config::getInstance()->dbDsn,
-                Config::getInstance()->dbUsername,
-                Config::getInstance()->dbPassword
-            );
-            self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }
-
-        return self::$services['connection'];
-    }
+//    public static function getConnection() {
+//        if (!array_key_exists("connection", self::$services) or is_null(self::$services['connection'])) {
+//            self::$services['connection'] = new PDO(
+//                Config::getInstance()->dbDsn,
+//                Config::getInstance()->dbUsername,
+//                Config::getInstance()->dbPassword
+//            );
+//            self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//        }
+//
+//        return self::$services['connection'];
+//    }
 }

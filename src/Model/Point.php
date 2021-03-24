@@ -3,6 +3,7 @@
 namespace HseEvents\Model;
 
 use HseEvents\Database\Connection;
+use HseEvents\Registry;
 use PDO, PDOException;
 
 class Point extends Model
@@ -45,7 +46,9 @@ class Point extends Model
         if (!is_null($pointData['eventId']) && !is_null($pointData['name'])) {
             $sql = "SELECT * FROM points WHERE event_id = :eventId AND id = :pointId";
 
-            $sth = Connection::getInstance()->prepare($sql);
+            $conn = Registry::get("connection")->getConnection();
+
+            $sth = $conn->prepare($sql);
             $sth->bindParam(':eventId', $pointData['eventId'], PDO::PARAM_INT);
             $sth->bindParam(':pointId', $pointData['name'], PDO::PARAM_STR);
             $sth->execute();
@@ -114,7 +117,10 @@ class Point extends Model
         ];
 
         $sql = "INSERT INTO points(event_id, name, description) VALUES (:eventId, :name, :description)";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute($data);
 
         return null;
@@ -143,7 +149,10 @@ class Point extends Model
     public static function findAll(): array
     {
         $sql = "SELECT * FROM points WHERE event_id = :eventId";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->execute();
 
         $points = array();
@@ -160,7 +169,10 @@ class Point extends Model
     public static function findAllEventPoints($eventId): ?array
     {
         $sql = "SELECT * FROM points WHERE event_id = :eventId";
-        $sth = Connection::getInstance()->prepare($sql);
+
+        $conn = Registry::get("connection")->getConnection();
+
+        $sth = $conn->prepare($sql);
         $sth->bindValue(":eventId", $eventId, PDO::PARAM_INT);
         $sth->execute();
 

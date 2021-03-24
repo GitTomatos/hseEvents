@@ -8,8 +8,8 @@ use Throwable;
 
 class View
 {
-    private string $templatePath;
     private static ?View $instance = null;
+    private string $templatePath;
 
     private function __construct(string $templatePath){
         $this->templatePath = $templatePath;
@@ -24,7 +24,7 @@ class View
         return self::$instance;
     }
 
-    public function renderError(Throwable $e) {
+    public function renderError(Throwable $e): void {
         include $this->templatePath . 'errorLayout.phtml';
     }
 

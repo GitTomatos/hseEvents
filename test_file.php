@@ -1,4 +1,9 @@
 <?php
 
-echo mb_strlen('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq'), "\n";
-echo mb_strlen('йййййййййййййййййййййййййййййй'), "\n";
+use HseEvents\Database\Connection;
+use HseEvents\Model\Model;
+use HseEvents\Model\Student;
+
+require_once './vendor/autoload.php';
+
+findBy();

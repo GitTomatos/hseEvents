@@ -7,36 +7,40 @@
 
         <?php
 
-        if (isset($validationErrors)) {
-            echo "<div class='form-errors'>";
-            foreach ($validationErrors as $errNum => $errDescript) {
-                echo "<p class='from-error'>";
-                echo $errDescript;
-                echo "</p>";
-            }
-            echo "</div>";
-        }
-
-
-        ?>
+        //        if (isset($validationErrors)) {
+        //            echo "<div class='form-errors'>";
+        //            foreach ($validationErrors as $errNum => $errDescript) {
+        //                echo "<p class='from-error'>";
+        //                echo $errDescript;
+        //                echo "</p>";
+        //            }
+        //            echo "</div>";
+        //        }
+        //
+        //        var_dump($validationErrors);
+        //        ?>
 
 
         <form class="needs-validation" method="post" action="" novalidate>
 
+
             <div class="mb-3">
                 <label for="lastName" class="form-label">Фамилия*</label>
-                <input type="text" class="form-control" id="lastName" name="lastName" required>
+                <input type="text" class="form-control" id="lastName" name="lastName"
+                       value="<?php echo $postData['lastName'] ?? null ?>" maxlength="30" required>
                 <div class="invalid-feedback">
                     Необходимо указать Фамилию
                 </div>
 
-<!--                --><?php //if (!is_null($validationErrors['lastName'])): ?>
-<!--                    <div class="invalid-feedback">-->
-<!--                        --><?php
-//                        echo $validationErrors['lastName'];
-//                        ?>
-<!--                    </div>-->
-<!--                --><?php //endif ?>
+                <div>
+                    <?php
+                    if (isset($validationErrors['lastName'])):
+                        foreach ($validationErrors['lastName'] as $valErr):
+                            echo $valErr . '<br>';
+                        endforeach;
+                    endif;
+                    ?>
+                </div>
 
             </div>
 
@@ -47,30 +51,63 @@
                 <div class="invalid-feedback">
                     Необходимо указать Имя
                 </div>
+
+                <div>
+                    <?php
+                    if (isset($validationErrors['firstName'])):
+                        foreach ($validationErrors['firstName'] as $valErr):
+                            echo $valErr . '<br>';
+                        endforeach;
+                    endif;
+                    ?>
+                </div>
+
             </div>
 
             <div class="mb-3">
                 <label for="patronymic" class="form-label">Отчество</label>
-                <input type="text" class="form-control" id="patronymic" name="patronymic"
+                <input type="text" class="form-control" id="patronymic" maxlength="30" name="patronymic"
                        value="<?php echo $postData['patronymic'] ?? null ?>">
             </div>
 
             <div class="mb-3">
                 <label for="university" class="form-label">Вуз*</label>
-                <input type="text" id="university" class="form-control" name="university"
+                <input type="text" id="university" class="form-control" maxlength="30" name="university"
                        value="<?php echo $postData['university'] ?? null ?>" required>
                 <div class="invalid-feedback">
                     Необходимо указать Вуз
                 </div>
+
+                <div>
+                    <?php
+                    if (isset($validationErrors['university'])):
+                        foreach ($validationErrors['university'] as $valErr):
+                            echo $valErr . '<br>';
+                        endforeach;
+                    endif;
+                    ?>
+                </div>
+
             </div>
 
             <div class="mb-3">
                 <label for="speciality" class="form-label">Специальность*</label>
-                <input type="text" id="speciality" class="form-control" name="speciality"
+                <input type="text" id="speciality" class="form-control" maxlength="30" name="speciality"
                        value="<?php echo $postData['speciality'] ?? null ?>" required>
                 <div class="invalid-feedback">
                     Необходимо указать Специальность
                 </div>
+
+                <div>
+                    <?php
+                    if (isset($validationErrors['speciality'])):
+                        foreach ($validationErrors['speciality'] as $valErr):
+                            echo $valErr . '<br>';
+                        endforeach;
+                    endif;
+                    ?>
+                </div>
+
             </div>
 
             <div class="mb-3">
@@ -80,20 +117,42 @@
                 <div class="invalid-feedback">
                     Необходимо указать Курс
                 </div>
+
+                <div>
+                    <?php
+                    if (isset($validationErrors['year'])):
+                        foreach ($validationErrors['year'] as $valErr):
+                            echo $valErr . '<br>';
+                        endforeach;
+                    endif;
+                    ?>
+                </div>
+
             </div>
 
             <div class="mb-3">
                 <label for="phone" class="form-label">Телефон*</label>
-                <input type="text" id="phone" class="form-control" name="phone"
+                <input type="text" id="phone" class="form-control" maxlength="12" name="phone"
                        value="<?php echo $postData['phone'] ?? null ?>" required>
                 <div class="invalid-feedback">
                     Необходимо указать Телефон
                 </div>
+
+                <div>
+                    <?php
+                    if (isset($validationErrors['phone'])):
+                        foreach ($validationErrors['phone'] as $valErr):
+                            echo $valErr . '<br>';
+                        endforeach;
+                    endif;
+                    ?>
+                </div>
+
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Почта*</label>
-                <input type="email" id="email" class="form-control" name="email"
+                <input type="email" id="email" class="form-control" maxlength="255" name="email"
                        value="<?php echo $postData['email'] ?? null ?>" required>
                 <div class="invalid-feedback">
                     Необходимо указать Почту
@@ -102,15 +161,37 @@
                 <div id="invalidCheck3Feedback" class="invalid-feedback">
                     Некорректная почта
                 </div>
+
+                <div>
+                    <?php
+                    if (isset($validationErrors['email'])):
+                        foreach ($validationErrors['email'] as $valErr):
+                            echo $valErr . '<br>';
+                        endforeach;
+                    endif;
+                    ?>
+                </div>
+
             </div>
 
             <div class="mb-3">
                 <label for="pass" class="form-label">Пароль*</label>
-                <input type="password" id="pass" class="form-control" name="pass" placeholder=""
+                <input type="password" id="pass" class="form-control" name="pass" maxlength="255" placeholder=""
                        value="<?php echo $postData['pass'] ?? null ?>" required>
                 <div class="invalid-feedback">
                     Необходимо указать Пароль
                 </div>
+
+                <div>
+                    <?php
+                    if (isset($validationErrors['password'])):
+                        foreach ($validationErrors['password'] as $valErr):
+                            echo $valErr . '<br>';
+                        endforeach;
+                    endif;
+                    ?>
+                </div>
+
             </div>
 
 

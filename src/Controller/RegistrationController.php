@@ -2,9 +2,12 @@
 
 namespace HseEvents\Controller;
 
+use HseEvents\Database\Connection;
 use \HseEvents\Model\ModelRegistration;
 
 use HseEvents\Model\Student;
+use HseEvents\Validation\RegistrationValidator;
+use HseEvents\Filter\RegistrationFilter;
 
 class RegistrationController extends Controller
 {
@@ -25,7 +28,7 @@ class RegistrationController extends Controller
         ];
 
         if (isset($_POST['addStudent'])) {
-            $studentData = array();
+            $studentData = [];
 
             $studentData['lastName'] = !empty($_POST['lastName']) ? $_POST['lastName'] : null;
             $studentData['firstName'] = !empty($_POST['firstName']) ? $_POST['firstName'] : null;
@@ -37,10 +40,23 @@ class RegistrationController extends Controller
             $studentData['email'] = !empty($_POST['email']) ? $_POST['email'] : null;
             $studentData['password'] = !empty($_POST['pass']) ? $_POST['pass'] : null;
 
-            $data['validationErrors'] = Student::insert($studentData);
-            if (is_null($data['validationErrors'])) {
+
+            $studentData = (new RegistrationFilter())->filter($studentData);
+
+            $validator = new RegistrationValidator();
+            if (! $validator->isValid($studentData)){
+                $data['validationErrors'] = $validator->getErrors();
+            }
+
+
+//            $data['validationErrors'] = Student::insert($studentData);
+            if (empty($data['validationErrors'])) {
+                $student = new Student(extract($studentData));
+                $student->insert();
                 header("Location: ./login");
             }
+
+
         }
 
         $this->view->render('layout.phtml', 'registration.phtml', $data);

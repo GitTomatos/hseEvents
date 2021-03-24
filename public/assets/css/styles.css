@@ -1,7 +1,7 @@
 * {
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box; 
+	box-sizing: border-box;
 }
 
 body {
@@ -186,11 +186,11 @@ header a {
 .event-table a {
 	text-decoration: none;
 	color: inherit;
-	text-align: center;	
+	text-align: center;
 }
 
 .event-table tbody tr:hover {
-	background: #f3bd48; 
+	background: #f3bd48;
 	font-size: 1.3rem;
 	color: #000;
 }

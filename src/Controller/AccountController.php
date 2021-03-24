@@ -16,7 +16,8 @@ class AccountController extends Controller
 
         $username = $_SESSION['username'] ?? null;
         if (isset($username)) {
-            $data['currentUser'] = Student::findByEmail($username);
+//            $data['currentUser'] = Student::findByEmail($username);
+            $data['currentUser'] = Student::findOneBy(['email'=>$username]);
         } else {
             header("Location: ./");
         }
@@ -32,10 +33,6 @@ class AccountController extends Controller
         $validationErrors = null;
 
         if (isset($_POST['addEvent'])) {
-//            global $validationErrors;
-
-//	require_once (CLASS_PATH . "/Event.php");
-
             $data = array();
 //            filter_var($studentDataPart, FILTER_SANITIZE_SPECIAL_CHARS)
             $data['name'] = !empty($_POST['eventName']) ? $_POST['eventName'] : null;

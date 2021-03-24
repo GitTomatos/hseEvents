@@ -6,11 +6,13 @@
 <div class="container">
     <div class='reg-background'>
 
+
         <div class="text-center">
             <h1> Мероприятия</h1>
         </div>
 
         <table class="event-table mt-5">
+            <!--        <table class="table table-striped table-hover">-->
             <thead>
             <tr>
                 <th>Название мероприятия</th>
@@ -23,12 +25,14 @@
             <?php
             if (!empty($events)) {
                 foreach ($events as $event) {
+
                     ?>
                     <tr>
                         <td>
-                            <a href="/view-event/?eventId=<?php echo $event->getId() ?> "> <?php echo $event->getName() ?> </a>
+                            <a href="/view-event/?eventId=<?php echo $event->getId() ?> ">
+                                <?php echo htmlspecialchars($event->getName()) ?> </a>
                         </td>
-                        <td> <?php echo $event->getDescription() ?> </td>
+                        <td> <?php echo htmlspecialchars($event->getDescription()) ?> </td>
                     </tr>
                     <?php
                 }

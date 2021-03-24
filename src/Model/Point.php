@@ -1,14 +1,16 @@
 <?php
+
 namespace HseEvents\Model;
 
+use HseEvents\Database\Connection;
 use PDO, PDOException;
 
 class Point extends Model
 {
-    private ?int $id = null;
-    private ?int $eventId = null;
-    private ?string $name = null;
-    private ?string $description = null;
+    private ?int $id;
+    private ?int $eventId;
+    private ?string $name;
+    private ?string $description;
 
 
     private function __construct(array $data)
@@ -41,28 +43,19 @@ class Point extends Model
         }
 
         if (!is_null($pointData['eventId']) && !is_null($pointData['name'])) {
-            try {
-                $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "SELECT * FROM points WHERE event_id = :eventId AND id = :pointId";
 
-                $sql = "SELECT * FROM points WHERE event_id = :eventId AND id = :pointId";
+            $sth = Connection::getInstance()->prepare($sql);
+            $sth->bindParam(':eventId', $pointData['eventId'], PDO::PARAM_INT);
+            $sth->bindParam(':pointId', $pointData['name'], PDO::PARAM_STR);
+            $sth->execute();
 
-                $sth = $conn->prepare($sql);
-                $sth->bindParam(':eventId', $pointData['eventId'], PDO::PARAM_INT);
-                $sth->bindParam(':pointId', $pointData['name'], PDO::PARAM_STR);
-                $sth->execute();
+            $sth->setFetchMode(PDO::FETCH_ASSOC);
 
-                $sth->setFetchMode(PDO::FETCH_ASSOC);
+            $event = $sth->fetch();
+            if ($event)
+                $errs[] = "У этого мероприятия уже есть этап с таким названием!";
 
-                $event = $sth->fetch();
-                if ($event)
-                    $errs[] = "У этого мероприятия уже есть этап с таким названием!";
-
-            } catch (PDOException $err) {
-                echo $err->getMessage();
-            } finally {
-                $conn = null;
-            }
         }
 
         if (is_null($pointData['description'])) {
@@ -113,116 +106,76 @@ class Point extends Model
         if (!is_null($pointData['id']))
             trigger_error("EVENT::insert() : Попытка занести в БД этап с уже установленным id,
              равным id = " . $pointData['id'], E_USER_ERROR);
-        try {
-            $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $data = [
-				"eventId" => $pointData['eventId'],
-                "name" => $pointData['name'],
-                "description" => $pointData['description']
-            ];
+        $data = [
+            "eventId" => $pointData['eventId'],
+            "name" => $pointData['name'],
+            "description" => $pointData['description']
+        ];
 
-            $sql = "INSERT INTO points(event_id, name, description) VALUES (:eventId, :name, :description)";
-            $sth = $conn->prepare($sql);
-            $sth->execute($data);
+        $sql = "INSERT INTO points(event_id, name, description) VALUES (:eventId, :name, :description)";
+        $sth = Connection::getInstance()->prepare($sql);
+        $sth->execute($data);
 
-            return null;
-        } catch (PDOException $err) {
-            echo $err->getMessage();
-        } finally {
-            $conn = null;
-        }
+        return null;
     }
 
 
-    public static function find(int $id): ?Point
+//    public static function find(int $id): ?Point
+//    {
+//        $sql = "SELECT * FROM points WHERE id=:id";
+//        $sth = Connection::getInstance()->prepare($sql);
+//        $sth->bindValue(":id", $id, PDO::PARAM_INT);
+//        $sth->execute();
+//
+//        $sth->setFetchMode(PDO::FETCH_ASSOC);
+//
+//        $point = $sth->fetch();
+//
+//        if ($point)
+//            return new Point ($point);
+//        else
+//            return null;
+//
+//    }
+
+
+    public static function findAll(): array
     {
-        try {
-            $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM points WHERE event_id = :eventId";
+        $sth = Connection::getInstance()->prepare($sql);
+        $sth->execute();
 
-            $sql = "SELECT * FROM points WHERE id=:id";
-            $sth = $conn->prepare($sql);
-            $sth->bindValue(":id", $id, PDO::PARAM_INT);
-            $sth->execute();
+        $points = array();
 
-            $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
 
-            $point = $sth->fetch();
-
-            if ($point)
-                return new Point ($point);
-            else
-                return null;
-
-        } catch (PDOException $err) {
-            print_r($err);
-        } finally {
-            $conn = null;
+        while ($point = $sth->fetch()) {
+            $points[] = new Point ($point);
         }
-    }
 
-
-    public static function findAll(): ?array
-    {
-        try {
-            $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $sql = "SELECT * FROM points WHERE event_id = :eventId";
-            $sth = $conn->prepare($sql);
-            $sth->execute();
-
-            $points = array();
-
-            $sth->setFetchMode(PDO::FETCH_ASSOC);
-
-            while ($point = $sth->fetch()) {
-                $points[] = new Point ($point);
-            }
-
-            if (!empty($points))
-                return $points;
-            else
-                return null;
-
-        } catch (PDOException $err) {
-            print_r($err);
-        } finally {
-            $conn = null;
-        }
+        return $points;
     }
 
     public static function findAllEventPoints($eventId): ?array
     {
-        try {
-            $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM points WHERE event_id = :eventId";
+        $sth = Connection::getInstance()->prepare($sql);
+        $sth->bindValue(":eventId", $eventId, PDO::PARAM_INT);
+        $sth->execute();
 
-            $sql = "SELECT * FROM points WHERE event_id = :eventId";
-            $sth = $conn->prepare($sql);
-            $sth->bindValue(":eventId", $eventId, PDO::PARAM_INT);
-            $sth->execute();
+        $points = array();
 
-            $points = array();
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
 
-            $sth->setFetchMode(PDO::FETCH_ASSOC);
-
-            while ($point = $sth->fetch()) {
-                $points[] = new Point ($point);
-            }
-
-            if (!empty($points))
-                return $points;
-            else
-                return null;
-
-        } catch (PDOException $err) {
-            print_r($err);
-        } finally {
-            $conn = null;
+        while ($point = $sth->fetch()) {
+            $points[] = new Point ($point);
         }
+
+        if (!empty($points))
+            return $points;
+        else
+            return null;
     }
 
 
@@ -236,6 +189,10 @@ class Point extends Model
         $info['description'] = $this->description;
 
         return $info;
+    }
+
+    public static function getTableName(): string {
+        return "points";
     }
 
 

@@ -4,10 +4,13 @@
       "ext-pdo": "*"
     },
     "autoload": {
+        "files": [
+            "./lib/functions.php"
+        ],
         "psr-4": {
             "HseEvents\\": "src/"
         }
     },
-    "name": "",
-    "description": ""
+    "name": "semyon/hseevents",
+    "description": "Мероприятия Вышки"
 }

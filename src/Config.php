@@ -16,7 +16,7 @@ class Config
     public static function getInstance()
     {
         if (is_null(self::$instance)) {
-            self::$instance = new Config(include '../config/config.php');
+            self::$instance = new Config(include __DIR__ . '/../config/config.php');
         }
 
         return self::$instance;
@@ -24,7 +24,6 @@ class Config
 
     public function __get($name)
     {
-//        echo "Получение '$name'\n";
         if (array_key_exists($name, $this->configs)) {
             return $this->configs[$name];
         }

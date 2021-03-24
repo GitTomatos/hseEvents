@@ -11,6 +11,8 @@ class HomepageController extends Controller
         $data = [
             'events' => Event::findAll()
         ];
+
+
         $this->view->render('layout.phtml', 'homepage.phtml', $data);
     }
 }

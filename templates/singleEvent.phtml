@@ -2,6 +2,17 @@
 
 <div class="container">
 	<div class='reg-background'>
+
+        <?php if (isset($registeredToEvent['success'])): ?>
+            <div class="alert alert-success" role="alert">
+                <?php echo $registeredToEvent['success'] ?>
+            </div>
+        <?php elseif (isset($registeredToEvent['unsuccess'])): ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $registeredToEvent['unsuccess'] ?>
+            </div>
+        <?php endif; ?>
+
 		<div class="text-center py-5">
 			<h1>
 				<p>ID мероприятия: <?php echo $currentEvent->getId() ?></p>

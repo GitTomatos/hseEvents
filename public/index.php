@@ -72,16 +72,19 @@ try {
 
 
     /** @var PDO $conn */
-    $conn = Registry::get("connection")->getConnection();
+    $conn = $container[PDO::class];
 //    Connection::getInstance()->beginTransaction();
 
-    $controller = new $controllerName;
-    $controller->action();
+//    $controller = new $controllerName(Registry::get("view")(Registry::get("config")["templatePath"]));
+//    $controller = new $controllerName(Registry::get("container")["view"]);
+    $controller = $container[$controllerName];
+    $controller();
 
     if ($conn->inTransaction()) {
         $conn->commit();
     }
 } catch (Throwable $e) {
+    $conn = $container[PDO::class];
     if ($conn->inTransaction()) {
         $conn->rollBack();
     }

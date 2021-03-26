@@ -4,11 +4,17 @@
 namespace HseEvents\Validation;
 
 use HseEvents\Model\Student;
+use HseEvents\Repository\StudentRepository;
 
-class RegistrationValidator implements ValidatorInterface
+class RegistrationValidator extends AbstractValidator
 {
 
-    private array $errors = [];
+    private StudentRepository $studentRepository;
+
+    public function __construct(StudentRepository $studentRepository)
+    {
+        $this->studentRepository = $studentRepository;
+    }
 
     public function isValid($data): bool
     {
@@ -59,7 +65,7 @@ class RegistrationValidator implements ValidatorInterface
         };
         if (!is_null($data['email'])) {
 //            dd($data['email']);
-            $student = Student::findOneBy(["phone"=>$data['phone']]);
+            $student = $this->studentRepository->findOneBy(["phone"=>$data['phone']]);
             if (!is_null($student))
                 $this->errors['phone'][] = "Такой номер уже занят!";
         }
@@ -73,7 +79,7 @@ class RegistrationValidator implements ValidatorInterface
         };
         if (!is_null($data['email'])) {
 //            dd($data['email']);
-            $student = Student::findOneBy(["email"=>$data['email']]);
+            $student = $this->studentRepository->findOneBy(["email"=>$data['email']]);
             if (!is_null($student))
                 $this->errors['email'][] = "Такая почта уже занята!";
         }

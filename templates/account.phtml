@@ -75,24 +75,44 @@ use HseEvents\Model\Event;
 
     <div>
 
-        <?php
-        if (!empty($validationErrors)) {
-            echo "<div class='form-errors'>";
-            foreach ($validationErrors as $errNum => $errDescript) {
-                echo "<p class='from-error'>";
-                echo $errDescript;
-                echo "</p>";
-            }
-            echo "</div>";
-        }
-        ?>
+<!--        --><?php
+//        if (!empty($validationErrors)) {
+//            echo "<div class='form-errors'>";
+//            foreach ($validationErrors as $errNum => $errDescript) {
+//                echo "<p class='from-error'>";
+//                echo $errDescript;
+//                echo "</p>";
+//            }
+//            echo "</div>";
+//        }
+//        ?>
 
         <form action="" method="post">
             <div class='login-fields'>
                 <input type="text" name="eventName" placeholder="Название мероприятия"
                        value="<?php echo isset($_POST['eventName']) ? $_POST['eventName'] : null ?>">
+
+                <?php if (!empty($validationErrors['name'])): ?>
+                <div>
+                    <?php foreach ($validationErrors['name'] as $error): ?>
+                    <p><?php echo $error ?></p>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif ?>
+
                 <input type="text" name="eventDescription" placeholder="Описание мероприятия"
                        value="<?php echo isset($_POST['eventDescription']) ? $_POST['eventDescription'] : null ?>">
+
+                <div>
+                    <?php
+                    if (!empty($validationErrors['description'])):
+                        foreach ($validationErrors['description'] as $valErr):
+                            echo $valErr . '<br>';
+                        endforeach;
+                    endif;
+                    ?>
+                </div>
+
             </div>
             <div class="text-center">
                 <button class="reg-button btn btn-primary btn-lg mt-5" type="submit" name="addEvent">Добавить

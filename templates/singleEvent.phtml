@@ -15,12 +15,12 @@
 
 		<div class="text-center py-5">
 			<h1>
-				<p>ID мероприятия: <?php echo $currentEvent->getId() ?></p>
+				<p>ID мероприятия: <?php echo htmlspecialchars($currentEvent->getId()) ?></p>
 			</h1>
 			<h1>
-				<p> Название: <?php echo $currentEvent->getName() ?> </p>
+				<p> Название: <?php echo htmlspecialchars($currentEvent->getName()) ?> </p>
 			</h1>
-			<p> Описание: <?php echo $currentEvent->getDescription() ?> </p>
+			<p> Описание: <?php echo htmlspecialchars($currentEvent->getDescription()) ?> </p>
 		</div>
 
 		<?php if ( !is_null( $currentUser ) ): ?>

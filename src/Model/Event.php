@@ -7,64 +7,37 @@ use HseEvents\Database\Connection;
 use HseEvents\Registry;
 use PDO, PDOException;
 
-class Event extends Model
+class Event implements Model
 {
-    private ?int $id;
-    private ?string $name;
-    private ?string $description;
+    private ?int $id = null;
+    private string $name;
+    private string $description;
+    /**
+     * @var Point[]
+     */
+    private array $points;
 
-//    private static ?PDO $conn = new Conn;
 
-    private function __construct(array $eventData)
+    /**
+     * Event constructor.
+     * @param string $name
+     * @param string $description
+     */
+    public function __construct(string $name, string $description)
     {
-        $this->id = $eventData['id'] ?? null;
-        $this->name = isset($eventData['name']) ? filter_var(
-            $eventData['name'],
-            FILTER_SANITIZE_SPECIAL_CHARS
-        ) : null;
-        $this->description = isset($eventData['description']) ? filter_var(
-            $eventData['description'],
-            FILTER_SANITIZE_SPECIAL_CHARS
-        ) : null;
+        $this->name = $name;
+        $this->description = $description;
     }
 
+    public function addPoint(Point $point): void {
+        $this->points[] = $point;
+    }
 
-    public static function validate(array $eventData): ?array
-    {
-        $errs = array();
-
-        if (is_null($eventData['name'])) {
-            $errs[] = "Необходимо указать название!";
-        } else {
-            $sql = "SELECT * FROM events WHERE name = :name";
-
-
-            $conn = Registry::get("connection")->getConnection();
-
-            $sth = $conn->prepare($sql);
-            $sth->bindParam(':name', $eventData['name']);
-            $sth->execute();
-
-            $sth->setFetchMode(PDO::FETCH_ASSOC);
-
-            $event = $sth->fetch();
-            if ($event)
-                $errs[] = "Мероприятие с таким названием уже есть!";
-        }
-
-        if (is_null($eventData['description'])) {
-            $errs[] = "Необходимо указать описание!";
-        }
-
-//        if (isset($eventData['id']) && !is_int($eventData['id'])) {
-//            $errs[] = "ID должно быть числом!";
-//        }
-
-        if (empty($errs))
-            return null;
-        else
-            return $errs;
-
+    /**
+     * @return Point[]
+     */
+    public function getPoints(): array {
+        return $this->points;
     }
 
     public function getInfo(): array
@@ -83,64 +56,17 @@ class Event extends Model
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-
-    public static function insert(array $eventData): ?array
-    {
-        $errors = Event::validate($eventData);
-        if (!is_null($errors))
-            return $errors;
-
-
-        if (isset($eventData['id']))
-            trigger_error("EVENT::insert() : Попытка занести в БД событие с уже установленным id, 
-            равным id =" . $eventData["id"], E_USER_ERROR);
-
-        $data = [
-            "name" => $eventData['name'],
-            "description" => $eventData['description']
-        ];
-
-        $sql = "INSERT INTO events(name, description) VALUES (:name, :description)";
-
-        $conn = Registry::get("connection")->getConnection();
-
-        $sth = $conn->prepare($sql);
-        $sth->execute($data);
-
-        return null;
-
-
-    }
-
-
-//    public static function find(int $id): ?Event
-//    {
-//        $sql = "SELECT * FROM events WHERE id=:id";
-//        $sth = Connection::getInstance()->prepare($sql);
-//        $sth->bindValue(":id", $id, PDO::PARAM_INT);
-//        $sth->execute();
-//
-//        $sth->setFetchMode(PDO::FETCH_ASSOC);
-//
-//        $event = $sth->fetch();
-//
-//        if ($event)
-//            return new Event ($event);
-//        else
-//            return null;
-//    }
-
-    protected static function getTableName(): string {
+    public function getTableName(): string {
         return "events";
     }
 

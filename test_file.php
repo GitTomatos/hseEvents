@@ -6,6 +6,8 @@ use HseEvents\Model\Student;
 
 require_once './vendor/autoload.php';
 
-$a = ["first"=>"1", "second"=>"2"];
-
-echo(in_array("1", $a));
+$a = [];
+foreach ($a as $el){
+    echo $el;
+}
+echo "end";

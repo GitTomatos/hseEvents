@@ -8,22 +8,25 @@ use \HseEvents\Model\ModelRegistration;
 
 use HseEvents\Model\Student;
 use HseEvents\Registry;
+use HseEvents\Repository\StudentRepository;
 use HseEvents\Validation\RegistrationValidator;
 use HseEvents\Filter\RegistrationFilter;
+use HseEvents\View\View;
 use Reflection;
 
 class RegistrationController extends Controller
 {
 
-    public function action(): void
-    {
+    private StudentRepository $studentRepository;
 
-//        $data = [
-//            'errors' => [
-//                'lastName' => null,
-//                'firstName' => null
-//            ]
-//        ];
+    public function __construct(View $view, StudentRepository $repository)
+    {
+        parent::__construct($view);
+        $this->studentRepository = $repository;
+    }
+
+    public function __invoke(): void
+    {
 
         $data = [
             'postData' => $_POST,
@@ -45,8 +48,7 @@ class RegistrationController extends Controller
 
 
             $studentData = (new RegistrationFilter())->filter($studentData);
-
-            $validator = new RegistrationValidator();
+            $validator = new RegistrationValidator($this->studentRepository);
             if (!$validator->isValid($studentData)) {
                 $data['validationErrors'] = $validator->getErrors();
 //                dd($data['validationErrors']);
@@ -66,11 +68,11 @@ class RegistrationController extends Controller
                     $studentData['year'],
                     $studentData['phone'],
                     $studentData['email'],
-                    $studentData['password']
+                    $studentData['password'],
                 );
 //                dd($student);
 //                $student = new Student(extract($studentData));
-                $student->insert();
+                $this->studentRepository->save($student);
                 header("Location: ./login");
             }
 

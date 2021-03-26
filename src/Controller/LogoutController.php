@@ -6,7 +6,7 @@ use \HseEvents\Model\ModelLogout;
 
 class LogoutController extends Controller
 {
-    public function action(): void
+    public function __invoke(): void
     {
         session_unset();
         header("Location: ./");

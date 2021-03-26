@@ -9,10 +9,8 @@ class View
 {
     private string $templatePath;
 
-    public function __construct(){
-        $configs = Registry::get("config")->getConfigs();
-//        dd(Registry::get("config"));
-        $this->templatePath = $configs['templatePath'];
+    public function __construct(string $templatePath){
+        $this->templatePath = $templatePath;
     }
 
 

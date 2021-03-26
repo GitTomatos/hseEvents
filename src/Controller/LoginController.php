@@ -5,18 +5,28 @@ namespace HseEvents\Controller;
 use HseEvents\Model\ModelLogin;
 
 use HseEvents\Model\Student;
+use HseEvents\Repository\EventRepository;
+use HseEvents\Repository\StudentRepository;
+use HseEvents\View\View;
 
 class LoginController extends Controller
 {
-    public function action(): void
+
+    private StudentRepository $repository;
+
+    public function __construct(View $view, StudentRepository $repository)
+    {
+        parent::__construct($view);
+        $this->repository = $repository;
+    }
+
+    public function __invoke(): void
     {
         $data = [
             'postData' => $_POST,
             'errors' => []
         ];
 
-
-//        $data['errors'] = array();
 
         if (isset($_POST['login'])) {
 
@@ -32,7 +42,7 @@ class LoginController extends Controller
             }
 
             if (empty ($data['errors'])) {
-                $loginResult = Student::login($email, md5($password));
+                $loginResult = $this->repository->login($email, md5($password));
                 if ($loginResult['hasError']) {
 //                    dd($loginResult['errorMessages']);
                     $data['errors'] = array_merge($data['errors'], $loginResult['errorMessages']);
@@ -50,4 +60,3 @@ class LoginController extends Controller
     }
 }
 
-?>

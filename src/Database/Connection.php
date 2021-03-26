@@ -13,7 +13,7 @@ class Connection
 
     public function __construct()
     {
-        $configs = Registry::get('config')->getConfigs();
+        $configs = Registry::get('container')['config'];
         $this->pdo = new PDO($configs['dbDsn'], $configs['dbUsername'], $configs['dbPassword']);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }

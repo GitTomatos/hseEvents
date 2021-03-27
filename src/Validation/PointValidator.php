@@ -53,8 +53,4 @@ class PointValidator extends AbstractValidator
         }
     }
 
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
 }

@@ -11,7 +11,7 @@ use HseEvents\Registry;
 use HseEvents\Repository\StudentRepository;
 use HseEvents\Validation\RegistrationValidator;
 use HseEvents\Filter\RegistrationFilter;
-use HseEvents\View\View;
+use HseEvents\View\PhpView;
 use Reflection;
 
 class RegistrationController extends Controller
@@ -19,13 +19,13 @@ class RegistrationController extends Controller
 
     private StudentRepository $studentRepository;
 
-    public function __construct(View $view, StudentRepository $repository)
+    public function __construct(PhpView $view, StudentRepository $repository)
     {
         parent::__construct($view);
         $this->studentRepository = $repository;
     }
 
-    public function __invoke(): void
+    public function __invoke(): string
     {
 
         $data = [
@@ -79,6 +79,6 @@ class RegistrationController extends Controller
 
         }
 
-        $this->view->render('layout.phtml', 'registration.phtml', $data);
+        return $this->view->render('registration.phtml', $data);
     }
 }

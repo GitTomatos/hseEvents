@@ -49,9 +49,9 @@ class PointRepository extends AbstractRepository
     }
 
 
-//    public function addExtraData(Point $point): Point {
-//        return $point;
-//    }
+    public function addExtraData(Point $point): Point {
+        return $point;
+    }
 
 
     public function getModelClassname(): string

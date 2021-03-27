@@ -5,7 +5,7 @@ namespace HseEvents\View;
 use HseEvents\Registry;
 use Throwable;
 
-class View
+class PhpView implements ViewInterface
 {
     private string $templatePath;
 
@@ -14,11 +14,13 @@ class View
     }
 
 
-    public function renderError(Throwable $e): void {
+    public function renderError(Throwable $e): string {
+        ob_start();
         include $this->templatePath . 'errorLayout.phtml';
+        return ob_get_clean();
     }
 
-    public function render(string $layout, string $templateView, ?array $data = null): void
+    public function render(string $templateView, array $data = []): string
     {
         $filename = $this->templatePath . $templateView;
 //        echo "<br>" . $filename;
@@ -32,13 +34,17 @@ class View
                 ob_start();
                 include $filename;
                 $content = ob_get_clean();
-                include $this->templatePath . $layout;
+                ob_start();
+                include $this->templatePath . "layout.phtml";
+                return ob_get_clean();
             } else {
+                ob_start();
                 include $this->templatePath . "emptyPage.php";
+                return ob_get_clean();
             }
         } catch (Throwable $e) {
             ob_end_clean();
-            $this->renderError($e);
+            return $this->renderError($e);
         }
 
     }

@@ -1,13 +1,14 @@
 <?php
 
-use HseEvents\Database\Connection;
-use HseEvents\Model\Model;
-use HseEvents\Model\Student;
-
 require_once './vendor/autoload.php';
 
-$a = [];
-foreach ($a as $el){
-    echo $el;
-}
-echo "end";
+
+$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . "/templates");
+$twig = new \Twig\Environment($loader, [
+    'cache' => __DIR__ . "/data/cache/twig",
+    'debug' => true,
+]);
+
+echo $twig->render('testTemplate2.twig', ['name' => ['Fabien', "n"=>'Anotehr name'], 'name2' => 'Fabien2']);
+
+

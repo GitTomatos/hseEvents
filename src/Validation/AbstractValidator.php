@@ -4,10 +4,16 @@
 namespace HseEvents\Validation;
 
 
-abstract class AbstractValidator
+abstract class AbstractValidator implements ValidatorInterface
 {
-    protected array $errors = [];
+    private array $errors = [];
 
-    abstract public function isValid($data): bool;
-    abstract public function getErrors(): array;
+    protected function addError(string $field, string $error): void {
+        $this->errors[$field][] = $error;
+    }
+
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
 }

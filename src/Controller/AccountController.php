@@ -6,7 +6,7 @@ use HseEvents\Filter\SanitizingFilter;
 use HseEvents\Repository\EventRepository;
 use HseEvents\Repository\StudentRepository;
 use HseEvents\Validation\EventValidator;
-use HseEvents\View\View;
+use HseEvents\View\PhpView;
 use HseEvents\Model\{Student, Event};
 
 class AccountController extends Controller
@@ -15,14 +15,14 @@ class AccountController extends Controller
     private StudentRepository $studentRepository;
     private EventRepository $eventRepository;
 
-    public function __construct(View $view, StudentRepository $studentRepository, EventRepository $eventRepository)
+    public function __construct(PhpView $view, StudentRepository $studentRepository, EventRepository $eventRepository)
     {
         parent::__construct($view);
         $this->studentRepository = $studentRepository;
         $this->eventRepository = $eventRepository;
     }
 
-    public function __invoke(): void
+    public function __invoke(): string
     {
 
         $data = [
@@ -64,7 +64,7 @@ class AccountController extends Controller
 
 
 //        $data = $this->model->get_data($_SESSION['username']);
-        $this->view->render('layout.phtml', 'account.phtml', $data);
+        return $this->view->render('account.phtml', $data);
     }
 }
 

@@ -147,9 +147,9 @@ class StudentRepository extends AbstractRepository
         $sth->setFetchMode(PDO::FETCH_ASSOC);
 
         $events = [];
-        while ($event = $sth->fetch())
+        while ($event = $sth->fetch()) {
             $events[] = $this->eventRepository->find($event['event_id']);
-
+        }
         return $events;
     }
 
@@ -177,7 +177,7 @@ class StudentRepository extends AbstractRepository
     }
 
 
-    public function regToEvent(Student &$student, int $eventId): bool
+    public function regToEvent(Student $student, int $eventId): bool
     {
 
 //        $isRegistered = $this->isRegedToEvent($eventId);

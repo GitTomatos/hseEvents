@@ -5,7 +5,7 @@ namespace HseEvents\Controller;
 use HseEvents\Model\{Event, Student};
 use HseEvents\Repository\EventRepository;
 use HseEvents\Repository\StudentRepository;
-use HseEvents\View\View;
+use HseEvents\View\PhpView;
 
 class ViewEventController extends Controller
 {
@@ -13,14 +13,14 @@ class ViewEventController extends Controller
     private StudentRepository $studentRepository;
     private EventRepository $eventRepository;
 
-    public function __construct(View $view, StudentRepository $studentRepository, EventRepository $eventRepository)
+    public function __construct(PhpView $view, StudentRepository $studentRepository, EventRepository $eventRepository)
     {
         parent::__construct($view);
         $this->studentRepository = $studentRepository;
         $this->eventRepository = $eventRepository;
     }
 
-    public function __invoke(): void
+    public function __invoke(): string
     {
 //        $a = null;
 //        is_null($a);
@@ -56,7 +56,7 @@ class ViewEventController extends Controller
         }
 
 
-        $this->view->render('layout.phtml', 'singleEvent.phtml', $data);
+        return $this->view->render('singleEvent.phtml', $data);
     }
 }
 

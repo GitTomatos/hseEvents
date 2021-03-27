@@ -42,12 +42,20 @@ abstract class AbstractRepository implements RepositoryInterface
         $objData = $sth->fetch();
 
         if ($objData) {
-            $object = (new createObject())($this->getModelClassname(), $objData);
-            $object = $this->addExtraData($object);
+            $object = $this->createObject($objData);
+//            $object = $this->addExtraData($object);
             return $object;
         } else {
             return null;
         }
+    }
+
+    /**
+     * @param array $objData
+     * @return Model|object
+     */
+    protected function createObject(array $objData): Model {
+        return (new createObject())($this->getModelClassname(), $objData);
     }
 
 

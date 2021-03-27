@@ -4,7 +4,7 @@ namespace HseEvents\Controller;
 
 use HseEvents\Repository\PointRepository;
 use HseEvents\Repository\StudentRepository;
-use HseEvents\View\View;
+use HseEvents\View\PhpView;
 use HseEvents\Model\{Student, Point};
 
 class ViewEventPointsController extends Controller
@@ -13,14 +13,14 @@ class ViewEventPointsController extends Controller
     private StudentRepository $studentRepository;
     private PointRepository $pointRepository;
 
-    public function __construct(View $view, StudentRepository $studentRepository, PointRepository $pointRepository)
+    public function __construct(PhpView $view, StudentRepository $studentRepository, PointRepository $pointRepository)
     {
         parent::__construct($view);
         $this->studentRepository = $studentRepository;
         $this->pointRepository = $pointRepository;
     }
 
-    public function __invoke(): void
+    public function __invoke(): string
     {
         $data = [
             'currentUser' => null,
@@ -33,8 +33,6 @@ class ViewEventPointsController extends Controller
             $data['currentUser'] = $this->studentRepository->findOneBy(["email" => $username]);
         $data['points'] = $this->pointRepository->findAllEventPoints($eventId);
 
-        $this->view->render('layout.phtml', 'eventPoints.phtml', $data);
+        return $this->view->render('eventPoints.phtml', $data);
     }
 }
-
-?>

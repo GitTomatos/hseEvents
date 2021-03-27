@@ -78,7 +78,8 @@ try {
 //    $controller = new $controllerName(Registry::get("view")(Registry::get("config")["templatePath"]));
 //    $controller = new $controllerName(Registry::get("container")["view"]);
     $controller = $container[$controllerName];
-    $controller();
+    echo $controller();
+//    dd($controller());
 
     if ($conn->inTransaction()) {
         $conn->commit();

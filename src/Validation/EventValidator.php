@@ -25,28 +25,24 @@ class EventValidator extends AbstractValidator
     public function isValid($data): bool
     {
         if (is_null($data['name'])) {
-            $this->errors['name'][] = "Необходимо указать название!";
+            $this->addError('name', "Необходимо указать название!");
         } else {
 
             $event = $this->eventRepository->findBy(["name"=>$data['name']]);
 
-            if ($event)
-                $this->errors['name'][] = "Мероприятие с таким названием уже есть!";
+            if ($event) {
+                $this->addError('name', "Мероприятие с таким названием уже есть!");
+            }
         }
 
         if (is_null($data['description'])) {
-            $this->errors['description'][] = "Необходимо указать описание!";
+            $this->addError('description', "Необходимо указать описание!");
         }
 
-        if (count($this->errors) === 0) {
+        if (count($this->getErrors()) === 0) {
             return true;
         }
         return false;
 
-    }
-
-    public function getErrors(): array
-    {
-        return $this->errors;
     }
 }

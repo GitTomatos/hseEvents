@@ -7,20 +7,20 @@ use HseEvents\Model\ModelLogin;
 use HseEvents\Model\Student;
 use HseEvents\Repository\EventRepository;
 use HseEvents\Repository\StudentRepository;
-use HseEvents\View\View;
+use HseEvents\View\PhpView;
 
 class LoginController extends Controller
 {
 
     private StudentRepository $repository;
 
-    public function __construct(View $view, StudentRepository $repository)
+    public function __construct(PhpView $view, StudentRepository $repository)
     {
         parent::__construct($view);
         $this->repository = $repository;
     }
 
-    public function __invoke(): void
+    public function __invoke(): string
     {
         $data = [
             'postData' => $_POST,
@@ -56,7 +56,7 @@ class LoginController extends Controller
         }
 
 //        dd($data);
-        $this->view->render('layout.phtml', 'login.phtml', $data);
+        return $this->view->render('login.phtml', $data);
     }
 }
 

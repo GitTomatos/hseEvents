@@ -100,8 +100,4 @@ class RegistrationValidator extends AbstractValidator
         return false;
     }
 
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
 }

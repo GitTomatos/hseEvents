@@ -10,7 +10,7 @@ use HseEvents\Controller\{AccountController,
     ViewEventController,
     ViewEventPointsController};
 use HseEvents\Repository\{StudentRepository, EventRepository, PointRepository};
-use HseEvents\View\View;
+use HseEvents\View\PhpView;
 use HseEvents\Registry;
 use Pimple\Container;
 
@@ -18,6 +18,8 @@ use Pimple\Container;
 require_once __DIR__ . '/vendor/autoload.php';
 
 ini_set("display_errors", true);
+error_reporting(E_ALL);
+
 date_default_timezone_set("Europe/Moscow");
 
 $container = new Container();
@@ -27,8 +29,18 @@ $container['config'] = function ($c) {
     return new Config(include __DIR__ . '/config/config.php');
 };
 
-$container[View::class] = function ($c) {
-    return new View($c['config']['templatePath']);
+$container[\Twig\Loader\LoaderInterface::class] = function($c) {
+    return new \Twig\Loader\FilesystemLoader($c['config']['templatePath']);
+};
+
+$container['twig'] = function($c) {
+    return new \Twig\Environment($c[\Twig\Loader\LoaderInterface::class], [
+        'cache' => $c['config']['twigCachePath'],
+    ]);
+};
+
+$container[PhpView::class] = function ($c) {
+    return new PhpView($c['config']['templatePath']);
 };
 
 $container[PDO::class] = function ($c) {
@@ -58,7 +70,7 @@ $container[PointRepository::class] = function ($c) {
 
 $container[AccountController::class] = function ($c) {
     return new AccountController(
-        $c[View::class],
+        $c[PhpView::class],
         $c[StudentRepository::class],
         $c[EventRepository::class]
     );
@@ -66,32 +78,32 @@ $container[AccountController::class] = function ($c) {
 
 $container[HomepageController::class] = function ($c) {
     return new HomepageController(
-        $c[View::class],
+        $c[PhpView::class],
         $c[EventRepository::class]
     );
 };
 
 $container[LoginController::class] = function ($c) {
     return new LoginController(
-        $c[View::class],
+        $c[PhpView::class],
         $c[StudentRepository::class]
     );
 };
 
 $container[LogoutController::class] = function ($c) {
-    return new LogoutController($c[View::class]);
+    return new LogoutController($c[PhpView::class]);
 };
 
 $container[RegistrationController::class] = function ($c) {
     return new RegistrationController(
-        $c[View::class],
+        $c[PhpView::class],
         $c[StudentRepository::class]
     );
 };
 
 $container[ViewEventController::class] = function ($c) {
     return new ViewEventController(
-        $c[View::class],
+        $c[PhpView::class],
         $c[StudentRepository::class],
         $c[EventRepository::class]
     );
@@ -99,7 +111,7 @@ $container[ViewEventController::class] = function ($c) {
 
 $container[ViewEventPointsController::class] = function ($c) {
     return new ViewEventPointsController(
-        $c[View::class],
+        $c[PhpView::class],
         $c[StudentRepository::class],
         $c[PointRepository::class]
     );
@@ -122,7 +134,7 @@ set_exception_handler(function ($exception) use ($container) {
     if (PHP_SAPI === "cli") {
         dump($exception);
     } else {
-        $container[View::class]->renderError($exception);
+        echo $container[PhpView::class]->renderError($exception);
     }
 //    echo "Неперехваченное исключение: " , $exception->getMessage(), "\n";
 });

@@ -43,6 +43,5 @@ class EventValidator extends AbstractValidator
             return true;
         }
         return false;
-
     }
 }

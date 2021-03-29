@@ -3,12 +3,27 @@
 require_once './vendor/autoload.php';
 
 
-$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . "/templates");
-$twig = new \Twig\Environment($loader, [
-    'cache' => __DIR__ . "/data/cache/twig",
-    'debug' => true,
-]);
+interface i {
+    function func();
+    function getFromClass();
+}
 
-echo $twig->render('testTemplate2.twig', ['name' => ['Fabien', "n"=>'Anotehr name'], 'name2' => 'Fabien2']);
+abstract class A implements i{
+    function func() {
+        echo $this->getFromClass();
+    }
+}
 
+class B extends A {
+    public function func()
+    {
+        parent::func();
+    }
 
+    public function getFromClass()
+    {
+        return "B";
+    }
+}
+
+(new B())->func();

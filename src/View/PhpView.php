@@ -35,7 +35,7 @@ class PhpView implements ViewInterface
                 include $filename;
                 $content = ob_get_clean();
                 ob_start();
-                include $this->templatePath . "layout.phtml";
+                include $this->templatePath . "layout.twig";
                 return ob_get_clean();
             } else {
                 ob_start();

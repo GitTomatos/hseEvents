@@ -40,9 +40,9 @@ class PointRepository extends AbstractRepository
         $points = array();
 
         $sth->setFetchMode(PDO::FETCH_ASSOC);
-
-        while ($point = $sth->fetch()) {
-            $points[] = new Point ($point);
+        while ($pointData = $sth->fetch()) {
+            $point = $this->createObject($pointData);
+            $points[] = $point;
         }
 
         return $points;

@@ -4,6 +4,7 @@
 namespace HseEvents\Repository;
 
 
+use HseEvents\CreateObject;
 use HseEvents\Model\Event;
 use HseEvents\Model\Model;
 use HseEvents\Registry;
@@ -11,6 +12,14 @@ use PDO;
 
 class EventRepository extends AbstractRepository
 {
+
+    private PointRepository $pointRepository;
+
+    public function __construct(PDO $pdo, PointRepository $pointRepository)
+    {
+        parent::__construct($pdo);
+        $this->pointRepository = $pointRepository;
+    }
 
     public function insert(Event $event): void
     {
@@ -30,14 +39,17 @@ class EventRepository extends AbstractRepository
     }
 
 
-    public function addExtraData(Event $event): Event
-    {
-//        $eventPoints = $this->getPoints($event->getId());
-//        foreach ($eventPoints as $point) {
-//            $event->addPoint($point);
-//        }
 
-        return $event;
+    protected function createObject(array $objData): Model {
+        $object = parent::createObject($objData);
+        $eventPoints = $this->pointRepository->findBy([
+            'event_id' => $object->getId()
+        ]);
+        foreach ($eventPoints as $point) {
+            $object->addPoint($point);
+        }
+
+        return $object;
     }
 
     public function getModelClassName(): string {

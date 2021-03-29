@@ -8,7 +8,9 @@ use HseEvents\Controller\{AccountController,
     LogoutController,
     RegistrationController,
     ViewEventController,
-    ViewEventPointsController};
+    ViewEventPointsController
+};
+use HseEvents\View\TwigView;
 use HseEvents\Repository\{StudentRepository, EventRepository, PointRepository};
 use HseEvents\View\PhpView;
 use HseEvents\Registry;
@@ -29,18 +31,23 @@ $container['config'] = function ($c) {
     return new Config(include __DIR__ . '/config/config.php');
 };
 
-$container[\Twig\Loader\LoaderInterface::class] = function($c) {
+$container[\Twig\Loader\LoaderInterface::class] = function ($c) {
     return new \Twig\Loader\FilesystemLoader($c['config']['templatePath']);
 };
 
-$container['twig'] = function($c) {
+$container['twig'] = function ($c) {
     return new \Twig\Environment($c[\Twig\Loader\LoaderInterface::class], [
         'cache' => $c['config']['twigCachePath'],
+        'debug' => true,
     ]);
 };
 
 $container[PhpView::class] = function ($c) {
     return new PhpView($c['config']['templatePath']);
+};
+
+$container[TwigView::class] = function ($c) {
+    return new TwigView($c['twig']);
 };
 
 $container[PDO::class] = function ($c) {
@@ -52,7 +59,10 @@ $container[PDO::class] = function ($c) {
 
 
 $container[EventRepository::class] = function ($c) {
-    return new EventRepository($c[PDO::class]);
+    return new EventRepository(
+        $c[PDO::class],
+        $c[PointRepository::class]
+    );
 };
 
 $container[StudentRepository::class] = function ($c) {
@@ -70,7 +80,7 @@ $container[PointRepository::class] = function ($c) {
 
 $container[AccountController::class] = function ($c) {
     return new AccountController(
-        $c[PhpView::class],
+        $c[TwigView::class],
         $c[StudentRepository::class],
         $c[EventRepository::class]
     );
@@ -78,32 +88,33 @@ $container[AccountController::class] = function ($c) {
 
 $container[HomepageController::class] = function ($c) {
     return new HomepageController(
-        $c[PhpView::class],
+//        $c[PhpView::class],
+        $c[TwigView::class],
         $c[EventRepository::class]
     );
 };
 
 $container[LoginController::class] = function ($c) {
     return new LoginController(
-        $c[PhpView::class],
+        $c[TwigView::class],
         $c[StudentRepository::class]
     );
 };
 
 $container[LogoutController::class] = function ($c) {
-    return new LogoutController($c[PhpView::class]);
+    return new LogoutController($c[TwigView::class]);
 };
 
 $container[RegistrationController::class] = function ($c) {
     return new RegistrationController(
-        $c[PhpView::class],
+        $c[TwigView::class],
         $c[StudentRepository::class]
     );
 };
 
 $container[ViewEventController::class] = function ($c) {
     return new ViewEventController(
-        $c[PhpView::class],
+        $c[TwigView::class],
         $c[StudentRepository::class],
         $c[EventRepository::class]
     );
@@ -111,7 +122,7 @@ $container[ViewEventController::class] = function ($c) {
 
 $container[ViewEventPointsController::class] = function ($c) {
     return new ViewEventPointsController(
-        $c[PhpView::class],
+        $c[TwigView::class],
         $c[StudentRepository::class],
         $c[PointRepository::class]
     );
@@ -134,7 +145,7 @@ set_exception_handler(function ($exception) use ($container) {
     if (PHP_SAPI === "cli") {
         dump($exception);
     } else {
-        echo $container[PhpView::class]->renderError($exception);
+        echo $container[TwigView::class]->renderError($exception);
     }
 //    echo "Неперехваченное исключение: " , $exception->getMessage(), "\n";
 });

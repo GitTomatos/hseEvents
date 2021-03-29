@@ -12,6 +12,7 @@ use HseEvents\Repository\StudentRepository;
 use HseEvents\Validation\RegistrationValidator;
 use HseEvents\Filter\RegistrationFilter;
 use HseEvents\View\PhpView;
+use HseEvents\View\TwigView;
 use Reflection;
 
 class RegistrationController extends Controller
@@ -19,7 +20,7 @@ class RegistrationController extends Controller
 
     private StudentRepository $studentRepository;
 
-    public function __construct(PhpView $view, StudentRepository $repository)
+    public function __construct(TwigView $view, StudentRepository $repository)
     {
         parent::__construct($view);
         $this->studentRepository = $repository;
@@ -28,10 +29,13 @@ class RegistrationController extends Controller
     public function __invoke(): string
     {
 
-        $data = [
-            'postData' => $_POST,
-            'validationErrors' => []
-        ];
+        $this->data = array_merge(
+            $this->data,
+            [
+                'postData' => $_POST,
+                'validationErrors' => []
+            ]
+        );
 
         if (isset($_POST['addStudent'])) {
             $studentData = [];
@@ -50,13 +54,13 @@ class RegistrationController extends Controller
             $studentData = (new RegistrationFilter())->filter($studentData);
             $validator = new RegistrationValidator($this->studentRepository);
             if (!$validator->isValid($studentData)) {
-                $data['validationErrors'] = $validator->getErrors();
-//                dd($data['validationErrors']);
+                $this->data['validationErrors'] = $validator->getErrors();
+//                dd($this->data['validationErrors']);
             }
 
 
-//            $data['validationErrors'] = Student::insert($studentData);
-            if (empty($data['validationErrors'])) {
+//            $this->data['validationErrors'] = Student::insert($studentData);
+            if (empty($this->data['validationErrors'])) {
 //                $a = Registry::get("createObject");
 //                dd(extract($studentData));
                 $student = new Student(
@@ -79,6 +83,7 @@ class RegistrationController extends Controller
 
         }
 
-        return $this->view->render('registration.phtml', $data);
+
+        return $this->view->render('registration.twig', $this->data);
     }
 }

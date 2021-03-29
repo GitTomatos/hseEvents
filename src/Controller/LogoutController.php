@@ -14,7 +14,7 @@ class LogoutController extends Controller
 //        $controller = new HomepageController();
 //        $controller->action();
 //        header("Location: ./");
-//        $this->view->render('layout.phtml', 'login.phtml', $data);
+//        $this->view->render('layout.twig', 'login.twig', $data);
     }
 }
 

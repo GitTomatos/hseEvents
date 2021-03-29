@@ -4,6 +4,8 @@
 namespace HseEvents\View;
 
 
+use Throwable;
+
 class TwigView implements ViewInterface
 {
 
@@ -21,5 +23,10 @@ class TwigView implements ViewInterface
 
     public function render(string $template, array $data = []): string {
         return $this->twig->render($template, $data);
+    }
+
+    public function renderError(Throwable $e): string {
+//        dd((array)$e);
+        return $this->twig->render("error.twig", ["e"=>$e]);
     }
 }

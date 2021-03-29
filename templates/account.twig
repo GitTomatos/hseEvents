@@ -1,0 +1,107 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class="my-info">
+
+            <p class="text-center">
+                ID: {{ currentUser.getId }}
+            </p>
+            <p class="text-center">
+                Email: {{ currentUser.getEmail }}
+            </p>
+            <p class="text-center">
+                Фамилия: {{ currentUser.getLastName }}
+            </p>
+            <p class="text-center">
+                Имя: {{ currentUser.getFirstName }}
+            </p>
+            <p class="text-center">
+                Отчество: {{ currentUser.getPatronymic ?: "Не указано" }}
+            </p>
+            <p class="text-center">
+                Университет: {{ currentUser.getUniversity }}
+            </p>
+            <p class="text-center">
+                Специальность: {{ currentUser.getSpeciality }}
+            </p>
+            <p class="text-center">
+                Курс: {{ currentUser.getYear }}
+            </p>
+            <p class="text-center">
+                Телефон: {{ currentUser.getPhone }}
+            </p>
+        </div>
+
+        <div class="after-info">
+            <div class="my-events">
+                <p>Мои мероприятия:</p>
+                {% set userEvents = attribute(studentRepository, 'getEvents', [currentUser.getId]) %}
+                {% if userEvents is not empty %}
+                    {% for key, event in userEvents %}
+                        <p>
+                            <a href="./view-event?eventId={{ event.getId }}">
+                                {{ event.getName }}
+                            </a>
+                        </p>
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+            {# <div class="my-qr"> #}
+            {# <?php $imgSrc = ('https://api.qrserver.com/v1/create-qr-code/?data=' . $currentUser->getId() . '&size=150x150') ?> #}
+            {# <img src="<?php echo $imgSrc ?>" alt="qr-code"/> #}
+            {# </div> #}
+        </div>
+
+
+        {# <div class='qr-decoder'> #}
+        {# <form enctype="multipart/form-data" action="" method="POST"> #}
+        {# <input type="hidden" name="MAX_FILE_SIZE" value="1048576"/> #}
+        {# Расшифровать QR-код: <input name="file" type="file"/> #}
+        {# <input type="submit" name="readQr" value="Read QR code"/> #}
+        {# </form> #}
+        {# </div> #}
+
+
+        <div>
+
+
+            <form action="" method="post">
+                <div class='login-fields'>
+                    <input type="text" name="eventName" placeholder="Название мероприятия"
+                           value="{{ postData.eventName ?: null }}">
+
+                    {% if validationErrors.name is not empty %}
+                        <div>
+                            {% for key, error in validationErrors.name %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+
+                    <input type="text" name="eventDescription" placeholder="Описание мероприятия"
+                           value="{{ postData.eventDescription ?: null }}">
+
+                    {% if validationErrors.description is not empty %}
+                        <div>
+                            {% for key, error in validationErrors.description %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+
+                </div>
+                <div class="text-center">
+                    <button class="reg-button btn btn-primary btn-lg mt-5" type="submit" name="addEvent">Добавить
+                        мероприятие
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}

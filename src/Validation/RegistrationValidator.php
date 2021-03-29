@@ -19,81 +19,104 @@ class RegistrationValidator extends AbstractValidator
     public function isValid($data): bool
     {
         if (is_null($data['lastName'])) {
-            $this->errors['lastName'][] = "Необходимо указать фамилию!";
+            $err = "Необходимо указать фамилию!";
+            $this->addError('lastName', $err);
         };
         if (mb_strlen($data['lastName']) >= 30) {
-            $this->errors['lastName'][] = "Фамилия должна быть не более 30 символов";
+            $err = "Фамилия должна быть не более 30 символов";
+            $this->addError('lastName', $err);
         };
 
 
         if (is_null($data['firstName'])) {
-            $this->errors['firstName'][] = "Необходимо указать имя!";
+            $err = "Необходимо указать имя!";
+            $this->addError('firstName', $err);
         };
         if (mb_strlen($data['firstName']) >= 30) {
-            $this->errors['firstName'][] = "Имя должно быть не более 30 символов";
+            $err = "Имя должно быть не более 30 символов";
+            $this->addError('firstName', $err);
         };
 
 
         if (is_null($data['university'])) {
-            $this->errors['university'][] = "Необходимо указать университет!";
+            $err = "Необходимо указать университет!";
+            $this->addError('university', $err);
         };
         if (mb_strlen($data['university']) >= 30) {
-            $this->errors['university'][] = "Должно быть не более 30 символов";
+            $err = "Должно быть не более 30 символов";
+            $this->addError('university', $err);
         };
 
 
         if (is_null($data['speciality'])) {
-            $this->errors['speciality'][] = "Необходимо указать специальность";
+            $err = "Необходимо указать специальность";
+            $this->addError('speciality', $err);
         };
         if (mb_strlen($data['speciality']) >= 30) {
-            $this->errors['speciality'][] = "Должно быть не более 30 символов";
+            $err = "Должно быть не более 30 символов";
+            $this->addError('speciality', $err);
         };
 
 
         if (is_null($data['year'])) {
-            $this->errors['year'][] = "Необходимо указать курс";
+            $err = "Необходимо указать курс";
+            $this->addError('year', $err);
         };
         if ($data['year'] > 5) {
-            $this->errors['year'][] = "Некорректное число курса!";
+            $err = "Некорректное число курса!";
+            $this->addError('year', $err);
         };
 
 
         if (is_null($data['phone'])) {
-            $this->errors['phone'][] = "Необходимо указать телефон!";
-        } else if (strlen($data['phone']) > 12 || strlen($data['phone']) < 11) {
-            $this->errors['phone'][] = "Некорректный номер телефона";
+            $err = "Необходимо указать телефон!";
+            $this->addError('phone', $err);
+        } else if (strlen($data['phone']) !== 11) {
+            $err = "Телефон должен содержать 11 цифр";
+            $this->addError('phone', $err);
         };
+
         if (!is_null($data['email'])) {
 //            dd($data['email']);
             $student = $this->studentRepository->findOneBy(["phone"=>$data['phone']]);
-            if (!is_null($student))
-                $this->errors['phone'][] = "Такой номер уже занят!";
+
+            if (!is_null($student)) {
+                $err = "Такой номер уже занят!";
+                $this->addError('phone', $err);
+            }
         }
 
 
         if (is_null($data['email'])) {
-            $this->errors['email'][] = "Необходимо указать почту!";
-        };
+            $err = "Необходимо указать почту!";
+            $this->addError('email', $err);
+        }
+
         if (mb_strlen($data['email']) > 255) {
-            $this->errors['email'][] = "Должно быть не более 255 символов";
+            $err = "Должно быть не более 255 символов";
+            $this->addError('email', $err);
         };
         if (!is_null($data['email'])) {
 //            dd($data['email']);
             $student = $this->studentRepository->findOneBy(["email"=>$data['email']]);
-            if (!is_null($student))
-                $this->errors['email'][] = "Такая почта уже занята!";
+            if (!is_null($student)) {
+                $err = "Такая почта уже занята!";
+                $this->addError('email', $err);
+            }
         }
 
 
         if (is_null($data['password'])) {
-            $this->errors['password'][] = "Необходимо указать пароль!";
+            $err = "Необходимо указать пароль!";
+            $this->addError('password', $err);
         }
 
         if (mb_strlen($data['password']) > 255) {
-            $this->errors['password'][] = "Должно быть не более 255 символов";
+            $err = "Должно быть не более 255 символов";
+            $this->addError('password', $err);
         }
 
-        if (count($this->errors) === 0) {
+        if (count($this->getErrors()) === 0) {
             return true;
         }
 

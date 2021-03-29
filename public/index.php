@@ -62,9 +62,9 @@ switch ($path) {
         $controllerName = 'HseEvents\Controller\ControllerGiveError';
         break;
     default:
-//        '/home';
         $controllerName = 'HseEvents\Controller\HomepageController';
 }
+
 
 try {
 //    $conn = new Connection();
@@ -73,13 +73,17 @@ try {
 
     /** @var PDO $conn */
     $conn = $container[PDO::class];
-//    Connection::getInstance()->beginTransaction();
 
-//    $controller = new $controllerName(Registry::get("view")(Registry::get("config")["templatePath"]));
-//    $controller = new $controllerName(Registry::get("container")["view"]);
     $controller = $container[$controllerName];
+//    dd( $controller);
     echo $controller();
-//    dd($controller());
+
+//    $loader = new \Twig\Loader\ArrayLoader([
+//        'index' => $controller(),
+//    ]);
+//    $twig = new \Twig\Environment($loader);
+//
+//    echo $twig->render('index');
 
     if ($conn->inTransaction()) {
         $conn->commit();

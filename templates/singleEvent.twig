@@ -1,0 +1,54 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class='reg-background'>
+
+{#            {{ attribute(currentEvent, 'getId') is defined ? currentEvent.Id : "no" }}#}
+{#            {{ attribute(currentUser, 'isRegedToEvent', [currentEvent.getId]) }}#}
+            {% if registeredToEvent.success is not empty %}
+                <div class="alert alert-success" role="alert">
+                    {{ registeredToEvent.success }}
+                </div>
+            {% elseif registeredToEvent.unsuccess is not empty %}
+                <div class="alert alert-danger" role="alert">
+                    {{ registeredToEvent.unsuccess }}
+                </div>
+            {% endif %}
+
+            <div class="text-center py-5">
+                <h1>
+                    <p>ID мероприятия: {{ currentEvent.getId }}</p>
+                </h1>                    {% set a=currentEvent.getId %}
+
+                <h1>
+                    <p>Название: {{ currentEvent.getName }}</p>
+                </h1>
+                <p>Описание: {{ currentEvent.getDescription }}</p>
+            </div>
+            {# {{ currentUser }} #}
+
+
+            {% if currentUser is not empty %}
+                <form action="" method="post">
+                    {% if not attribute(studentRepository, 'isRegedToEvent', [currentUser.getId, currentEvent.getId]) %}
+                        <div class="text-center">
+                            <button class="reg-button btn btn-primary btn-lg mt-5" name="regStudToEvent">
+                                Зарегистрироваться
+                            </button>
+                        </div>
+                    {% else %}
+                        <div class="text-center">
+                            <button class="reg-button btn btn-primary btn-lg mt-5" name="unregStudFromEvent">
+                                Отменить регистрацию
+                            </button>
+                        </div>
+                    {% endif %}
+                </form>
+            {% endif %}
+
+            <p><a href="/view-event-points?eventId={{ currentEvent.getId }}">Посмотреть этапы</a></p>
+        </div>
+    </div>
+
+{% endblock %}

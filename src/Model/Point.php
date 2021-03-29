@@ -14,7 +14,7 @@ class Point implements Model
     private ?string $description;
 
 
-    private function __construct(int $eventId, string $name, string $description)
+    public function __construct(int $eventId, string $name, string $description)
     {
         $this->eventId = $eventId;
         $this->name = $name;

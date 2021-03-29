@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Css Link -->
-    <title>Мероприятия</title>
+    {% block title %}
+        <title>Мероприятия</title>
+    {% endblock %}
 
     <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
@@ -22,28 +24,27 @@
         <!-- <img src="images/hse-logo.png" alt="Logo" class="logo-img"> -->
     </div>
 
-    <?php if (isset($_SESSION['username'])): ?>
+    {% if sessionUsername is not empty %}
+        <div class="col-lg-4 d-flex justify-content-center align-items-center header-button">
+            <!-- <img src="https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png"/> -->
+            <a href="/account"><p class="res-margin">Личный кабинет</p></a>
+            <a href="/logout"><p class="res-margin">Выйти</p></a>
+        </div>
+    {% else %}
+        <div class="col-lg-4 d-flex justify-content-center align-items-center header-button">
+            <!-- <img src="https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png"/> -->
+            <a href="/registration"><p class="res-margin">Регистрация</p></a>
+            <a href="http://localhost:8080/login"><p class="res-margin">Войти</p></a>
+        </div>
+    {% endif %}
 
-    <div class="col-lg-4 d-flex justify-content-center align-items-center header-button">
-        <!-- <img src="https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png"/> -->
-        <a href="/account"><p class="res-margin">Личный кабинет</p></a>
-        <a href="/logout"><p class="res-margin">Выйти</p></a>
-    </div>
-
-    <?php else: ?>
-
-    <div class="col-lg-4 d-flex justify-content-center align-items-center header-button">
-        <!-- <img src="https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png"/> -->
-        <a href="/registration"><p class="res-margin">Регистрация</p></a>
-        <a href="http://localhost:8080/login"><p class="res-margin">Войти</p></a>
-    </div>
-
-    <?php endif ?>
 
 </header>
 
 <main>
-    <?= $content ?>
+    {% block content %}
+    {% endblock %}
+{#    <?= $content ?>#}
 </main>
 
 

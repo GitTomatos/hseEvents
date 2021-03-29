@@ -7,6 +7,7 @@ use HseEvents\Repository\EventRepository;
 use HseEvents\Repository\StudentRepository;
 use HseEvents\Validation\EventValidator;
 use HseEvents\View\PhpView;
+use HseEvents\View\TwigView;
 use HseEvents\Model\{Student, Event};
 
 class AccountController extends Controller
@@ -15,25 +16,29 @@ class AccountController extends Controller
     private StudentRepository $studentRepository;
     private EventRepository $eventRepository;
 
-    public function __construct(PhpView $view, StudentRepository $studentRepository, EventRepository $eventRepository)
+    public function __construct(TwigView $view, StudentRepository $studentRepository, EventRepository $eventRepository)
     {
         parent::__construct($view);
         $this->studentRepository = $studentRepository;
         $this->eventRepository = $eventRepository;
+        $this->data['studentRepository'] = $studentRepository;
     }
 
     public function __invoke(): string
     {
-
-        $data = [
-            'currentUser' => null,
-            'validationErrors' => null
-        ];
+        $this->data = array_merge(
+            $this->data,
+            [
+                'postData' => $_POST,
+                'currentUser' => null,
+                'validationErrors' => null,
+            ]
+        );
 
         $username = $_SESSION['username'] ?? null;
         if (isset($username)) {
-//            $data['currentUser'] = Student::findByEmail($username);
-            $data['currentUser'] = $this->studentRepository->findOneBy(['email' => $username]);
+//            $this->data['currentUser'] = Student::findByEmail($username);
+            $this->data['currentUser'] = $this->studentRepository->findOneBy(['email' => $username]);
         } else {
             header("Location: ./");
         }
@@ -58,13 +63,12 @@ class AccountController extends Controller
                 $this->eventRepository->save($event);
                 header("Location: ./");
             } else {
-                $data['validationErrors'] = $validator->getErrors();
+                $this->data['validationErrors'] = $validator->getErrors();
             }
         }
 
-
-//        $data = $this->model->get_data($_SESSION['username']);
-        return $this->view->render('account.phtml', $data);
+//        $this->data = $this->model->get_data($_SESSION['username']);
+        return $this->view->render('account.twig', $this->data);
     }
 }
 

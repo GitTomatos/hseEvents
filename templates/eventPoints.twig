@@ -1,0 +1,75 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class='reg-background'>
+
+
+            {% if currentUser is not empty %}
+                <p>
+                    {% set regedPoint = attribute(studentRepository, 'getRegedEventPoint', [currentUser.getId]) %}
+                    {% if regedPoint is not empty %}
+                        <p>
+                            Зарегистрирован на <a href=''>{{ regedPoint.getName }}</a>
+                        </p>
+                    {% else %}
+                        <p>
+                            Не зарегистрирован нигде
+                        </p>
+                    {% endif %}
+                </p>
+            {% endif %}
+
+            {% if registeredToPoint.success is not empty %}
+                <div class="alert alert-success" role="alert">
+                    {{ registeredToPoint.success }}
+                </div>
+            {% endif %}
+
+            {% if errors.regErrors.0 is not empty %}
+                <div class="alert alert-danger" role="alert">
+                    {{ errors.regErrors.0 }}
+                </div>
+            {% endif %}
+
+            {% if points is not empty %}
+                {% for key, point in points %}
+                    <div class="text-center py-5">
+                        <h1>
+                            <p>ID этапа: {{ point.getId }}</p>
+                        </h1>
+                        <h1>
+                            <p>ID мероприятия: {{ point.getEventId }}</p>
+                        </h1>
+                        <h1>
+                            <p>Название: {{ point.getName }} </p>
+                        </h1>
+                        <p>Описание: {{ point.getDescription }} </p>
+                    </div>
+                    {% if currentUser is not empty %}
+                        <form action="" method="post">
+                            {% if not attribute(studentRepository, 'isRegedToPoint', [currentUser.getId, point.getId]) %}
+                                <div class="text-center">
+                                    <input type="hidden" name="pointId" value="{{ point.getId }}">
+                                    <button class="reg-button btn btn-primary btn-lg" name="regStudToPoint">
+                                        Зарегистрироваться
+                                    </button>
+                                </div>
+                            {% else %}
+                                <div class="text-center">
+                                    <input type="hidden" name="pointId" value="{{ point.getId }}">
+                                    <button class="reg-button btn btn-primary btn-lg" name="unregStudFromPoint">
+                                        Отменить регистрацию
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </form>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+
+        </div>
+    </div>
+
+{% endblock %}

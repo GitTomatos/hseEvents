@@ -5,5 +5,5 @@ return [
     "dbUsername" => "root",
     "dbPassword" => "root",
     "templatePath" => __DIR__ . "/../templates/",
-    "twigCachePath" => __DIR__ . "/data/cache/twig/",
+    "twigCachePath" => __DIR__ . "/../data/cache/twig/",
 ];

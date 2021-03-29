@@ -72,8 +72,7 @@ abstract class AbstractRepository implements RepositoryInterface
 
         $objects = [];
         while ($objectData = $sth->fetch()) {
-            $object = (new CreateObject())($this->getModelClassname(), $objectData);
-            $object = $this->addExtraData($object);
+            $object = $this->createObject($objectData);
             $objects[] = $object;
         }
 
@@ -125,8 +124,7 @@ abstract class AbstractRepository implements RepositoryInterface
         $objects = [];
 
         while ($stud = $sth->fetch()) {
-            $object = (new createObject())($this->getModelClassname(), $stud);
-            $object = $this->addExtraData($object);
+            $object = $this->createObject($stud);
             $objects[] = $object;
         }
         return $objects;
@@ -153,9 +151,7 @@ abstract class AbstractRepository implements RepositoryInterface
 
         $stud = $sth->fetch();
         if ($stud) {
-            $object = (new createObject())($this->getModelClassname(), $stud);
-            $object = $this->addExtraData($object);
-            return $object;
+            return $this->createObject($stud);
         } else {
             return null;
         }

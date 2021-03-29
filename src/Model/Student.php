@@ -20,10 +20,7 @@ class Student implements Model
     private string $phone;
     private string $email;
     private string $password;
-    /**
-     * @var Event[]
-     */
-    private array $events = [];
+
 
     /**
      * Student constructor.
@@ -50,36 +47,6 @@ class Student implements Model
         $this->password = $password;
     }
 
-    /**
-     * @param Event
-     */
-    public function addEvent($event): void
-    {
-        $this->events[$event->getId()] = $event;
-    }
-
-    public function removeEvent($eventId): void
-    {
-        unset($this->events[$eventId]);
-    }
-
-    /**
-     * @return Event[]
-     */
-    public function getEvents(): array
-    {
-        return $this->events;
-    }
-
-    public function isRegedToEvent(int $eventId): bool
-    {
-        foreach ($this->events as $event) {
-            if ($event->getId() === $eventId) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public function getId(): ?int
     {

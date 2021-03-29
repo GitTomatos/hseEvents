@@ -26,11 +26,13 @@ class PointValidator extends AbstractValidator
     public function isValid($data): bool
     {
         if (is_null($data['eventId'])) {
-            $errors['eventId'][] = "Необходимо указать индекс мероприятия!";
+            $err = "Необходимо указать индекс мероприятия!";
+            $this->addError('eventId', $err);
         }
 
         if (is_null($data['name'])) {
-            $errors['name'][] = "Необходимо указать название!";
+            $err = "Необходимо указать название!";
+            $this->addError('name', $err);
         }
 
         if (!is_null($data['eventId']) && !is_null($data['name'])) {
@@ -39,18 +41,26 @@ class PointValidator extends AbstractValidator
                 'name' => $data['name'],
             ]);
 
-            if ($event)
-                $errors[] = "У этого мероприятия уже есть этап с таким названием!";
+            if ($event) {
+                $err = "У этого мероприятия уже есть этап с таким названием!";
+                $this->addError('name', $err);
+            }
 
         }
 
         if (is_null($data['description'])) {
-            $errors['description'][] = "Необходимо указать описание!";
+            $err = "Необходимо указать описание!";
+            $this->addError('description', $err);
         }
 
         if (!is_null($data['id']) && !is_int($data['id'])) {
-            $errors['id'][] = "ID должно быть числом!";
+            $err = "ID должно быть числом!";
+            $this->addError('id', $err);
         }
-    }
 
+        if (count($this->getErrors()) === 0) {
+            return true;
+        }
+        return false;
+    }
 }

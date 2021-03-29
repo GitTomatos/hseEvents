@@ -15,7 +15,7 @@ class Event implements Model
     /**
      * @var Point[]
      */
-    private array $points;
+    private array $points = [];
 
 
     /**
@@ -39,6 +39,7 @@ class Event implements Model
     public function getPoints(): array {
         return $this->points;
     }
+
 
     public function getInfo(): array
     {

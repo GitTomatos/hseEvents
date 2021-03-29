@@ -19,6 +19,72 @@ include __DIR__ . '/../bootstrap.php';
 $session = new Session();
 $session->start();
 
+
+
+
+
+/*
+ * / - HomepageController
+ * /home - HomepageController
+ * /account - ControllerAccount
+ * /login - LoginController
+ * /logout - LogoutController
+ * /registration - RegistrationController
+ * /view-event - ViewEventController
+ * /view-event-point - ControllerViewEventPoint
+ * /give-error - ControllerGiveError
+*/
+
+$dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
+    $r->addRoute('GET', '/home[/]', 'HseEvents\Controller\HomepageController');
+    $r->addRoute('GET', '/', 'HseEvents\Controller\HomepageController');
+    $r->addRoute('GET', '/account[/]', 'HseEvents\Controller\AccountController');
+    $r->addRoute(['GET', 'POST'], '/login[/]', 'HseEvents\Controller\LoginController');
+    $r->addRoute('GET', '/logout[/]', 'HseEvents\Controller\LogoutController');
+    $r->addRoute(['GET', 'POST'], '/registration[/]', 'HseEvents\Controller\RegistrationController');
+//    $r->addRoute('GET', '/view-event[/]', 'HseEvents\Controller\ViewEventController');
+    $r->addRoute('GET', '/view-event/{eventId:\d+}[/]', 'HseEvents\Controller\ViewEventController');
+    $r->addRoute('GET', '/view-event-points[/]', 'HseEvents\Controller\ViewEventPointsController');
+    $r->addRoute('GET', '/view-event-points/{eventId:\d+}[/]', 'HseEvents\Controller\ViewEventPointsController');
+    $r->addRoute('GET', '/give-error[/]', 'HseEvents\Controller\ControllerGiveError');
+});
+
+// Fetch method and URI from somewhere
+$httpMethod = $_SERVER['REQUEST_METHOD'];
+$uri = $_SERVER['REQUEST_URI'];
+//dump($uri);
+
+// Strip query string (?foo=bar) and decode URI
+if (false !== $pos = strpos($uri, '?')) {
+    $uri = substr($uri, 0, $pos);
+}
+$uri = rawurldecode($uri);
+$routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+//dump($routeInfo);
+
+switch ($routeInfo[0]) {
+    case FastRoute\Dispatcher::NOT_FOUND:
+        // ... 404 Not Found
+        break;
+    case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+        $allowedMethods = $routeInfo[1];
+        // ... 405 Method Not Allowed
+        break;
+    case FastRoute\Dispatcher::FOUND:
+        $controllerName = $routeInfo[1];
+        $vars = $routeInfo[2];
+        $conn = $container[PDO::class];
+        $request = SymfonyRequest::createFromGlobals();
+        foreach ($vars as $name => $value){
+            $request->attributes->set($name, $value);
+        }
+        $controller = $container[$controllerName];
+        $response = $controller($request, $session);
+        $response->send();
+        break;
+}
+die();
+
 $controllerName = '';
 $path = '';
 if (isset($_SERVER['PATH_INFO'])) {
@@ -34,17 +100,6 @@ $a = $session->get('username') ?? null;
 //echo $a;
 
 
-/*
- * / - HomepageController
- * /home - HomepageController
- * /account - ControllerAccount
- * /login - LoginController
- * /logout - LogoutController
- * /registration - RegistrationController
- * /view-event - ViewEventController
- * /view-event-point - ControllerViewEventPoint
- * /give-error - ControllerGiveError
-*/
 
 
 switch ($path) {
@@ -90,7 +145,6 @@ try {
 //    dd( $controller);
     $response = $controller($request, $session);
     $response->send();
-
 
 
 //    $loader = new \Twig\Loader\ArrayLoader([

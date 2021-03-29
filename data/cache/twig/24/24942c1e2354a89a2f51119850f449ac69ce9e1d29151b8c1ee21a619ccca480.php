@@ -77,20 +77,21 @@ class __TwigTemplate_b52d55725f591e90024c9d82c9603426d938fe80d708512db9f8269be4c
                 // line 25
                 echo "                        <tr>
                             <td>
-                                <a href=\"/view-event/?eventId=";
-                // line 27
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getId", [], "any", false, false, false, 27), "html", null, true);
+                                ";
+                // line 28
+                echo "                                <a href=\"/view-event/";
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getId", [], "any", false, false, false, 28), "html", null, true);
                 echo "\">
                                     ";
-                // line 28
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getName", [], "any", false, false, false, 28), "html", null, true);
+                // line 29
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getName", [], "any", false, false, false, 29), "html", null, true);
                 echo "
                                 </a>
                             </td>
                             <td>
                                 ";
-                // line 32
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getDescription", [], "any", false, false, false, 32), "html", null, true);
+                // line 33
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getDescription", [], "any", false, false, false, 33), "html", null, true);
                 echo "
                             </td>
                         </tr>
@@ -99,10 +100,10 @@ class __TwigTemplate_b52d55725f591e90024c9d82c9603426d938fe80d708512db9f8269be4c
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['key'], $context['event'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 36
+            // line 37
             echo "                ";
         }
-        // line 37
+        // line 38
         echo "
 
                 </tbody>
@@ -127,7 +128,7 @@ class __TwigTemplate_b52d55725f591e90024c9d82c9603426d938fe80d708512db9f8269be4c
 
     public function getDebugInfo()
     {
-        return array (  106 => 37,  103 => 36,  93 => 32,  86 => 28,  82 => 27,  78 => 25,  73 => 24,  71 => 23,  50 => 4,  46 => 3,  35 => 1,);
+        return array (  107 => 38,  104 => 37,  94 => 33,  87 => 29,  82 => 28,  78 => 25,  73 => 24,  71 => 23,  50 => 4,  46 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -158,7 +159,8 @@ class __TwigTemplate_b52d55725f591e90024c9d82c9603426d938fe80d708512db9f8269be4c
                     {% for key, event in events %}
                         <tr>
                             <td>
-                                <a href=\"/view-event/?eventId={{ event.getId }}\">
+                                {# <a href=\"/view-event/?eventId={{ event.getId }}\"> #}
+                                <a href=\"/view-event/{{ event.getId }}\">
                                     {{ event.getName }}
                                 </a>
                             </td>

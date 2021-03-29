@@ -33,7 +33,7 @@ class ViewEventPointsController extends Controller
         $this->data = array_merge(
             $this->data,
             [
-                'eventId' => $request->get('eventId'),
+                'eventId' => $request->attributes->get('eventId'),
                 'currentUser' => null,
                 'points' => null,
                 'errors' => [],
@@ -83,7 +83,7 @@ class ViewEventPointsController extends Controller
         }
 
 
-        $eventId = $request->query->all()['eventId'];
+        $eventId = $request->attributes->get('eventId');
         $this->data['points'] = $this->pointRepository->findAllEventPoints($eventId);
 
         return new Response($this->view->render('eventPoints.twig', $this->data));

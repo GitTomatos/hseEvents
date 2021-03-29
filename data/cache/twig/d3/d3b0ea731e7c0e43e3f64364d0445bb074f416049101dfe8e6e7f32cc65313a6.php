@@ -131,9 +131,10 @@ class __TwigTemplate_0958cd14c3f6c9addc19c4d16e0a46e6d9bc883d6754421770c75a2402a
         }
         // line 49
         echo "
-            <p><a href=\"/view-event-points?eventId=";
-        // line 50
-        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 50), "html", null, true);
+";
+        // line 51
+        echo "            <p><a href=\"/view-event-points/";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 51), "html", null, true);
         echo "\">Посмотреть этапы</a></p>
         </div>
     </div>
@@ -153,7 +154,7 @@ class __TwigTemplate_0958cd14c3f6c9addc19c4d16e0a46e6d9bc883d6754421770c75a2402a
 
     public function getDebugInfo()
     {
-        return array (  136 => 50,  133 => 49,  129 => 47,  121 => 41,  113 => 35,  111 => 34,  108 => 33,  106 => 32,  102 => 30,  97 => 27,  92 => 25,  88 => 23,  86 => 22,  82 => 21,  77 => 18,  71 => 15,  68 => 14,  66 => 13,  61 => 11,  58 => 10,  55 => 9,  50 => 4,  46 => 3,  35 => 1,);
+        return array (  136 => 51,  133 => 49,  129 => 47,  121 => 41,  113 => 35,  111 => 34,  108 => 33,  106 => 32,  102 => 30,  97 => 27,  92 => 25,  88 => 23,  86 => 22,  82 => 21,  77 => 18,  71 => 15,  68 => 14,  66 => 13,  61 => 11,  58 => 10,  55 => 9,  50 => 4,  46 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -207,7 +208,8 @@ class __TwigTemplate_0958cd14c3f6c9addc19c4d16e0a46e6d9bc883d6754421770c75a2402a
                 </form>
             {% endif %}
 
-            <p><a href=\"/view-event-points?eventId={{ currentEvent.getId }}\">Посмотреть этапы</a></p>
+{#            <p><a href=\"/view-event-points?eventId={{ currentEvent.getId }}\">Посмотреть этапы</a></p>#}
+            <p><a href=\"/view-event-points/{{ currentEvent.getId }}\">Посмотреть этапы</a></p>
         </div>
     </div>
 

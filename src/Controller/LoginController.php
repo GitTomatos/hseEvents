@@ -2,10 +2,11 @@
 
 namespace HseEvents\Controller;
 
-use HseEvents\Http\RedirectResponse;
+//use HseEvents\Http\RedirectResponse;
 use HseEvents\Http\Request;
 //use HseEvents\Http\Response;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use HseEvents\Model\ModelLogin;
 
 use HseEvents\Model\Student;

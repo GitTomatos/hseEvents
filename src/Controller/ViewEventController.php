@@ -34,7 +34,7 @@ class ViewEventController extends Controller
 //dd($this->eventRepository->find($_GET['eventId']));
         $this->data = array_merge(
             [
-                'currentEvent' => $this->eventRepository->find((int)$request->query->all()['eventId']),
+                'currentEvent' => $this->eventRepository->find((int)$request->attributes->get('eventId')),
                 'currentUser' => null,
                 'registeredToEvent' => [],
             ],

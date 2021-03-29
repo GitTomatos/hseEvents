@@ -24,7 +24,8 @@
                     {% for key, event in events %}
                         <tr>
                             <td>
-                                <a href="/view-event/?eventId={{ event.getId }}">
+                                {# <a href="/view-event/?eventId={{ event.getId }}"> #}
+                                <a href="/view-event/{{ event.getId }}">
                                     {{ event.getName }}
                                 </a>
                             </td>

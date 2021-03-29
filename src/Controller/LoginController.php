@@ -2,6 +2,10 @@
 
 namespace HseEvents\Controller;
 
+use HseEvents\Http\RedirectResponse;
+use HseEvents\Http\Request;
+//use HseEvents\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use HseEvents\Model\ModelLogin;
 
 use HseEvents\Model\Student;
@@ -10,6 +14,9 @@ use HseEvents\Repository\StudentRepository;
 use HseEvents\Validation\LoginValidator;
 use HseEvents\View\PhpView;
 use HseEvents\View\TwigView;
+
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class LoginController extends Controller
 {
@@ -22,22 +29,23 @@ class LoginController extends Controller
         $this->studentRepository = $repository;
     }
 
-    public function __invoke(): string
+    public function __invoke(SymfonyRequest $request, Session $session): Response
     {
         $this->data = array_merge(
             $this->data,
             [
-                'postData' => $_POST,
+                'postData' => $request->request->all(),
                 'errors' => []
             ]
         );
 
+//        dd($request->request->all());
+        if (isset($this->data['postData']['login'])) {
 
-        if (isset($_POST['login'])) {
             $userData = [];
 
-            $userData['email'] = !empty($_POST['userLogin']) ? $_POST['userLogin'] : null;
-            $userData['password'] = !empty($_POST['userPass']) ? $_POST['userPass'] : null;
+            $userData['email'] = !empty($this->data['postData']['userLogin']) ? $this->data['postData']['userLogin'] : null;
+            $userData['password'] = !empty($this->data['postData']['userPass']) ? $this->data['postData']['userPass'] : null;
 
             $validation = new LoginValidator($this->studentRepository);
             if (!$validation->isValid($userData)) {
@@ -46,7 +54,9 @@ class LoginController extends Controller
 
             if (count($this->data['errors']) === 0) {
                 $_SESSION['username'] = $userData['email'];
-                header("Location: ./account");
+                $session->set('username', $userData['email']);
+                return new RedirectResponse("./account", 303);
+//                header("Location: ./account");
             }
 
 //            if (count($this->data['errors']) === 0) {
@@ -64,7 +74,8 @@ class LoginController extends Controller
         }
 
 //        dd($this->data);
-        return $this->view->render('login.twig', $this->data);
+        $html = $this->view->render('login.twig', $this->data);
+        return new Response($html);
     }
 }
 

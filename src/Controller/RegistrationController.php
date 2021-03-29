@@ -4,6 +4,7 @@ namespace HseEvents\Controller;
 
 use HseEvents\CreateObject;
 use HseEvents\Database\Connection;
+use HseEvents\Http\Request;
 use \HseEvents\Model\ModelRegistration;
 
 use HseEvents\Model\Student;
@@ -14,6 +15,12 @@ use HseEvents\Filter\RegistrationFilter;
 use HseEvents\View\PhpView;
 use HseEvents\View\TwigView;
 use Reflection;
+
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Component\HttpFoundation\Session\Session;
+
+//use HseEvents\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class RegistrationController extends Controller
 {
@@ -26,29 +33,29 @@ class RegistrationController extends Controller
         $this->studentRepository = $repository;
     }
 
-    public function __invoke(): string
+    public function __invoke(SymfonyRequest $request, Session $session): Response
     {
-
+//        dump ($request->getRequest());
         $this->data = array_merge(
             $this->data,
             [
-                'postData' => $_POST,
+                'postData' => $request->request->all(),
                 'validationErrors' => []
             ]
         );
 
-        if (isset($_POST['addStudent'])) {
+        if (isset($this->data['postData']['addStudent'])) {
             $studentData = [];
 
-            $studentData['lastName'] = !empty($_POST['lastName']) ? $_POST['lastName'] : null;
-            $studentData['firstName'] = !empty($_POST['firstName']) ? $_POST['firstName'] : null;
-            $studentData['patronymic'] = !empty($_POST['patronymic']) ? $_POST['patronymic'] : null;
-            $studentData['university'] = !empty($_POST['university']) ? $_POST['university'] : null;
-            $studentData['speciality'] = !empty($_POST['speciality']) ? $_POST['speciality'] : null;
-            $studentData['year'] = !empty($_POST['studyYear']) ? $_POST['studyYear'] : null;
-            $studentData['phone'] = !empty($_POST['phone']) ? $_POST['phone'] : null;
-            $studentData['email'] = !empty($_POST['email']) ? $_POST['email'] : null;
-            $studentData['password'] = !empty($_POST['pass']) ? $_POST['pass'] : null;
+            $studentData['lastName'] = !empty($this->data['postData']['lastName']) ? $this->data['postData']['lastName'] : null;
+            $studentData['firstName'] = !empty($this->data['postData']['firstName']) ? $this->data['postData']['firstName'] : null;
+            $studentData['patronymic'] = !empty($this->data['postData']['patronymic']) ? $this->data['postData']['patronymic'] : null;
+            $studentData['university'] = !empty($this->data['postData']['university']) ? $this->data['postData']['university'] : null;
+            $studentData['speciality'] = !empty($this->data['postData']['speciality']) ? $this->data['postData']['speciality'] : null;
+            $studentData['year'] = !empty($this->data['postData']['studyYear']) ? $this->data['postData']['studyYear'] : null;
+            $studentData['phone'] = !empty($this->data['postData']['phone']) ? $this->data['postData']['phone'] : null;
+            $studentData['email'] = !empty($this->data['postData']['email']) ? $this->data['postData']['email'] : null;
+            $studentData['password'] = !empty($this->data['postData']['pass']) ? $this->data['postData']['pass'] : null;
 
 
             $studentData = (new RegistrationFilter())->filter($studentData);
@@ -84,6 +91,6 @@ class RegistrationController extends Controller
         }
 
 
-        return $this->view->render('registration.twig', $this->data);
+        return new Response($this->view->render('registration.twig', $this->data));
     }
 }

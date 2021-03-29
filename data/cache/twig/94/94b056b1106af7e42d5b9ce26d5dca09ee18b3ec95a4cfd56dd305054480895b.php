@@ -28,6 +28,8 @@ class __TwigTemplate_b797858c3b8580892b02659a2d13e4f67ffd06fa941d6deda3b62310a4a
 
         $this->blocks = [
             'title' => [$this, 'block_title'],
+            'styles' => [$this, 'block_styles'],
+            'header' => [$this, 'block_header'],
             'content' => [$this, 'block_content'],
         ];
     }
@@ -49,49 +51,25 @@ class __TwigTemplate_b797858c3b8580892b02659a2d13e4f67ffd06fa941d6deda3b62310a4a
         // line 11
         echo "
     <!-- <link rel=\"stylesheet\" href=\"css/bootstrap.css\"> -->
-    <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css\"
-          integrity=\"sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I\" crossorigin=\"anonymous\">
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/css/styles.css\">
-
+    ";
+        // line 13
+        $this->displayBlock('styles', $context, $blocks);
+        // line 19
+        echo "
 </head>
 <body>
 
-
-<header class=\"header d-flex justify-content-between\">
-    <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
-        <a href=\"/home\"><p class=\"res-margin ml-2\">Мероприятия</p></a>
-        <!-- <img src=\"images/hse-logo.png\" alt=\"Logo\" class=\"logo-img\"> -->
-    </div>
-
+";
+        // line 23
+        $this->displayBlock('header', $context, $blocks);
+        // line 46
+        echo "<main>
     ";
-        // line 27
-        if ( !twig_test_empty(($context["sessionUsername"] ?? null))) {
-            // line 28
-            echo "        <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
-            <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
-            <a href=\"/account\"><p class=\"res-margin\">Личный кабинет</p></a>
-            <a href=\"/logout\"><p class=\"res-margin\">Выйти</p></a>
-        </div>
-    ";
-        } else {
-            // line 34
-            echo "        <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
-            <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
-            <a href=\"/registration\"><p class=\"res-margin\">Регистрация</p></a>
-            <a href=\"http://localhost:8080/login\"><p class=\"res-margin\">Войти</p></a>
-        </div>
-    ";
-        }
-        // line 40
-        echo "
-
-</header>
-
-<main>
-    ";
-        // line 45
+        // line 47
         $this->displayBlock('content', $context, $blocks);
-        // line 48
+        // line 49
+        echo "    ";
+        // line 50
         echo "</main>
 
 
@@ -113,11 +91,59 @@ class __TwigTemplate_b797858c3b8580892b02659a2d13e4f67ffd06fa941d6deda3b62310a4a
     ";
     }
 
-    // line 45
+    // line 13
+    public function block_styles($context, array $blocks = [])
+    {
+        $macros = $this->macros;
+        // line 14
+        echo "        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css\"
+              integrity=\"sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I\"
+              crossorigin=\"anonymous\">
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/css/styles.css\">
+    ";
+    }
+
+    // line 23
+    public function block_header($context, array $blocks = [])
+    {
+        $macros = $this->macros;
+        // line 24
+        echo "    <header class=\"header d-flex justify-content-between\">
+        <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
+            <a href=\"/home\"><p class=\"res-margin ml-2\">Мероприятия</p></a>
+            <!-- <img src=\"images/hse-logo.png\" alt=\"Logo\" class=\"logo-img\"> -->
+        </div>
+
+        ";
+        // line 30
+        if ( !twig_test_empty(($context["sessionUsername"] ?? null))) {
+            // line 31
+            echo "            <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
+                <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
+                <a href=\"/account\"><p class=\"res-margin\">Личный кабинет</p></a>
+                <a href=\"/logout\"><p class=\"res-margin\">Выйти</p></a>
+            </div>
+        ";
+        } else {
+            // line 37
+            echo "            <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
+                <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
+                <a href=\"/registration\"><p class=\"res-margin\">Регистрация</p></a>
+                <a href=\"http://localhost:8080/login\"><p class=\"res-margin\">Войти</p></a>
+            </div>
+        ";
+        }
+        // line 43
+        echo "    </header>
+
+";
+    }
+
+    // line 47
     public function block_content($context, array $blocks = [])
     {
         $macros = $this->macros;
-        // line 46
+        // line 48
         echo "    ";
     }
 
@@ -126,14 +152,9 @@ class __TwigTemplate_b797858c3b8580892b02659a2d13e4f67ffd06fa941d6deda3b62310a4a
         return "layout.twig";
     }
 
-    public function isTraitable()
-    {
-        return false;
-    }
-
     public function getDebugInfo()
     {
-        return array (  121 => 46,  117 => 45,  112 => 9,  108 => 8,  95 => 48,  93 => 45,  86 => 40,  78 => 34,  70 => 28,  68 => 27,  50 => 11,  48 => 8,  39 => 1,);
+        return array (  147 => 48,  143 => 47,  137 => 43,  129 => 37,  121 => 31,  119 => 30,  111 => 24,  107 => 23,  99 => 14,  95 => 13,  90 => 9,  86 => 8,  73 => 50,  71 => 49,  69 => 47,  66 => 46,  64 => 23,  58 => 19,  56 => 13,  52 => 11,  50 => 8,  41 => 1,);
     }
 
     public function getSourceContext()
@@ -150,41 +171,43 @@ class __TwigTemplate_b797858c3b8580892b02659a2d13e4f67ffd06fa941d6deda3b62310a4a
     {% endblock %}
 
     <!-- <link rel=\"stylesheet\" href=\"css/bootstrap.css\"> -->
-    <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css\"
-          integrity=\"sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I\" crossorigin=\"anonymous\">
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/css/styles.css\">
+    {% block styles %}
+        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css\"
+              integrity=\"sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I\"
+              crossorigin=\"anonymous\">
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/css/styles.css\">
+    {% endblock %}
 
 </head>
 <body>
 
-
-<header class=\"header d-flex justify-content-between\">
-    <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
-        <a href=\"/home\"><p class=\"res-margin ml-2\">Мероприятия</p></a>
-        <!-- <img src=\"images/hse-logo.png\" alt=\"Logo\" class=\"logo-img\"> -->
-    </div>
-
-    {% if sessionUsername is not empty %}
+{% block header %}
+    <header class=\"header d-flex justify-content-between\">
         <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
-            <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
-            <a href=\"/account\"><p class=\"res-margin\">Личный кабинет</p></a>
-            <a href=\"/logout\"><p class=\"res-margin\">Выйти</p></a>
+            <a href=\"/home\"><p class=\"res-margin ml-2\">Мероприятия</p></a>
+            <!-- <img src=\"images/hse-logo.png\" alt=\"Logo\" class=\"logo-img\"> -->
         </div>
-    {% else %}
-        <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
-            <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
-            <a href=\"/registration\"><p class=\"res-margin\">Регистрация</p></a>
-            <a href=\"http://localhost:8080/login\"><p class=\"res-margin\">Войти</p></a>
-        </div>
-    {% endif %}
 
+        {% if sessionUsername is not empty %}
+            <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
+                <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
+                <a href=\"/account\"><p class=\"res-margin\">Личный кабинет</p></a>
+                <a href=\"/logout\"><p class=\"res-margin\">Выйти</p></a>
+            </div>
+        {% else %}
+            <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
+                <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
+                <a href=\"/registration\"><p class=\"res-margin\">Регистрация</p></a>
+                <a href=\"http://localhost:8080/login\"><p class=\"res-margin\">Войти</p></a>
+            </div>
+        {% endif %}
+    </header>
 
-</header>
-
+{% endblock %}
 <main>
     {% block content %}
     {% endblock %}
-{#    <?= \$content ?>#}
+    {# <?= \$content ?> #}
 </main>
 
 

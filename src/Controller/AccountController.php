@@ -3,12 +3,18 @@
 namespace HseEvents\Controller;
 
 use HseEvents\Filter\SanitizingFilter;
+//use HseEvents\Http\{Request, Response};
+use Symfony\Component\HttpFoundation\Response;
 use HseEvents\Repository\EventRepository;
 use HseEvents\Repository\StudentRepository;
 use HseEvents\Validation\EventValidator;
 use HseEvents\View\PhpView;
 use HseEvents\View\TwigView;
 use HseEvents\Model\{Student, Event};
+
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 class AccountController extends Controller
 {
@@ -24,18 +30,18 @@ class AccountController extends Controller
         $this->data['studentRepository'] = $studentRepository;
     }
 
-    public function __invoke(): string
+    public function __invoke(SymfonyRequest $request, Session $session): Response
     {
         $this->data = array_merge(
             $this->data,
             [
-                'postData' => $_POST,
+                'postData' => $request->request->all(),
                 'currentUser' => null,
                 'validationErrors' => null,
             ]
         );
-
-        $username = $_SESSION['username'] ?? null;
+//        dd($session);
+        $username = $session->get('username') ?? null;
         if (isset($username)) {
 //            $this->data['currentUser'] = Student::findByEmail($username);
             $this->data['currentUser'] = $this->studentRepository->findOneBy(['email' => $username]);
@@ -67,8 +73,7 @@ class AccountController extends Controller
             }
         }
 
-//        $this->data = $this->model->get_data($_SESSION['username']);
-        return $this->view->render('account.twig', $this->data);
+        return new Response($this->view->render('account.twig', $this->data));
     }
 }
 

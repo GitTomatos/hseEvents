@@ -3,7 +3,9 @@
         "symfony/var-dumper": "^5.2",
       "ext-pdo": "*",
         "pimple/pimple": "^3.0",
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "symfony/http-foundation": "^5.2",
+        "nikic/fast-route": "^1.3"
     },
     "autoload": {
         "files": [

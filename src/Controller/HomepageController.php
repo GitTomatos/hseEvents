@@ -2,11 +2,16 @@
 
 namespace HseEvents\Controller;
 
+use HseEvents\Http\Request;
+//use HseEvents\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use HseEvents\Model\Event;
 use HseEvents\Repository\EventRepository;
 use HseEvents\View\PhpView;
 use HseEvents\View\TwigView;
 
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class HomepageController extends Controller
 {
@@ -20,8 +25,10 @@ class HomepageController extends Controller
         $this->repository = $eventRepository;
     }
 
-    public function __invoke(): string
+    public function __invoke(SymfonyRequest $request, Session $session): Response
     {
+//        $response = new Response($content = '', $status = 307, $headers = ["Location"=>"https://www.google.ru/"]);
+//        return $response;
 //        throw new \Exception();
         $this->data = array_merge(
             $this->data,
@@ -29,10 +36,11 @@ class HomepageController extends Controller
                 'events' => $this->repository->findAll(),
             ]
         );
+//        throw new \Exception();
+//        dd($_SESSION);
 
-//        dd($this->view);
-
-        return $this->view->render('homepage.twig', $this->data);
+        $html = $this->view->render('homepage.twig', $this->data);
+        return new Response($html);
     }
 }
 

@@ -2,12 +2,17 @@
 
 namespace HseEvents\Controller;
 
+//use HseEvents\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use HseEvents\Repository\PointRepository;
 use HseEvents\Repository\StudentRepository;
 use HseEvents\Validation\PointRegistrationValidator;
 use HseEvents\View\PhpView;
 use HseEvents\View\TwigView;
 use HseEvents\Model\{Student, Point};
+
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class ViewEventPointsController extends Controller
 {
@@ -23,12 +28,12 @@ class ViewEventPointsController extends Controller
         $this->data['studentRepository'] = $studentRepository;
     }
 
-    public function __invoke(): string
+    public function __invoke(SymfonyRequest $request, Session $session): Response
     {
         $this->data = array_merge(
             $this->data,
             [
-                'eventId' => $_GET['eventId'],
+                'eventId' => $request->get('eventId'),
                 'currentUser' => null,
                 'points' => null,
                 'errors' => [],
@@ -41,15 +46,15 @@ class ViewEventPointsController extends Controller
         }
 
 
-        if (isset($_POST['regStudToPoint']) && isset($this->data['currentUser'])) {
+        if (isset($request->request->all()['regStudToPoint']) && isset($this->data['currentUser'])) {
             $regData = [
                 'studentId' => $this->data['currentUser']->getId(),
-                'pointId' => $_POST['pointId'],
+                'pointId' => $request->request->all()['pointId'],
             ];
             $validator = new PointRegistrationValidator($this->studentRepository);
             $validator->isValid($regData);
             if (!isset($validator->getErrors()['regErrors'])) {
-                $this->studentRepository->regToPoint($this->data['currentUser']->getId(), $_POST['pointId']);
+                $this->studentRepository->regToPoint($this->data['currentUser']->getId(), $request->request->all()['pointId']);
                 $this->data['registeredToPoint']['success'] = "Регистрация прошла успешно";
             } else {
                 $this->data['errors']['regErrors'] = $validator->getErrors()['regErrors'];
@@ -60,16 +65,16 @@ class ViewEventPointsController extends Controller
 
         }
 
-        if (isset($_POST['unregStudFromPoint']) && isset($this->data['currentUser'])) {
+        if (isset($request->request->all()['unregStudFromPoint']) && isset($this->data['currentUser'])) {
             $regData = [
                 'studentId' => $this->data['currentUser']->getId(),
-                'pointId' => $_POST['pointId'],
+                'pointId' => $request->request->all()['pointId'],
             ];
 
             $validator = new PointRegistrationValidator($this->studentRepository);
             $validator->isValid($regData);
             if (!isset($validator->getErrors()['unregErrors'])) {
-                $this->studentRepository->unregFromPoint($this->data['currentUser']->getId(), $_POST['pointId']);
+                $this->studentRepository->unregFromPoint($this->data['currentUser']->getId(), $request->request->all()['pointId']);
                 $this->data['registeredToPoint']['success'] = "Регистрация отменена";
             } else {
                 $this->data['errors']['regErrors'] = $validator->getErrors()['unregErrors'];
@@ -78,9 +83,9 @@ class ViewEventPointsController extends Controller
         }
 
 
-        $eventId = $_GET['eventId'];
+        $eventId = $request->query->all()['eventId'];
         $this->data['points'] = $this->pointRepository->findAllEventPoints($eventId);
 
-        return $this->view->render('eventPoints.twig', $this->data);
+        return new Response($this->view->render('eventPoints.twig', $this->data));
     }
 }

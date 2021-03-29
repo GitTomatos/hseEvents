@@ -54,7 +54,7 @@ class __TwigTemplate_a401a0d09094817aff3b4669a0d480a9ea91b2565d2dc59e58b72f1e037
             </div>
 
 
-            <form class=\"needs-validation\" method=\"post\" action=\"\" novalidate>
+            <form name=\"formName\" class=\"needs-validation\" method=\"post\" action=\"\" novalidate>
 
 
                 <div class=\"mb-3\">
@@ -431,7 +431,7 @@ class __TwigTemplate_a401a0d09094817aff3b4669a0d480a9ea91b2565d2dc59e58b72f1e037
             </div>
 
 
-            <form class=\"needs-validation\" method=\"post\" action=\"\" novalidate>
+            <form name=\"formName\" class=\"needs-validation\" method=\"post\" action=\"\" novalidate>
 
 
                 <div class=\"mb-3\">

@@ -10,41 +10,43 @@
     {% endblock %}
 
     <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
-          integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+    {% block styles %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+              integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+              crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+    {% endblock %}
 
 </head>
 <body>
 
-
-<header class="header d-flex justify-content-between">
-    <div class="col-lg-4 d-flex justify-content-center align-items-center header-button">
-        <a href="/home"><p class="res-margin ml-2">Мероприятия</p></a>
-        <!-- <img src="images/hse-logo.png" alt="Logo" class="logo-img"> -->
-    </div>
-
-    {% if sessionUsername is not empty %}
+{% block header %}
+    <header class="header d-flex justify-content-between">
         <div class="col-lg-4 d-flex justify-content-center align-items-center header-button">
-            <!-- <img src="https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png"/> -->
-            <a href="/account"><p class="res-margin">Личный кабинет</p></a>
-            <a href="/logout"><p class="res-margin">Выйти</p></a>
+            <a href="/home"><p class="res-margin ml-2">Мероприятия</p></a>
+            <!-- <img src="images/hse-logo.png" alt="Logo" class="logo-img"> -->
         </div>
-    {% else %}
-        <div class="col-lg-4 d-flex justify-content-center align-items-center header-button">
-            <!-- <img src="https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png"/> -->
-            <a href="/registration"><p class="res-margin">Регистрация</p></a>
-            <a href="http://localhost:8080/login"><p class="res-margin">Войти</p></a>
-        </div>
-    {% endif %}
 
+        {% if sessionUsername is not empty %}
+            <div class="col-lg-4 d-flex justify-content-center align-items-center header-button">
+                <!-- <img src="https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png"/> -->
+                <a href="/account"><p class="res-margin">Личный кабинет</p></a>
+                <a href="/logout"><p class="res-margin">Выйти</p></a>
+            </div>
+        {% else %}
+            <div class="col-lg-4 d-flex justify-content-center align-items-center header-button">
+                <!-- <img src="https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png"/> -->
+                <a href="/registration"><p class="res-margin">Регистрация</p></a>
+                <a href="http://localhost:8080/login"><p class="res-margin">Войти</p></a>
+            </div>
+        {% endif %}
+    </header>
 
-</header>
-
+{% endblock %}
 <main>
     {% block content %}
     {% endblock %}
-{#    <?= $content ?>#}
+    {# <?= $content ?> #}
 </main>
 
 

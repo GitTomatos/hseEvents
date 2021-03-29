@@ -2,12 +2,22 @@
 
 use \HseEvents\Database\Connection;
 use HseEvents\Registry;
+use HseEvents\Http\Request;
 
-session_start();
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Component\HttpFoundation\Session\Session;
+
+
+http_response_code(500);
+
+
 include __DIR__ . "/../config/config.php";
 //include '../config/config.php';
 include __DIR__ . '/../bootstrap.php';
 
+//session_start();
+$session = new Session();
+$session->start();
 
 $controllerName = '';
 $path = '';
@@ -20,7 +30,8 @@ if (isset($_SERVER['PATH_INFO'])) {
     }
 }
 
-$a = $_SESSION['username'] ?? null;
+$a = $session->get('username') ?? null;
+//echo $a;
 
 
 /*
@@ -73,10 +84,14 @@ try {
 
     /** @var PDO $conn */
     $conn = $container[PDO::class];
-
+//    $request = new Request($_GET, $_POST, $_COOKIE, $_FILES);
+    $request = SymfonyRequest::createFromGlobals();
     $controller = $container[$controllerName];
 //    dd( $controller);
-    echo $controller();
+    $response = $controller($request, $session);
+    $response->send();
+
+
 
 //    $loader = new \Twig\Loader\ArrayLoader([
 //        'index' => $controller(),

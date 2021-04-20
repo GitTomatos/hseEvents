@@ -19,9 +19,9 @@ class ViewEventController extends Controller
     private StudentRepository $studentRepository;
     private EventRepository $eventRepository;
 
-    public function __construct(TwigView $view, StudentRepository $studentRepository, EventRepository $eventRepository)
+    public function __construct(TwigView $view, StudentRepository $studentRepository, EventRepository $eventRepository, Session $session)
     {
-        parent::__construct($view);
+        parent::__construct($view, $session);
         $this->studentRepository = $studentRepository;
         $this->eventRepository = $eventRepository;
         $this->data['studentRepository'] = $studentRepository;
@@ -40,9 +40,9 @@ class ViewEventController extends Controller
             ],
             $this->data
         );
-
-        if (isset($_SESSION['username'])) {
-            $this->data['currentUser'] = $this->studentRepository->findOneBy(['email' => $_SESSION['username']]);
+//        die("hello");
+        if (isset($this->data['username'])) {
+            $this->data['currentUser'] = $this->studentRepository->findOneBy(['email' => $this->data['username']]);
 
             if (isset($request->request->all()['regStudToEvent'])) {
                 $res = $this->studentRepository->regToEvent($this->data['currentUser'], $this->data['currentEvent']->getId());

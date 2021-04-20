@@ -27,10 +27,10 @@ class RegistrationController extends Controller
 
     private StudentRepository $studentRepository;
 
-    public function __construct(TwigView $view, StudentRepository $repository)
+    public function __construct(TwigView $view, StudentRepository $studentRepository, Session $session)
     {
-        parent::__construct($view);
-        $this->studentRepository = $repository;
+        parent::__construct($view, $session);
+        $this->studentRepository = $studentRepository;
     }
 
     public function __invoke(SymfonyRequest $request, Session $session): Response

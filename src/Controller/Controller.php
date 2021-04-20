@@ -24,14 +24,14 @@ abstract class Controller
 
 //    protected RepositoryInterface $repository;
 
-    public function __construct(TwigView $view)
+    public function __construct(TwigView $view, Session $session)
     {
         $this->view = $view;
-//        dd($_SESSION);
+
         $this->data = [
-            'sessionUsername' => $_SESSION['username'] ?? null,
+            'username' => $session->get('username') ?? null,
+            'userPermission' => $session->get('userPermission'),
         ];
-//        $this->repository = $repository;
     }
 
     abstract public function __invoke(SymfonyRequest $request, Session $session): Response;

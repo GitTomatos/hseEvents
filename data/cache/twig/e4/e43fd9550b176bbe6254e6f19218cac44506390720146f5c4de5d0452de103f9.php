@@ -13,7 +13,7 @@ use Twig\Source;
 use Twig\Template;
 
 /* layout.twig */
-class __TwigTemplate_b797858c3b8580892b02659a2d13e4f67ffd06fa941d6deda3b62310a4af0ba4 extends Template
+class __TwigTemplate_6188bbd7765678034e14f9e3aa88dbc83d10e17f470d0a170573b17ae1b31848 extends Template
 {
     private $source;
     private $macros = [];
@@ -116,7 +116,7 @@ class __TwigTemplate_b797858c3b8580892b02659a2d13e4f67ffd06fa941d6deda3b62310a4a
 
         ";
         // line 30
-        if ( !twig_test_empty(($context["sessionUsername"] ?? null))) {
+        if ( !twig_test_empty(($context["username"] ?? null))) {
             // line 31
             echo "            <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
                 <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
@@ -129,7 +129,7 @@ class __TwigTemplate_b797858c3b8580892b02659a2d13e4f67ffd06fa941d6deda3b62310a4a
             echo "            <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
                 <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
                 <a href=\"/registration\"><p class=\"res-margin\">Регистрация</p></a>
-                <a href=\"http://localhost:8080/login\"><p class=\"res-margin\">Войти</p></a>
+                <a href=\"/login\"><p class=\"res-margin\">Войти</p></a>
             </div>
         ";
         }
@@ -188,7 +188,7 @@ class __TwigTemplate_b797858c3b8580892b02659a2d13e4f67ffd06fa941d6deda3b62310a4a
             <!-- <img src=\"images/hse-logo.png\" alt=\"Logo\" class=\"logo-img\"> -->
         </div>
 
-        {% if sessionUsername is not empty %}
+        {% if username is not empty %}
             <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
                 <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
                 <a href=\"/account\"><p class=\"res-margin\">Личный кабинет</p></a>
@@ -198,7 +198,7 @@ class __TwigTemplate_b797858c3b8580892b02659a2d13e4f67ffd06fa941d6deda3b62310a4a
             <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
                 <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
                 <a href=\"/registration\"><p class=\"res-margin\">Регистрация</p></a>
-                <a href=\"http://localhost:8080/login\"><p class=\"res-margin\">Войти</p></a>
+                <a href=\"/login\"><p class=\"res-margin\">Войти</p></a>
             </div>
         {% endif %}
     </header>
@@ -217,6 +217,6 @@ class __TwigTemplate_b797858c3b8580892b02659a2d13e4f67ffd06fa941d6deda3b62310a4a
 
 </body>
 </html>
-", "layout.twig", "/srv/www/hse_events/templates/layout.twig");
+", "layout.twig", "/home/user/PhpstormProjects/hseEvents/templates/layout.twig");
     }
 }

@@ -24,9 +24,9 @@ class LoginController extends Controller
 
     private StudentRepository $studentRepository;
 
-    public function __construct(TwigView $view, StudentRepository $repository)
+    public function __construct(TwigView $view, StudentRepository $repository, Session $session)
     {
-        parent::__construct($view);
+        parent::__construct($view, $session);
         $this->studentRepository = $repository;
     }
 
@@ -43,19 +43,24 @@ class LoginController extends Controller
 //        dd($request->request->all());
         if (isset($this->data['postData']['login'])) {
 
-            $userData = [];
+            $loginData = [];
 
-            $userData['email'] = !empty($this->data['postData']['userLogin']) ? $this->data['postData']['userLogin'] : null;
-            $userData['password'] = !empty($this->data['postData']['userPass']) ? $this->data['postData']['userPass'] : null;
+            $loginData['email'] = !empty($this->data['postData']['userLogin']) ? $this->data['postData']['userLogin'] : null;
+            $loginData['password'] = !empty($this->data['postData']['userPass']) ? $this->data['postData']['userPass'] : null;
+
+            $user = $this->studentRepository->findOneBy(['email'=>$loginData['email']]);
 
             $validation = new LoginValidator($this->studentRepository);
-            if (!$validation->isValid($userData)) {
+            if (!$validation->isValid($loginData)) {
                 $this->data['errors'] = $validation->getErrors();
             }
 
             if (count($this->data['errors']) === 0) {
-                $_SESSION['username'] = $userData['email'];
-                $session->set('username', $userData['email']);
+//                $_SESSION['username'] = $loginData['email'];
+//                $_SESSION['userPermission'] =
+                $session->set('username', $user->getEmail());
+                $session->set('userPermission', $user->getPermission());
+
                 return new RedirectResponse("./account", 303);
 //                header("Location: ./account");
             }

@@ -27,6 +27,16 @@ abstract class AbstractRepository implements RepositoryInterface
         }
     }
 
+    public function delete(int $id): void {
+        $tableName = $this->getTableName();
+        $conn = $this->pdo;
+
+        $sql = "DELETE FROM $tableName WHERE id = :id";
+        $sth = $conn->prepare($sql);
+        $sth->bindValue(':id', $id);
+        $sth->execute();
+    }
+
     public function find(int $id): ?Model
     {
         $tableName = $this->getTableName();
@@ -55,7 +65,7 @@ abstract class AbstractRepository implements RepositoryInterface
      * @return Model|object
      */
     protected function createObject(array $objData): Model {
-        return (new createObject())($this->getModelClassname(), $objData);
+        return (new CreateObject())($this->getModelClassname(), $objData);
     }
 
 

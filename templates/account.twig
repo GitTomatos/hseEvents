@@ -2,58 +2,67 @@
 
 {% block content %}
     <div class="container">
-        <div class="my-info">
 
-            <p class="text-center">
-                ID: {{ currentUser.getId }}
-            </p>
-            <p class="text-center">
-                Email: {{ currentUser.getEmail }}
-            </p>
-            <p class="text-center">
-                Фамилия: {{ currentUser.getLastName }}
-            </p>
-            <p class="text-center">
-                Имя: {{ currentUser.getFirstName }}
-            </p>
-            <p class="text-center">
-                Отчество: {{ currentUser.getPatronymic ?: "Не указано" }}
-            </p>
-            <p class="text-center">
-                Университет: {{ currentUser.getUniversity }}
-            </p>
-            <p class="text-center">
-                Специальность: {{ currentUser.getSpeciality }}
-            </p>
-            <p class="text-center">
-                Курс: {{ currentUser.getYear }}
-            </p>
-            <p class="text-center">
-                Телефон: {{ currentUser.getPhone }}
-            </p>
-        </div>
+        {% if userPermission == 2 %}
+            <div class="my-info">
 
-        <div class="after-info">
-            <div class="my-events">
-                <p>Мои мероприятия:</p>
-                {% set userEvents = attribute(studentRepository, 'getEvents', [currentUser.getId]) %}
-                {% if userEvents is not empty %}
-                    {% for key, event in userEvents %}
-                        <p>
-                            {# <a href="./view-event?eventId={{ event.getId }}"> #}
-                            <a href="./view-event/{{ event.getId }}">
-                                {{ event.getName }}
-                            </a>
-                        </p>
-                    {% endfor %}
-                {% endif %}
-
+                <p class="text-center">
+                    ID: {{ currentUser.getId }}
+                </p>
+                <p class="text-center">
+                    Email: {{ currentUser.getEmail }}
+                </p>
+                <p class="text-center">
+                    Фамилия: {{ currentUser.getLastName }}
+                </p>
+                <p class="text-center">
+                    Имя: {{ currentUser.getFirstName }}
+                </p>
+                <p class="text-center">
+                    Отчество: {{ currentUser.getPatronymic ?: "Не указано" }}
+                </p>
+                <p class="text-center">
+                    Университет: {{ currentUser.getUniversity }}
+                </p>
+                <p class="text-center">
+                    Специальность: {{ currentUser.getSpeciality }}
+                </p>
+                <p class="text-center">
+                    Курс: {{ currentUser.getYear }}
+                </p>
+                <p class="text-center">
+                    Телефон: {{ currentUser.getPhone }}
+                </p>
             </div>
-            {# <div class="my-qr"> #}
-            {# <?php $imgSrc = ('https://api.qrserver.com/v1/create-qr-code/?data=' . $currentUser->getId() . '&size=150x150') ?> #}
-            {# <img src="<?php echo $imgSrc ?>" alt="qr-code"/> #}
-            {# </div> #}
-        </div>
+
+            <div class="after-info">
+                <div class="my-events">
+                    <p>Мои мероприятия:</p>
+                    {% set userEvents = attribute(studentRepository, 'getEvents', [currentUser.getId]) %}
+                    {% if userEvents is not empty %}
+                        {% for key, event in userEvents %}
+                            <p>
+                                {# <a href="./view-event?eventId={{ event.getId }}"> #}
+                                <a href="./view-event/{{ event.getId }}">
+                                    {{ event.getName }}
+                                </a>
+                            </p>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+            </div>
+
+        {% endif %}
+
+
+        {# <div class="my-qr"> #}
+        {# #}{# <?php $imgSrc = ('https://api.qrserver.com/v1/create-qr-code/?data=' . $currentUser->getId() . #}
+        {# #}{# '&size=150x150') ?> #}
+        {# #}{# <img src="<?php echo $imgSrc ?>" alt="qr-code"/> #}
+        {# <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ currentUser.getId }}&size=150x150" #}
+        {# alt="qr-code"/> #}
+        {# </div> #}
 
 
         {# <div class='qr-decoder'> #}
@@ -65,43 +74,134 @@
         {# </div> #}
 
 
-        <div>
+        {% if userPermission == 3 %}
+
+            <div>
+                <form action="" method="post">
+                    <div class='login-fields'>
+                        <input type="text" name="eventName" placeholder="Название мероприятия"
+                               value="{{ postData.eventName ?: null }}">
+
+                        {% if eventValidationErrors.name is not empty %}
+                            <div>
+                                {% for key, error in eventValidationErrors.name %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
 
 
-            <form action="" method="post">
-                <div class='login-fields'>
-                    <input type="text" name="eventName" placeholder="Название мероприятия"
-                           value="{{ postData.eventName ?: null }}">
+                        <input type="text" name="eventDescription" placeholder="Описание мероприятия"
+                               value="{{ postData.eventDescription ?: null }}">
 
-                    {% if validationErrors.name is not empty %}
-                        <div>
-                            {% for key, error in validationErrors.name %}
-                                <p>{{ error }}</p>
-                            {% endfor %}
+                        {% if eventValidationErrors.description is not empty %}
+                            <div>
+                                {% for key, error in eventValidationErrors.description %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+
+                    </div>
+                    <div class="text-center">
+                        <button class="reg-button btn btn-primary btn-lg mt-5" type="submit" name="addEvent">Добавить
+                            мероприятие
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
+            {% if events is not null %}
+                <div>
+                    <form action="" method="post">
+                        <div class='login-fields'>
+                            <select name="eventId">
+                                {% for key, event in events %}
+                                    <option value={{ event.getId }}>{{ event.getName }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <input type="text" name="pointName" placeholder="Название этапа"
+                                   value="{{ postData.pointName ?: null }}">
+
+                            {% if pointValidationErrors.name is not empty %}
+                                <div>
+                                    {% for key, error in pointValidationErrors.name %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+
+                            <input type="text" name="pointDescription" placeholder="Описание этапа"
+                                   value="{{ postData.pointDescription ?: null }}">
+
+                            {% if pointValidationErrors.description is not empty %}
+                                <div>
+                                    {% for key, error in pointValidationErrors.description %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+
                         </div>
-                    {% endif %}
-
-
-                    <input type="text" name="eventDescription" placeholder="Описание мероприятия"
-                           value="{{ postData.eventDescription ?: null }}">
-
-                    {% if validationErrors.description is not empty %}
-                        <div>
-                            {% for key, error in validationErrors.description %}
-                                <p>{{ error }}</p>
-                            {% endfor %}
+                        <div class="text-center">
+                            <button class="reg-button btn btn-primary btn-lg mt-5" type="submit" name="addPoint">
+                                Добавить
+                                этап
+                            </button>
                         </div>
-                    {% endif %}
+                    </form>
+                </div>
+            {% endif %}
+
+            <div>
+                <form action="" method="post">
+                    <div class='login-fields'>
+                        <select name="eventId">
+                            {% for key, event in events %}
+                                <option value={{ event.getId }}>{{ event.getName }}</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                    <div class="text-center">
+                        <button class="reg-button btn btn-primary btn-lg mt-5" type="submit" name="deleteEvent">
+                            Удалить мероприятие
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                <form action="" method="post">
+                    <div class='login-fields'>
+{#                        <select name="eventId">#}
+{#                            {% for key, event in events %}#}
+{#                                <option value={{ event.getId }}>{{ event.getName }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+
+                        <select name="pointId">
+                            {% for key, point in points %}
+                                <option value={{ point.getId }}>({{ point.getEventId }}) -> {{ point.getName }}</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                    <div class="text-center">
+                        <button class="reg-button btn btn-primary btn-lg mt-5" type="submit" name="deletePoint">
+                            Удалить этап
+                        </button>
+                    </div>
+                </form>
+            </div>
 
 
-                </div>
-                <div class="text-center">
-                    <button class="reg-button btn btn-primary btn-lg mt-5" type="submit" name="addEvent">Добавить
-                        мероприятие
-                    </button>
-                </div>
-            </form>
-        </div>
+        {% endif %}
 
     </div>
 

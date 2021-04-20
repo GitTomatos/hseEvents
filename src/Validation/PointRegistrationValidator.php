@@ -28,12 +28,12 @@ class PointRegistrationValidator extends AbstractValidator
             $this->addError("regErrors", $err);
         }
 
-        $isRegedToOthers = $this->studentRepository->isRegedToOtherPoints($data['studentId'], $data['pointId']);
-        if ($isRegedToOthers) {
-            $regedPoint = $this->studentRepository->getRegedEventPoint($data['studentId']);
-            $err = "Студент уже зарегистрирован на другой этап: " . $regedPoint->getName();
-            $this->addError("regErrors", $err);
-        }
+//        $isRegedToOthers = $this->studentRepository->isRegedToOtherPoints($data['studentId'], $data['pointId']);
+//        if ($isRegedToOthers) {
+//            $regedPoint = $this->studentRepository->getRegedEventPoint($data['studentId']);
+//            $err = "Студент уже зарегистрирован на другой этап: " . $regedPoint->getName();
+//            $this->addError("regErrors", $err);
+//        }
 
 
         //unregFromPoint

@@ -19,9 +19,9 @@ class HomepageController extends Controller
     private EventRepository $repository;
 
 //    public function __construct(PhpView $view, EventRepository $eventRepository)
-    public function __construct(TwigView $view, EventRepository $eventRepository)
+    public function __construct(TwigView $view, EventRepository $eventRepository, Session $session)
     {
-        parent::__construct($view);
+        parent::__construct($view, $session);
         $this->repository = $eventRepository;
     }
 

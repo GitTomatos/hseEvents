@@ -3,18 +3,19 @@
 use HseEvents\Config;
 use HseEvents\Database\Connection;
 use HseEvents\Controller\{AccountController,
+    CheckInController,
     HomepageController,
     LoginController,
     LogoutController,
     RegistrationController,
     ViewEventController,
-    ViewEventPointsController
-};
+    ViewEventPointsController};
 use HseEvents\View\TwigView;
 use HseEvents\Repository\{StudentRepository, EventRepository, PointRepository};
 use HseEvents\View\PhpView;
 use HseEvents\Registry;
 use Pimple\Container;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -36,10 +37,11 @@ $container[\Twig\Loader\LoaderInterface::class] = function ($c) {
 };
 
 $container['twig'] = function ($c) {
-    return new \Twig\Environment($c[\Twig\Loader\LoaderInterface::class], [
+    $twig = new \Twig\Environment($c[\Twig\Loader\LoaderInterface::class], [
         'cache' => $c['config']['twigCachePath'],
         'debug' => true,
     ]);
+    return $twig;
 };
 
 $container[PhpView::class] = function ($c) {
@@ -77,12 +79,25 @@ $container[PointRepository::class] = function ($c) {
     return new PointRepository($c[PDO::class]);
 };
 
+$container[Session::class] = function ($c) {
+    return new Session();
+};
 
 $container[AccountController::class] = function ($c) {
     return new AccountController(
         $c[TwigView::class],
         $c[StudentRepository::class],
-        $c[EventRepository::class]
+        $c[EventRepository::class],
+        $c[PointRepository::class],
+        $c[Session::class]
+    );
+};
+
+$container[CheckInController::class] = function ($c) {
+    return new CheckInController(
+        $c[TwigView::class],
+        $c[StudentRepository::class],
+        $c[Session::class]
     );
 };
 
@@ -90,25 +105,31 @@ $container[HomepageController::class] = function ($c) {
     return new HomepageController(
 //        $c[PhpView::class],
         $c[TwigView::class],
-        $c[EventRepository::class]
+        $c[EventRepository::class],
+        $c[Session::class]
     );
 };
 
 $container[LoginController::class] = function ($c) {
     return new LoginController(
         $c[TwigView::class],
-        $c[StudentRepository::class]
+        $c[StudentRepository::class],
+        $c[Session::class]
     );
 };
 
 $container[LogoutController::class] = function ($c) {
-    return new LogoutController($c[TwigView::class]);
+    return new LogoutController(
+        $c[TwigView::class],
+        $c[Session::class]
+    );
 };
 
 $container[RegistrationController::class] = function ($c) {
     return new RegistrationController(
         $c[TwigView::class],
-        $c[StudentRepository::class]
+        $c[StudentRepository::class],
+        $c[Session::class]
     );
 };
 
@@ -116,7 +137,8 @@ $container[ViewEventController::class] = function ($c) {
     return new ViewEventController(
         $c[TwigView::class],
         $c[StudentRepository::class],
-        $c[EventRepository::class]
+        $c[EventRepository::class],
+        $c[Session::class]
     );
 };
 
@@ -124,7 +146,8 @@ $container[ViewEventPointsController::class] = function ($c) {
     return new ViewEventPointsController(
         $c[TwigView::class],
         $c[StudentRepository::class],
-        $c[PointRepository::class]
+        $c[PointRepository::class],
+        $c[Session::class]
     );
 };
 

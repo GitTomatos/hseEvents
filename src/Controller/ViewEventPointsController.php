@@ -20,9 +20,9 @@ class ViewEventPointsController extends Controller
     private StudentRepository $studentRepository;
     private PointRepository $pointRepository;
 
-    public function __construct(TwigView $view, StudentRepository $studentRepository, PointRepository $pointRepository)
+    public function __construct(TwigView $view, StudentRepository $studentRepository, PointRepository $pointRepository, Session $session)
     {
-        parent::__construct($view);
+        parent::__construct($view, $session);
         $this->studentRepository = $studentRepository;
         $this->pointRepository = $pointRepository;
         $this->data['studentRepository'] = $studentRepository;
@@ -40,7 +40,7 @@ class ViewEventPointsController extends Controller
             ]
         );
 
-        $username = $_SESSION['username'] ?? null;
+        $username = $session->get('username') ?? null;
         if (isset($username)) {
             $this->data['currentUser'] = $this->studentRepository->findOneBy(["email" => $username]);
         }
@@ -84,7 +84,10 @@ class ViewEventPointsController extends Controller
 
 
         $eventId = $request->attributes->get('eventId');
+//        dump($_SERVER['HTTP_HOST']);
+//        die();
         $this->data['points'] = $this->pointRepository->findAllEventPoints($eventId);
+        $this->data['host'] = $_SERVER['HTTP_HOST'];
 
         return new Response($this->view->render('eventPoints.twig', $this->data));
     }

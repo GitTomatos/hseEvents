@@ -13,7 +13,7 @@ use Twig\Source;
 use Twig\Template;
 
 /* singleEvent.twig */
-class __TwigTemplate_0958cd14c3f6c9addc19c4d16e0a46e6d9bc883d6754421770c75a2402afe0fc extends Template
+class __TwigTemplate_322dd0594be0cfbba07f5c14bbf2838d9dfd6b583f39d18594345c42e72f4fad extends Template
 {
     private $source;
     private $macros = [];
@@ -97,19 +97,17 @@ class __TwigTemplate_0958cd14c3f6c9addc19c4d16e0a46e6d9bc883d6754421770c75a2402a
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getDescription", [], "any", false, false, false, 27), "html", null, true);
         echo "</p>
             </div>
-            ";
-        // line 30
-        echo "
+
 
             ";
-        // line 32
-        if ( !twig_test_empty(($context["currentUser"] ?? null))) {
-            // line 33
+        // line 31
+        if (( !twig_test_empty(($context["username"] ?? null)) && (0 === twig_compare(($context["userPermission"] ?? null), 2)))) {
+            // line 32
             echo "                <form action=\"\" method=\"post\">
                     ";
-            // line 34
-            if ( !twig_get_attribute($this->env, $this->source, ($context["studentRepository"] ?? null), "isRegedToEvent", [0 => twig_get_attribute($this->env, $this->source, ($context["currentUser"] ?? null), "getId", [], "any", false, false, false, 34), 1 => twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 34)], "any", false, false, false, 34)) {
-                // line 35
+            // line 33
+            if ( !twig_get_attribute($this->env, $this->source, ($context["studentRepository"] ?? null), "isRegedToEvent", [0 => twig_get_attribute($this->env, $this->source, ($context["currentUser"] ?? null), "getId", [], "any", false, false, false, 33), 1 => twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 33)], "any", false, false, false, 33)) {
+                // line 34
                 echo "                        <div class=\"text-center\">
                             <button class=\"reg-button btn btn-primary btn-lg mt-5\" name=\"regStudToEvent\">
                                 Зарегистрироваться
@@ -117,7 +115,7 @@ class __TwigTemplate_0958cd14c3f6c9addc19c4d16e0a46e6d9bc883d6754421770c75a2402a
                         </div>
                     ";
             } else {
-                // line 41
+                // line 40
                 echo "                        <div class=\"text-center\">
                             <button class=\"reg-button btn btn-primary btn-lg mt-5\" name=\"unregStudFromEvent\">
                                 Отменить регистрацию
@@ -125,16 +123,16 @@ class __TwigTemplate_0958cd14c3f6c9addc19c4d16e0a46e6d9bc883d6754421770c75a2402a
                         </div>
                     ";
             }
-            // line 47
+            // line 46
             echo "                </form>
             ";
         }
-        // line 49
+        // line 48
         echo "
 ";
-        // line 51
+        // line 50
         echo "            <p><a href=\"/view-event-points/";
-        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 51), "html", null, true);
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 50), "html", null, true);
         echo "\">Посмотреть этапы</a></p>
         </div>
     </div>
@@ -154,7 +152,7 @@ class __TwigTemplate_0958cd14c3f6c9addc19c4d16e0a46e6d9bc883d6754421770c75a2402a
 
     public function getDebugInfo()
     {
-        return array (  136 => 51,  133 => 49,  129 => 47,  121 => 41,  113 => 35,  111 => 34,  108 => 33,  106 => 32,  102 => 30,  97 => 27,  92 => 25,  88 => 23,  86 => 22,  82 => 21,  77 => 18,  71 => 15,  68 => 14,  66 => 13,  61 => 11,  58 => 10,  55 => 9,  50 => 4,  46 => 3,  35 => 1,);
+        return array (  134 => 50,  131 => 48,  127 => 46,  119 => 40,  111 => 34,  109 => 33,  106 => 32,  104 => 31,  97 => 27,  92 => 25,  88 => 23,  86 => 22,  82 => 21,  77 => 18,  71 => 15,  68 => 14,  66 => 13,  61 => 11,  58 => 10,  55 => 9,  50 => 4,  46 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -187,10 +185,9 @@ class __TwigTemplate_0958cd14c3f6c9addc19c4d16e0a46e6d9bc883d6754421770c75a2402a
                 </h1>
                 <p>Описание: {{ currentEvent.getDescription }}</p>
             </div>
-            {# {{ currentUser }} #}
 
 
-            {% if currentUser is not empty %}
+            {% if (username is not empty) and (userPermission == 2) %}
                 <form action=\"\" method=\"post\">
                     {% if not attribute(studentRepository, 'isRegedToEvent', [currentUser.getId, currentEvent.getId]) %}
                         <div class=\"text-center\">
@@ -213,6 +210,6 @@ class __TwigTemplate_0958cd14c3f6c9addc19c4d16e0a46e6d9bc883d6754421770c75a2402a
         </div>
     </div>
 
-{% endblock %}", "singleEvent.twig", "/srv/www/hse_events/templates/singleEvent.twig");
+{% endblock %}", "singleEvent.twig", "/home/user/PhpstormProjects/hseEvents/templates/singleEvent.twig");
     }
 }

@@ -13,7 +13,7 @@ use Twig\Source;
 use Twig\Template;
 
 /* login.twig */
-class __TwigTemplate_6903b276abda3c8ec5493f26d2210596d8de679824149e319ef216fadcea4774 extends Template
+class __TwigTemplate_6d9f5cb8d9ad30756a358f428db16ed242553f4cb6e0e1809421557909cc5b66 extends Template
 {
     private $source;
     private $macros = [];
@@ -209,6 +209,6 @@ class __TwigTemplate_6903b276abda3c8ec5493f26d2210596d8de679824149e319ef216fadce
     </div>
 
 {% endblock %}
-", "login.twig", "/srv/www/hse_events/templates/login.twig");
+", "login.twig", "/home/user/PhpstormProjects/hseEvents/templates/login.twig");
     }
 }

@@ -20,6 +20,7 @@ class Student implements Model
     private string $phone;
     private string $email;
     private string $password;
+    private int $permission;
 
 
     /**
@@ -33,8 +34,20 @@ class Student implements Model
      * @param string $phone
      * @param string $email
      * @param string $password
+     * @param int $permission
      */
-    public function __construct(string $lastName, string $firstName, ?string $patronymic, string $university, string $speciality, int $year, string $phone, string $email, string $password)
+    public function __construct(
+        string $lastName,
+        string $firstName,
+        ?string $patronymic,
+        string $university,
+        string $speciality,
+        int $year,
+        string $phone,
+        string $email,
+        string $password,
+        int $permission
+    )
     {
         $this->lastName = $lastName;
         $this->firstName = $firstName;
@@ -45,6 +58,7 @@ class Student implements Model
         $this->phone = $phone;
         $this->email = $email;
         $this->password = $password;
+        $this->permission = $permission;
     }
 
 
@@ -93,16 +107,19 @@ class Student implements Model
         return $this->speciality;
     }
 
-    public
-    function getYear(): int
+    public function getYear(): int
     {
         return $this->year;
     }
 
-    public
-    function getPhone(): string
+    public function getPhone(): string
     {
         return $this->phone;
+    }
+
+    public function getPermission(): int
+    {
+        return $this->permission;
     }
 
 
@@ -119,6 +136,7 @@ class Student implements Model
         $info['year'] = $this->year;
         $info['phone'] = $this->phone;
         $info['email'] = $this->email;
+        $info['permission'] = $this->permission;
 
         return $info;
     }

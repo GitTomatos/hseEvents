@@ -13,7 +13,7 @@ use Twig\Source;
 use Twig\Template;
 
 /* error.twig */
-class __TwigTemplate_df29fce768975ebd9fe050120264a9b57b48793669f0a3b1cc700dde3db8bfa9 extends Template
+class __TwigTemplate_11d105afaa969a8726a5507fef67b0bbe922c5fd21ebf1e2911857958e5bba28 extends Template
 {
     private $source;
     private $macros = [];
@@ -240,6 +240,6 @@ class __TwigTemplate_df29fce768975ebd9fe050120264a9b57b48793669f0a3b1cc700dde3db
 {% endif %}
 
 {% endblock %}
-", "error.twig", "/srv/www/hse_events/templates/error.twig");
+", "error.twig", "/home/user/PhpstormProjects/hseEvents/templates/error.twig");
     }
 }

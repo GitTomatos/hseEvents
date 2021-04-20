@@ -16,9 +16,12 @@ include __DIR__ . "/../config/config.php";
 include __DIR__ . '/../bootstrap.php';
 
 //session_start();
-$session = new Session();
+$session = $container[Session::class];
 $session->start();
 
+if (is_null($session->get('username'))) {
+    $session->set('userPermission', 1);
+}
 
 
 
@@ -38,14 +41,15 @@ $session->start();
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/home[/]', 'HseEvents\Controller\HomepageController');
     $r->addRoute('GET', '/', 'HseEvents\Controller\HomepageController');
-    $r->addRoute('GET', '/account[/]', 'HseEvents\Controller\AccountController');
+    $r->addRoute(['GET', 'POST'], '/account[/]', 'HseEvents\Controller\AccountController');
     $r->addRoute(['GET', 'POST'], '/login[/]', 'HseEvents\Controller\LoginController');
     $r->addRoute('GET', '/logout[/]', 'HseEvents\Controller\LogoutController');
     $r->addRoute(['GET', 'POST'], '/registration[/]', 'HseEvents\Controller\RegistrationController');
 //    $r->addRoute('GET', '/view-event[/]', 'HseEvents\Controller\ViewEventController');
-    $r->addRoute('GET', '/view-event/{eventId:\d+}[/]', 'HseEvents\Controller\ViewEventController');
+    $r->addRoute(['GET', 'POST'], '/view-event/{eventId:\d+}[/]', 'HseEvents\Controller\ViewEventController');
     $r->addRoute('GET', '/view-event-points[/]', 'HseEvents\Controller\ViewEventPointsController');
-    $r->addRoute('GET', '/view-event-points/{eventId:\d+}[/]', 'HseEvents\Controller\ViewEventPointsController');
+    $r->addRoute(['GET', 'POST'], '/view-event-points/{eventId:\d+}[/]', 'HseEvents\Controller\ViewEventPointsController');
+    $r->addRoute('GET', '/check-in-to-point/{studentId:\d+}/{pointId:\d+}', 'HseEvents\Controller\CheckInController');
     $r->addRoute('GET', '/give-error[/]', 'HseEvents\Controller\ControllerGiveError');
 });
 
@@ -61,7 +65,7 @@ if (false !== $pos = strpos($uri, '?')) {
 $uri = rawurldecode($uri);
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 //dump($routeInfo);
-
+//dump($routeInfo);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
         // ... 404 Not Found
@@ -71,6 +75,7 @@ switch ($routeInfo[0]) {
         // ... 405 Method Not Allowed
         break;
     case FastRoute\Dispatcher::FOUND:
+//        die("hello");
         $controllerName = $routeInfo[1];
         $vars = $routeInfo[2];
         $conn = $container[PDO::class];

@@ -132,6 +132,11 @@ class StudentRepository extends AbstractRepository
         $sth = $conn->prepare($sql);
         $sth->execute($data);
 
+        $eventPoints = $this->pointRepository->findBy(['event_id'=>$eventId, 'is_required'=>1]);
+        foreach ($eventPoints as $point) {
+            $this->regToPoint($student->getId(), $point->getId());
+        }
+
         return true;
     }
 
@@ -155,6 +160,11 @@ class StudentRepository extends AbstractRepository
 
         $sth = $conn->prepare($sql);
         $sth->execute($data);
+
+        $eventPoints = $this->pointRepository->findBy(['event_id'=>$eventId]);
+        foreach ($eventPoints as $point) {
+            $this->unregFromPoint($student->getId(), $point->getId());
+        }
 
         return true;
     }
@@ -295,6 +305,42 @@ class StudentRepository extends AbstractRepository
             return null;
     }
 
+
+    public function checkIn(int $studentId, int $pointId): void {
+        $data = [
+            'studentId' => $studentId,
+            'pointId' => $pointId,
+        ];
+
+        $sql = "UPDATE student_point SET has_marked = 1 WHERE student_id = :studentId AND point_id = :pointId";
+
+        $conn = $this->pdo;
+
+        $sth = $conn->prepare($sql);
+        $sth->execute($data);
+    }
+
+    public function isCheckedIn(int $studentId, int $pointId): bool {
+        $data = [
+            'studentId' => $studentId,
+            'pointId' => $pointId,
+            'hasMarked' => true,
+        ];
+
+        $sql = "SELECT * FROM student_point WHERE student_id = :studentId AND point_id = :pointId AND has_marked = :hasMarked";
+
+        $conn = $this->pdo;
+
+        $sth = $conn->prepare($sql);
+        $sth->execute($data);
+
+        $res = $sth->fetch();
+
+        if ($res)
+            return true;
+        else
+            return false;
+    }
 
     public function getModelClassname(): string
     {

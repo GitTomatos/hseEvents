@@ -13,7 +13,7 @@ use Twig\Source;
 use Twig\Template;
 
 /* registration.twig */
-class __TwigTemplate_a401a0d09094817aff3b4669a0d480a9ea91b2565d2dc59e58b72f1e037f1034 extends Template
+class __TwigTemplate_925dac3e56c1cc4644cf587fac22e9ba7d20510d52fc043bc189ac9757067604 extends Template
 {
     private $source;
     private $macros = [];
@@ -624,6 +624,6 @@ class __TwigTemplate_a401a0d09094817aff3b4669a0d480a9ea91b2565d2dc59e58b72f1e037
     <script src=\"/assets/js/registrationValidation.js\"></script>
 
 {% endblock %}
-", "registration.twig", "/srv/www/hse_events/templates/registration.twig");
+", "registration.twig", "/home/user/PhpstormProjects/hseEvents/templates/registration.twig");
     }
 }

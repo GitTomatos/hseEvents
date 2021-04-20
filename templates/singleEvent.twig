@@ -26,10 +26,9 @@
                 </h1>
                 <p>Описание: {{ currentEvent.getDescription }}</p>
             </div>
-            {# {{ currentUser }} #}
 
 
-            {% if currentUser is not empty %}
+            {% if (username is not empty) and (userPermission == 2) %}
                 <form action="" method="post">
                     {% if not attribute(studentRepository, 'isRegedToEvent', [currentUser.getId, currentEvent.getId]) %}
                         <div class="text-center">

@@ -53,9 +53,9 @@ class PointValidator extends AbstractValidator
             $this->addError('description', $err);
         }
 
-        if (!is_null($data['id']) && !is_int($data['id'])) {
-            $err = "ID должно быть числом!";
-            $this->addError('id', $err);
+        if (!is_null($data['eventId']) && !is_numeric($data['eventId'])) {
+            $err = "eventId должно быть числом!";
+            $this->addError('eventId', $err);
         }
 
         if (count($this->getErrors()) === 0) {

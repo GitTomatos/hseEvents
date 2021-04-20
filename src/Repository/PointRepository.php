@@ -27,6 +27,17 @@ class PointRepository extends AbstractRepository
     }
 
 
+//    public function delete(int $eventId, $pointId): void {
+//        $tableName = $this->getTableName();
+//        $conn = $this->pdo;
+//
+//        $sql = "DELETE FROM $tableName WHERE id = :id";
+//        $sth = $conn->prepare($sql);
+//        $sth->bindValue(':id', $id);
+//        $sth->execute();
+//    }
+
+
     public function findAllEventPoints(int $eventId): array
     {
         $sql = "SELECT * FROM points WHERE event_id = :eventId";

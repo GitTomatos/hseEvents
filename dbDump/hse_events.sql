@@ -1,170 +1,255 @@
--- MySQL dump 10.13  Distrib 8.0.23, for Linux (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 4.9.5deb2
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: hse_events
--- ------------------------------------------------------
--- Server version	8.0.23-0ubuntu0.20.04.1
+-- Хост: localhost:3306
+-- Время создания: Апр 20 2021 г., 09:05
+-- Версия сервера: 8.0.23-0ubuntu0.20.04.1
+-- Версия PHP: 7.4.3
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `events`
+-- База данных: `hse_events`
 --
 
-DROP TABLE IF EXISTS `events`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `events`
+--
+
 CREATE TABLE `events` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_unique` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `events`
+-- Дамп данных таблицы `events`
 --
 
-LOCK TABLES `events` WRITE;
-/*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (6,'Мероприятие 1','Описание 1'),(7,'Мероприятие 2','Описание 2'),(8,'Мероприятие 3','Описание 3'),(9,'Мероприятие 4','Описание 4'),(10,'Мероприятие 5','Описание 5'),(11,'<script>alert(1);</script> ','Jgbcfybt'),(19,'Тестовое мероприятие','Его описание'),(21,'we','<script>alert(1);</script> ');
-/*!40000 ALTER TABLE `events` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `events` (`id`, `name`, `description`) VALUES
+(27, 'День карьеры', 'В течение всего дня для посетителей HSE Career Fair будут открыты возможности делового общения с представителями более 40 компаний-участниц. Золотые партнёры этого Дня карьеры: Сбербанк, P&G и Шведское посольство. Впервые на ярмарке будут компании из Японии.  Также на HSE Career Fair пройдут мастер-классы с бизнес — и карьерными кейсами, деловые игры и отборочные тестирования. Перед студентами выступят Procter&Gamble, Google, Changellenge и другие компании.  5 апреля, четверг, с 12:00 до 19:00 Москва, Шаболовка 26, 5 корпус Регистрация, подробности и контакты на сайте: https://www.hse.ru/careerfair/2018_spring');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `points`
+-- Структура таблицы `permissions`
 --
 
-DROP TABLE IF EXISTS `points`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `permissions` (
+  `id` int NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `name`, `description`) VALUES
+(1, 'Незарегистрированный пользователь', '+ Просмотр мероприятий'),
+(2, 'Зарегистрированный пользователь', '+ Просмотр мероприятий\r\n+ Регистрация на мероприятие'),
+(3, 'Контент-менеджер', '+ Редактирование информации о мероприятиях'),
+(4, 'Организатор', '+ Пометка студента');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `points`
+--
+
 CREATE TABLE `points` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL,
   `event_id` int NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `event_id` (`event_id`,`name`),
-  CONSTRAINT `points_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `is_required` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `points`
+-- Дамп данных таблицы `points`
 --
 
-LOCK TABLES `points` WRITE;
-/*!40000 ALTER TABLE `points` DISABLE KEYS */;
-/*!40000 ALTER TABLE `points` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `points` (`id`, `event_id`, `name`, `description`, `is_required`) VALUES
+(5, 27, 'Стэнд Effective Technologies', 'На данном стенде рассказывается про компанию Effective Technologies', 1),
+(6, 27, 'Стэнд Intel', 'На данном стенде рассказывается про компанию Intel', 1),
+(7, 27, 'Стэнд Lad', 'На данном стенде рассказывается про компанию Lad', 1),
+(13, 27, 'Необязательный этап', 'Описание', 0);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `student_event`
+-- Структура таблицы `students`
 --
 
-DROP TABLE IF EXISTS `student_event`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `students` (
+  `id` int NOT NULL,
+  `last_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `first_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `patronymic` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `university` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `speciality` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `year` int DEFAULT NULL,
+  `phone` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `permission` int NOT NULL DEFAULT '2'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `students`
+--
+
+INSERT INTO `students` (`id`, `last_name`, `first_name`, `patronymic`, `university`, `speciality`, `year`, `phone`, `email`, `password`, `permission`) VALUES
+(2, 'фамилия', 'имя', 'Отчество', 'Вуз', 'Специальность', 1, '89876543210', 'log', '1a1dc91c907325c69271ddf0c944bc72', 2),
+(18, '123', '123', '123', '123', '123', 1, '123', 'admin', '21232f297a57a5a743894a0e4a801fc3', 4),
+(20, '345', '345', '345', '345', '345', 1, '345', 'cmanager', 'd8578edf8458ce06fbc5bb76a58c5ca4', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `student_event`
+--
+
 CREATE TABLE `student_event` (
   `student_id` int NOT NULL,
   `event_id` int NOT NULL,
   `has_diplom` tinyint(1) NOT NULL DEFAULT '0',
-  `has_feedback` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`student_id`,`event_id`),
-  KEY `student_event_ibfk_2` (`event_id`),
-  CONSTRAINT `student_event_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `student_event_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `has_feedback` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `student_event`
+-- Структура таблицы `student_point`
 --
 
-LOCK TABLES `student_event` WRITE;
-/*!40000 ALTER TABLE `student_event` DISABLE KEYS */;
-INSERT INTO `student_event` VALUES (2,8,0,0);
-/*!40000 ALTER TABLE `student_event` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `student_point`
---
-
-DROP TABLE IF EXISTS `student_point`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student_point` (
   `student_id` int NOT NULL,
   `point_id` int NOT NULL,
-  `has_marked` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`student_id`,`point_id`),
-  KEY `point_id` (`point_id`),
-  CONSTRAINT `student_point_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `student_point_ibfk_2` FOREIGN KEY (`point_id`) REFERENCES `points` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `has_marked` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `student_point`
+-- Дамп данных таблицы `student_point`
 --
 
-LOCK TABLES `student_point` WRITE;
-/*!40000 ALTER TABLE `student_point` DISABLE KEYS */;
-/*!40000 ALTER TABLE `student_point` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `student_point` (`student_id`, `point_id`, `has_marked`) VALUES
+(18, 5, 1),
+(18, 6, 0);
 
 --
--- Table structure for table `students`
+-- Индексы сохранённых таблиц
 --
 
-DROP TABLE IF EXISTS `students`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `students` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `last_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `first_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `patronymic` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `university` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `speciality` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `year` int NOT NULL,
-  `phone` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email_unique` (`email`) USING BTREE,
-  UNIQUE KEY `phone_unique` (`phone`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+--
+-- Индексы таблицы `events`
+--
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name_unique` (`name`) USING BTREE;
 
 --
--- Dumping data for table `students`
+-- Индексы таблицы `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Индексы таблицы `points`
+--
+ALTER TABLE `points`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `event_id` (`event_id`,`name`);
+
+--
+-- Индексы таблицы `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email_unique` (`email`) USING BTREE,
+  ADD UNIQUE KEY `phone_unique` (`phone`) USING BTREE,
+  ADD KEY `permission` (`permission`);
+
+--
+-- Индексы таблицы `student_event`
+--
+ALTER TABLE `student_event`
+  ADD PRIMARY KEY (`student_id`,`event_id`),
+  ADD KEY `student_event_ibfk_2` (`event_id`);
+
+--
+-- Индексы таблицы `student_point`
+--
+ALTER TABLE `student_point`
+  ADD PRIMARY KEY (`student_id`,`point_id`),
+  ADD KEY `point_id` (`point_id`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
 --
 
-LOCK TABLES `students` WRITE;
-/*!40000 ALTER TABLE `students` DISABLE KEYS */;
-INSERT INTO `students` VALUES (1,'Name','Surname',NULL,'University','Speciality',1,'Phone','Email','pass'),(2,'фамилия','имя','Отчество','Вуз','Специальность',1,'89876543210','log','1a1dc91c907325c69271ddf0c944bc72'),(4,'sdf','имя','sdfdsf','4','ga',2,'89876543211','sdfd.xs@fs.x','sdff'),(5,'фамилия','имя','dfgdfg','4','Специальность',2,'89876543212','log@dddd.d','asd'),(6,'cx','sa','sdgf','asd','as',1,'89876543201','sdfd.xs@fs.xz','asd'),(7,'пупкин','Василий','Отчество','вуз','спец',2,'89876543214','nov_poch@g.c','asd'),(9,'sd','asd','asd','asd','asd',1,'89876543215','sdfd.xs@fujshd','e10adc3949ba59abbe56e057f20f883e'),(10,'ewrh','sdkfjhssssssssssssssssssssssss','sdfk','jdf','dfj',2,'89876543234','log@h','202cb962ac59075b964b07152d234b70');
-/*!40000 ALTER TABLE `students` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+--
+-- AUTO_INCREMENT для таблицы `events`
+--
+ALTER TABLE `events`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- AUTO_INCREMENT для таблицы `points`
+--
+ALTER TABLE `points`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT для таблицы `students`
+--
+ALTER TABLE `students`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `points`
+--
+ALTER TABLE `points`
+  ADD CONSTRAINT `points_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `students`
+--
+ALTER TABLE `students`
+  ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`permission`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `student_event`
+--
+ALTER TABLE `student_event`
+  ADD CONSTRAINT `student_event_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `student_event_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `student_point`
+--
+ALTER TABLE `student_point`
+  ADD CONSTRAINT `student_point_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `student_point_ibfk_2` FOREIGN KEY (`point_id`) REFERENCES `points` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2021-03-23  9:41:43

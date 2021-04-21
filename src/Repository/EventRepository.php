@@ -40,8 +40,8 @@ class EventRepository extends AbstractRepository
 
 
 
-    protected function createObject(array $objData): Model {
-        $object = parent::createObject($objData);
+    protected function createObject(array $objData, string $modelClassName = null): Model {
+        $object = parent::createObject($objData, $modelClassName);
         $eventPoints = $this->pointRepository->findBy([
             'event_id' => $object->getId()
         ]);

@@ -11,7 +11,7 @@ use HseEvents\View\TwigView;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
-class ViewEventPointsController extends Controller
+class ViewComplexEventPointsController extends Controller
 {
 
     private StudentRepository $studentRepository;
@@ -32,7 +32,7 @@ class ViewEventPointsController extends Controller
         $this->data = array_merge(
             $this->data,
             [
-                'eventId' => $request->attributes->get('eventId'),
+                'pointId' => $request->attributes->get('pointId'),
                 'currentUser' => null,
                 'points' => null,
                 'errors' => [],
@@ -127,12 +127,11 @@ class ViewEventPointsController extends Controller
         }
 
 
-        $eventId = $request->attributes->get('eventId');
 //        dump($_SERVER['HTTP_HOST']);
 //        die();
-        $this->data['points'] = $this->pointRepository->findAllEventPoints($eventId);
+        $this->data['points'] = $this->pointRepository->findComplexPoints($this->data['pointId']);
         $this->data['host'] = $_SERVER['HTTP_HOST'];
 
-        return new Response($this->view->render('eventPoints.twig', $this->data));
+        return new Response($this->view->render('complexEventPoints.twig', $this->data));
     }
 }

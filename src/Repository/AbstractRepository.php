@@ -64,8 +64,11 @@ abstract class AbstractRepository implements RepositoryInterface
      * @param array $objData
      * @return Model|object
      */
-    protected function createObject(array $objData): Model {
-        return (new CreateObject())($this->getModelClassname(), $objData);
+    protected function createObject(array $objData, string $modelClassname = null): Model {
+        if (is_null($modelClassname)) {
+            $modelClassname = $this->getModelClassname();
+        }
+        return (new CreateObject())($modelClassname, $objData);
     }
 
 

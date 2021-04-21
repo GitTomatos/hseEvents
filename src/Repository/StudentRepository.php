@@ -132,7 +132,7 @@ class StudentRepository extends AbstractRepository
         $sth = $conn->prepare($sql);
         $sth->execute($data);
 
-        $eventPoints = $this->pointRepository->findBy(['event_id'=>$eventId, 'is_required'=>1]);
+        $eventPoints = $this->pointRepository->findBy(['event_id' => $eventId, 'is_complex' => 0]);
         foreach ($eventPoints as $point) {
             $this->regToPoint($student->getId(), $point->getId());
         }
@@ -143,7 +143,6 @@ class StudentRepository extends AbstractRepository
 
     public function unregFromEvent(Student $student, int $eventId): bool
     {
-        $errors = [];
         $isRegistered = $this->isRegedToEvent($student->getId(), $eventId);
 
         if (!$isRegistered)
@@ -161,9 +160,13 @@ class StudentRepository extends AbstractRepository
         $sth = $conn->prepare($sql);
         $sth->execute($data);
 
-        $eventPoints = $this->pointRepository->findBy(['event_id'=>$eventId]);
+        $eventPoints = $this->pointRepository->findBy(['event_id' => $eventId]);
         foreach ($eventPoints as $point) {
-            $this->unregFromPoint($student->getId(), $point->getId());
+            if ($point->isComplex()) {
+                $this->unregFromComplexPoint($student->getId(), $point->getId());
+            } else {
+                $this->unregFromPoint($student->getId(), $point->getId());
+            }
         }
 
         return true;
@@ -197,7 +200,6 @@ class StudentRepository extends AbstractRepository
 
     public function regToPoint(int $studentId, int $pointId): void
     {
-        $errors = array();
         $data = [
             'studentId' => $studentId,
             'pointId' => $pointId,
@@ -209,6 +211,26 @@ class StudentRepository extends AbstractRepository
 
         $sth = $conn->prepare($sql);
         $sth->execute($data);
+    }
+
+
+    public function regToComplexPoint(int $studentId, int $pointId, string $pointName): void
+    {
+        $data = [
+            'studentId' => $studentId,
+            'pointId' => $pointId,
+            'pointName' => $pointName,
+        ];
+
+        $sql = "INSERT INTO student_complex_point(student_id, point_id, name)
+            VALUES (:studentId, :pointId, :pointName)";
+
+        $conn = $this->pdo;
+
+        $sth = $conn->prepare($sql);
+        $sth->execute($data);
+
+        $this->regToPoint($studentId, $pointId);
     }
 
 
@@ -228,6 +250,26 @@ class StudentRepository extends AbstractRepository
     }
 
 
+    public function unregFromComplexPoint(int $studentId, int $pointId): void
+    {
+        $data = [
+            'studentId' => $studentId,
+            'pointId' => $pointId,
+//            'pointName' => $pointName,
+        ];
+
+        $sql = "DELETE FROM student_complex_point
+                    WHERE student_id=:studentId AND point_id=:pointId";
+
+        $conn = $this->pdo;
+
+        $sth = $conn->prepare($sql);
+        $sth->execute($data);
+
+        $this->unregFromPoint($studentId, $pointId);
+    }
+
+
     public function isRegedToPoint(int $studentId, int $pointId): bool
     {
         $data = [
@@ -236,6 +278,31 @@ class StudentRepository extends AbstractRepository
         ];
 
         $sql = "SELECT * FROM student_point WHERE student_id = :studentId AND point_id = :pointId";
+
+        $conn = $this->pdo;
+
+        $sth = $conn->prepare($sql);
+        $sth->execute($data);
+
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+
+        $res = $sth->fetch();
+        if ($res)
+            return true;
+        else
+            return false;
+    }
+
+
+    public function isRegedToComplexPoint(int $studentId, int $pointId): bool
+    {
+        $data = [
+            'studentId' => $studentId,
+            'pointId' => $pointId,
+        ];
+
+        $sql = "SELECT * FROM student_complex_point
+                    WHERE student_id = :studentId AND point_id = :pointId";
 
         $conn = $this->pdo;
 
@@ -306,7 +373,45 @@ class StudentRepository extends AbstractRepository
     }
 
 
-    public function checkIn(int $studentId, int $pointId): void {
+    public function getRegedComplexEventPoint(int $studentId, int $pointId): ?Point
+    {
+        $data = [
+            'studentId' => $studentId,
+            'pointId' => $pointId,
+        ];
+
+        $sql = "SELECT * FROM student_complex_point WHERE student_id = :studentId AND point_id = :pointId";
+
+        $conn = $this->pdo;
+
+        $sth = $conn->prepare($sql);
+        $sth->execute($data);
+
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+
+        $pointData = $sth->fetch();
+
+        if ($pointData) {
+            $mainPoint = $this->pointRepository->find($pointId);
+            $point = $this->pointRepository->findOneComplexPoint($pointId, $pointData['name']);
+
+            $pointData = [
+                'id' => $pointData['point_id'],
+                'event_id' => $mainPoint->getEventId(),
+                'name' => $pointData['name'],
+                'description' => $point->getDescription(),
+                'is_complex' => 0,
+            ];
+            $point = $this->createObject($pointData, Point::class);
+            return $point;
+        } else {
+            return null;
+        }
+    }
+
+
+    public function checkIn(int $studentId, int $pointId): void
+    {
         $data = [
             'studentId' => $studentId,
             'pointId' => $pointId,
@@ -320,7 +425,8 @@ class StudentRepository extends AbstractRepository
         $sth->execute($data);
     }
 
-    public function isCheckedIn(int $studentId, int $pointId): bool {
+    public function isCheckedIn(int $studentId, int $pointId): bool
+    {
         $data = [
             'studentId' => $studentId,
             'pointId' => $pointId,

@@ -49,9 +49,9 @@ class __TwigTemplate_ee0b8baa90f5ddeade45383970b9142dfcc6cec227365a419dc5867c5f7
         // line 4
         echo "    <div class=\"container\">
         <div class='reg-background'>
-";
+
+            ";
         // line 7
-        echo "            ";
         if ((0 === twig_compare(($context["userPermission"] ?? null), 2))) {
             // line 8
             echo "
@@ -107,50 +107,79 @@ class __TwigTemplate_ee0b8baa90f5ddeade45383970b9142dfcc6cec227365a419dc5867c5f7
             $context['_seq'] = twig_ensure_traversable(($context["points"] ?? null));
             foreach ($context['_seq'] as $context["key"] => $context["point"]) {
                 // line 29
+                echo "
+                    ";
+                // line 30
+                if (twig_get_attribute($this->env, $this->source, $context["point"], "isComplex", [], "any", false, false, false, 30)) {
+                    // line 31
+                    echo "                        ";
+                    $context["complexPoints"] = twig_get_attribute($this->env, $this->source, ($context["pointRepository"] ?? null), "findComplexPoints", [0 => twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 31)], "any", false, false, false, 31);
+                    // line 32
+                    echo "                        ";
+                    $context['_parent'] = $context;
+                    $context['_seq'] = twig_ensure_traversable(($context["complexPoints"] ?? null));
+                    foreach ($context['_seq'] as $context["key"] => $context["point"]) {
+                        // line 33
+                        echo "                            ";
+                        echo twig_escape_filter($this->env, ($context["testGlobal"] ?? null), "html", null, true);
+                        echo "
+                            ";
+                        // line 34
+                        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getName", [], "any", false, false, false, 34), "html", null, true);
+                        echo "
+                        ";
+                    }
+                    $_parent = $context['_parent'];
+                    unset($context['_seq'], $context['_iterated'], $context['key'], $context['point'], $context['_parent'], $context['loop']);
+                    $context = array_intersect_key($context, $_parent) + $_parent;
+                    // line 36
+                    echo "                    ";
+                }
+                // line 37
                 echo "                    <div class=\"text-center\">
                         <h1>
                             <p>ID этапа: ";
-                // line 31
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 31), "html", null, true);
+                // line 39
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 39), "html", null, true);
                 echo "</p>
                         </h1>
                         <h1>
                             <p>ID мероприятия: ";
-                // line 34
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getEventId", [], "any", false, false, false, 34), "html", null, true);
+                // line 42
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getEventId", [], "any", false, false, false, 42), "html", null, true);
                 echo "</p>
                         </h1>
                         <h1>
                             <p>Название: ";
-                // line 37
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getName", [], "any", false, false, false, 37), "html", null, true);
+                // line 45
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getName", [], "any", false, false, false, 45), "html", null, true);
                 echo " </p>
                         </h1>
                         <p>Описание: ";
-                // line 39
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getDescription", [], "any", false, false, false, 39), "html", null, true);
+                // line 47
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getDescription", [], "any", false, false, false, 47), "html", null, true);
                 echo " </p>
                     </div>
 
 
                     ";
-                // line 43
+                // line 51
                 if ((0 === twig_compare(($context["userPermission"] ?? null), 2))) {
-                    // line 44
+                    // line 52
                     echo "
                         ";
-                    // line 45
+                    // line 53
                     if ( !twig_test_empty(($context["currentUser"] ?? null))) {
-                        // line 46
+                        // line 54
                         echo "                            <form action=\"\" method=\"post\">
                                 ";
-                        // line 47
-                        if ( !twig_get_attribute($this->env, $this->source, ($context["studentRepository"] ?? null), "isRegedToPoint", [0 => twig_get_attribute($this->env, $this->source, ($context["currentUser"] ?? null), "getId", [], "any", false, false, false, 47), 1 => twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 47)], "any", false, false, false, 47)) {
-                            // line 48
+                        // line 55
+                        if ( !twig_get_attribute($this->env, $this->source, ($context["studentRepository"] ?? null), "isRegedToPoint", [0 => twig_get_attribute($this->env, $this->source, ($context["currentUser"] ?? null), "getId", [], "any", false, false, false, 55), 1 => twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 55)], "any", false, false, false, 55)) {
+                            // line 56
                             echo "                                    <div class=\"text-center\">
                                         <input type=\"hidden\" name=\"pointId\" value=\"";
-                            // line 49
-                            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 49), "html", null, true);
+                            // line 57
+                            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 57), "html", null, true);
                             echo "\">
                                         <button class=\"reg-button btn btn-primary btn-lg mb-5\" name=\"regStudToPoint\">
                                             Зарегистрироваться
@@ -158,24 +187,24 @@ class __TwigTemplate_ee0b8baa90f5ddeade45383970b9142dfcc6cec227365a419dc5867c5f7
                                     </div>
                                 ";
                         } else {
-                            // line 55
+                            // line 63
                             echo "                                    ";
-                            if ( !twig_get_attribute($this->env, $this->source, ($context["studentRepository"] ?? null), "isCheckedIn", [0 => twig_get_attribute($this->env, $this->source, ($context["currentUser"] ?? null), "getId", [], "any", false, false, false, 55), 1 => twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 55)], "any", false, false, false, 55)) {
-                                // line 56
+                            if ( !twig_get_attribute($this->env, $this->source, ($context["studentRepository"] ?? null), "isCheckedIn", [0 => twig_get_attribute($this->env, $this->source, ($context["currentUser"] ?? null), "getId", [], "any", false, false, false, 63), 1 => twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 63)], "any", false, false, false, 63)) {
+                                // line 64
                                 echo "                                        ";
-                                $context["link"] = ((((((("https://api.qrserver.com/v1/create-qr-code/?data=" . "http://") .                                 // line 57
-($context["host"] ?? null)) . "/check-in-to-point/") . twig_get_attribute($this->env, $this->source,                                 // line 58
-($context["currentUser"] ?? null), "getId", [], "any", false, false, false, 58)) . "/") . twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 58)) . "&size=150x150");
-                                // line 60
+                                $context["link"] = ((((((("https://api.qrserver.com/v1/create-qr-code/?data=" . "http://") .                                 // line 65
+($context["host"] ?? null)) . "/check-in-to-point/") . twig_get_attribute($this->env, $this->source,                                 // line 66
+($context["currentUser"] ?? null), "getId", [], "any", false, false, false, 66)) . "/") . twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 66)) . "&size=150x150");
+                                // line 68
                                 echo "                                        ";
-                                // line 61
+                                // line 69
                                 echo "                                        <img src=";
                                 echo twig_escape_filter($this->env, ($context["link"] ?? null), "html", null, true);
                                 echo " alt=\"qr-code\" class=\"img-center\">
                                         <div class=\"text-center\">
                                             <input type=\"hidden\" name=\"pointId\" value=\"";
-                                // line 63
-                                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 63), "html", null, true);
+                                // line 71
+                                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 71), "html", null, true);
                                 echo "\">
                                             <button class=\"reg-button btn btn-primary btn-lg mt-4 mb-5\"
                                                     name=\"unregStudFromPoint\">
@@ -184,11 +213,11 @@ class __TwigTemplate_ee0b8baa90f5ddeade45383970b9142dfcc6cec227365a419dc5867c5f7
                                         </div>
                                     ";
                             } else {
-                                // line 70
+                                // line 78
                                 echo "                                        <div class=\"text-center\">
                                             <input type=\"hidden\" name=\"pointId\" value=\"";
-                                // line 71
-                                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 71), "html", null, true);
+                                // line 79
+                                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 79), "html", null, true);
                                 echo "\">
                                             <button class=\"reg-button btn btn-success btn-lg mt-4 mb-5\"
                                                     name=\"unregStudFromPoint\">
@@ -197,27 +226,27 @@ class __TwigTemplate_ee0b8baa90f5ddeade45383970b9142dfcc6cec227365a419dc5867c5f7
                                         </div>
                                     ";
                             }
-                            // line 78
+                            // line 86
                             echo "                                ";
                         }
-                        // line 79
+                        // line 87
                         echo "                            </form>
                         ";
                     }
-                    // line 81
+                    // line 89
                     echo "                    ";
                 }
-                // line 82
+                // line 90
                 echo "
                 ";
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['key'], $context['point'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 84
+            // line 92
             echo "            ";
         }
-        // line 85
+        // line 93
         echo "
 
         </div>
@@ -238,7 +267,7 @@ class __TwigTemplate_ee0b8baa90f5ddeade45383970b9142dfcc6cec227365a419dc5867c5f7
 
     public function getDebugInfo()
     {
-        return array (  221 => 85,  218 => 84,  211 => 82,  208 => 81,  204 => 79,  201 => 78,  191 => 71,  188 => 70,  178 => 63,  172 => 61,  170 => 60,  168 => 58,  167 => 57,  165 => 56,  162 => 55,  153 => 49,  150 => 48,  148 => 47,  145 => 46,  143 => 45,  140 => 44,  138 => 43,  131 => 39,  126 => 37,  120 => 34,  114 => 31,  110 => 29,  105 => 28,  103 => 27,  100 => 26,  96 => 24,  90 => 21,  87 => 20,  85 => 19,  82 => 18,  76 => 15,  73 => 14,  71 => 13,  68 => 12,  65 => 11,  62 => 10,  60 => 9,  57 => 8,  54 => 7,  50 => 4,  46 => 3,  35 => 1,);
+        return array (  250 => 93,  247 => 92,  240 => 90,  237 => 89,  233 => 87,  230 => 86,  220 => 79,  217 => 78,  207 => 71,  201 => 69,  199 => 68,  197 => 66,  196 => 65,  194 => 64,  191 => 63,  182 => 57,  179 => 56,  177 => 55,  174 => 54,  172 => 53,  169 => 52,  167 => 51,  160 => 47,  155 => 45,  149 => 42,  143 => 39,  139 => 37,  136 => 36,  128 => 34,  123 => 33,  118 => 32,  115 => 31,  113 => 30,  110 => 29,  105 => 28,  103 => 27,  100 => 26,  96 => 24,  90 => 21,  87 => 20,  85 => 19,  82 => 18,  76 => 15,  73 => 14,  71 => 13,  68 => 12,  65 => 11,  62 => 10,  60 => 9,  57 => 8,  55 => 7,  50 => 4,  46 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -248,7 +277,7 @@ class __TwigTemplate_ee0b8baa90f5ddeade45383970b9142dfcc6cec227365a419dc5867c5f7
 {% block content %}
     <div class=\"container\">
         <div class='reg-background'>
-{#            {{ sdfjskdfhjksdhfkjhsdfjkhsd }}#}
+
             {% if (userPermission == 2) %}
 
                 {% if (currentUser is not empty) %}
@@ -271,6 +300,14 @@ class __TwigTemplate_ee0b8baa90f5ddeade45383970b9142dfcc6cec227365a419dc5867c5f7
 
             {% if points is not empty %}
                 {% for key, point in points %}
+
+                    {% if point.isComplex %}
+                        {% set complexPoints = attribute(pointRepository, 'findComplexPoints', [point.getId]) %}
+                        {% for key, point in complexPoints %}
+                            {{ testGlobal }}
+                            {{ point.getName }}
+                        {% endfor %}
+                    {% endif %}
                     <div class=\"text-center\">
                         <h1>
                             <p>ID этапа: {{ point.getId }}</p>

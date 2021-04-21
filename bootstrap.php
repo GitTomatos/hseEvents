@@ -8,6 +8,7 @@ use HseEvents\Controller\{AccountController,
     LoginController,
     LogoutController,
     RegistrationController,
+    ViewComplexEventPointsController,
     ViewEventController,
     ViewEventPointsController};
 use HseEvents\View\TwigView;
@@ -41,6 +42,7 @@ $container['twig'] = function ($c) {
         'cache' => $c['config']['twigCachePath'],
         'debug' => true,
     ]);
+    $twig->addExtension(new \HseEvents\TwigExtension());
     return $twig;
 };
 
@@ -144,6 +146,15 @@ $container[ViewEventController::class] = function ($c) {
 
 $container[ViewEventPointsController::class] = function ($c) {
     return new ViewEventPointsController(
+        $c[TwigView::class],
+        $c[StudentRepository::class],
+        $c[PointRepository::class],
+        $c[Session::class]
+    );
+};
+
+$container[ViewComplexEventPointsController::class] = function ($c) {
+    return new ViewComplexEventPointsController(
         $c[TwigView::class],
         $c[StudentRepository::class],
         $c[PointRepository::class],

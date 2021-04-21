@@ -1,0 +1,49 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class='reg-background'>
+
+            {% if (userPermission == 2) %}
+
+                {% if (currentUser is not empty) %}
+                    {% set regedPoint = attribute(studentRepository, 'getRegedEventPoint', [currentUser.getId]) %}
+                {% endif %}
+
+                {% if registeredToPoint.success is not empty %}
+                    <div class="alert alert-success" role="alert">
+                        {{ registeredToPoint.success }}
+                    </div>
+                {% endif %}
+
+                {% if errors.regErrors.0 is not empty %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ errors.regErrors.0 }}
+                    </div>
+                {% endif %}
+
+            {% endif %}
+
+            {% if points is not empty %}
+                {% for key, point in points %}
+
+                    {{ outputPointInfo(point) }}
+                    {% if (userPermission == 2) %}
+                        {% set regedComplexPoint = attribute (
+                            studentRepository,
+                            'getRegedComplexEventPoint',
+                            [currentUser.getId, point.getId]
+                        ) %}
+                        {% if (regedComplexPoint is empty) or (regedComplexPoint.getName == point.getName) %}
+                            {{ outputButton(studentRepository, currentUser, point) }}
+                        {% endif %}
+                    {% endif %}
+
+                {% endfor %}
+            {% endif %}
+
+
+        </div>
+    </div>
+
+{% endblock %}

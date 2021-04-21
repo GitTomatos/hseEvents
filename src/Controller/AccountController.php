@@ -7,6 +7,7 @@ use HseEvents\Filter\SanitizingFilter;
 //use HseEvents\Http\{Request, Response};
 use HseEvents\Repository\PointRepository;
 use HseEvents\Validation\PointValidator;
+use ReflectionClass;
 use Symfony\Component\HttpFoundation\Response;
 use HseEvents\Repository\EventRepository;
 use HseEvents\Repository\StudentRepository;
@@ -58,6 +59,7 @@ class AccountController extends Controller
 
     public function __invoke(SymfonyRequest $request, Session $session): Response
     {
+
         $this->data = array_merge(
             $this->data,
             [

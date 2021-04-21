@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
         <div class='reg-background'>
-{#            {{ sdfjskdfhjksdhfkjhsdfjkhsd }}#}
+
             {% if (userPermission == 2) %}
 
                 {% if (currentUser is not empty) %}
@@ -26,59 +26,77 @@
 
             {% if points is not empty %}
                 {% for key, point in points %}
-                    <div class="text-center">
-                        <h1>
-                            <p>ID этапа: {{ point.getId }}</p>
-                        </h1>
-                        <h1>
-                            <p>ID мероприятия: {{ point.getEventId }}</p>
-                        </h1>
-                        <h1>
-                            <p>Название: {{ point.getName }} </p>
-                        </h1>
-                        <p>Описание: {{ point.getDescription }} </p>
-                    </div>
 
+                    {# {% if point.isComplex %} #}
+                    {# {% set complexPoints = attribute(pointRepository, 'findComplexPoints', [point.getId]) %} #}
+                    {# {% for key, point in complexPoints %} #}
+                    {# {{ outputPointInfo(point) }} #}
+                    {# {% if (userPermission == 2) %} #}
+                    {# {{ outputButton(studentRepository, currentUser, point, 1) }} #}
+                    {# {% endif %} #}
+                    {# {% endfor %} #}
+                    {# {% else %} #}
+                    {# {{ outputPointInfo(point) }} #}
+                    {# {% if (userPermission == 2) %} #}
+                    {# {{ outputButton(studentRepository, currentUser, point) }} #}
+                    {# {% endif %} #}
+                    {# {% endif %} #}
 
+                    {{ outputPointInfo(point) }}
                     {% if (userPermission == 2) %}
-
-                        {% if currentUser is not empty %}
-                            <form action="" method="post">
-                                {% if not attribute(studentRepository, 'isRegedToPoint', [currentUser.getId, point.getId]) %}
-                                    <div class="text-center">
-                                        <input type="hidden" name="pointId" value="{{ point.getId }}">
-                                        <button class="reg-button btn btn-primary btn-lg mb-5" name="regStudToPoint">
-                                            Зарегистрироваться
-                                        </button>
-                                    </div>
-                                {% else %}
-                                    {% if not attribute(studentRepository, 'isCheckedIn', [currentUser.getId, point.getId]) %}
-                                        {% set link = "https://api.qrserver.com/v1/create-qr-code/?data="
-                                            ~ "http://" ~ host ~ "/check-in-to-point/"
-                                            ~ currentUser.getId ~ "/" ~ point.getId
-                                            ~ "&size=150x150" %}
-                                        {# <img src="https://api.qrserver.com/v1/create-qr-code/?data="~"http://localhost:8000/check-in-to-point/{{ currentUser.getId }}/{{ point.getId }}&size=150x150" alt=""> #}
-                                        <img src={{ link }} alt="qr-code" class="img-center">
-                                        <div class="text-center">
-                                            <input type="hidden" name="pointId" value="{{ point.getId }}">
-                                            <button class="reg-button btn btn-primary btn-lg mt-4 mb-5"
-                                                    name="unregStudFromPoint">
-                                                Отменить регистрацию
-                                            </button>
-                                        </div>
-                                    {% else %}
-                                        <div class="text-center">
-                                            <input type="hidden" name="pointId" value="{{ point.getId }}">
-                                            <button class="reg-button btn btn-success btn-lg mt-4 mb-5"
-                                                    name="unregStudFromPoint">
-                                                Пройдено
-                                            </button>
-                                        </div>
-                                    {% endif %}
-                                {% endif %}
-                            </form>
+                        {% if (attribute(studentRepository, 'isRegedToEvent', [currentUser.getId, eventId])) %}
+                            {{ outputButton(studentRepository, currentUser, point) }}
+                            {% if point.isComplex %}
+                                <div class='text-center'>
+                                    <button class='reg-button btn btn-primary btn-lg mb-5'>
+                                        <a href='/view-complex-event-points/{{ point.getId }}'>
+                                            Посмотреть
+                                        </a>
+                                    </button>
+                                </div>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
+
+
+                    {# {% if (userPermission == 2) %} #}
+                    {# {% if currentUser is not empty %} #}
+                    {# <form action="" method="post"> #}
+                    {# {% if not attribute(studentRepository, 'isRegedToPoint', [currentUser.getId, point.getId]) %} #}
+                    {# <div class="text-center"> #}
+                    {# <input type="hidden" name="pointId" value="{{ point.getId }}"> #}
+                    {# <button class="reg-button btn btn-primary btn-lg mb-5" name="regStudToPoint"> #}
+                    {# Зарегистрироваться #}
+                    {# </button> #}
+                    {# </div> #}
+                    {# {% else %} #}
+                    {# {% if not attribute(studentRepository, 'isCheckedIn', [currentUser.getId, point.getId]) %} #}
+                    {# {% set link = "https://api.qrserver.com/v1/create-qr-code/?data=" #}
+                    {# ~ "http://" ~ host ~ "/check-in-to-point/" #}
+                    {# ~ currentUser.getId ~ "/" ~ point.getId #}
+                    {# ~ "&size=150x150" %} #}
+                    {# #}{# <img src="https://api.qrserver.com/v1/create-qr-code/?data="~"http://localhost:8000/check-in-to-point/{{ currentUser.getId }}/{{ point.getId }}&size=150x150" alt=""> #}
+                    {# <img src={{ link }} alt="qr-code" class="img-center"> #}
+                    {# <div class="text-center"> #}
+                    {# <input type="hidden" name="pointId" value="{{ point.getId }}"> #}
+                    {# <button class="reg-button btn btn-primary btn-lg mt-4 mb-5" #}
+                    {# name="unregStudFromPoint"> #}
+                    {# Отменить регистрацию #}
+                    {# </button> #}
+                    {# </div> #}
+                    {# {% else %} #}
+                    {# <div class="text-center"> #}
+                    {# <input type="hidden" name="pointId" value="{{ point.getId }}"> #}
+                    {# <button class="reg-button btn btn-success btn-lg mt-4 mb-5" #}
+                    {# name="unregStudFromPoint"> #}
+                    {# Пройдено #}
+                    {# </button> #}
+                    {# </div> #}
+                    {# {% endif %} #}
+                    {# {% endif %} #}
+                    {# </form> #}
+                    {# {% endif %} #}
+                    {# {% endif %} #}
 
                 {% endfor %}
             {% endif %}

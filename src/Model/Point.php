@@ -12,13 +12,15 @@ class Point implements Model
     private ?int $eventId;
     private ?string $name;
     private ?string $description;
+    private ?bool $isComplex;
 
 
-    public function __construct(int $eventId, string $name, string $description)
+    public function __construct(int $eventId, string $name, string $description, bool $isComplex)
     {
         $this->eventId = $eventId;
         $this->name = $name;
         $this->description = $description;
+        $this->isComplex = $isComplex;
     }
 
 
@@ -40,6 +42,15 @@ class Point implements Model
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function getIsComplex(): string
+    {
+        return $this->isComplex;
+    }
+
+    public function isComplex(): bool {
+        return $this->isComplex;
     }
 
 

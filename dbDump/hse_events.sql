@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:3306
--- Время создания: Апр 20 2021 г., 09:05
+-- Время создания: Апр 22 2021 г., 00:38
 -- Версия сервера: 8.0.23-0ubuntu0.20.04.1
 -- Версия PHP: 7.4.3
 
@@ -21,6 +21,26 @@ SET time_zone = "+00:00";
 --
 -- База данных: `hse_events`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `complex_points`
+--
+
+CREATE TABLE `complex_points` (
+  `point_id` int NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `complex_points`
+--
+
+INSERT INTO `complex_points` (`point_id`, `name`, `description`) VALUES
+(13, 'SubPoint 1', 'Descr 1'),
+(13, 'SupPoint 2', 'Desc 2');
 
 -- --------------------------------------------------------
 
@@ -74,18 +94,18 @@ CREATE TABLE `points` (
   `event_id` int NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `is_required` tinyint(1) NOT NULL DEFAULT '0'
+  `is_complex` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `points`
 --
 
-INSERT INTO `points` (`id`, `event_id`, `name`, `description`, `is_required`) VALUES
-(5, 27, 'Стэнд Effective Technologies', 'На данном стенде рассказывается про компанию Effective Technologies', 1),
-(6, 27, 'Стэнд Intel', 'На данном стенде рассказывается про компанию Intel', 1),
-(7, 27, 'Стэнд Lad', 'На данном стенде рассказывается про компанию Lad', 1),
-(13, 27, 'Необязательный этап', 'Описание', 0);
+INSERT INTO `points` (`id`, `event_id`, `name`, `description`, `is_complex`) VALUES
+(5, 27, 'Стэнд Effective Technologies', 'На данном стенде рассказывается про компанию Effective Technologies', 0),
+(6, 27, 'Стэнд Intel', 'На данном стенде рассказывается про компанию Intel', 0),
+(7, 27, 'Стэнд Lad', 'На данном стенде рассказывается про компанию Lad', 0),
+(13, 27, 'Необязательный этап', 'Описание', 1);
 
 -- --------------------------------------------------------
 
@@ -119,6 +139,19 @@ INSERT INTO `students` (`id`, `last_name`, `first_name`, `patronymic`, `universi
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `student_complex_point`
+--
+
+CREATE TABLE `student_complex_point` (
+  `student_id` int NOT NULL,
+  `point_id` int NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `has_marked` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `student_event`
 --
 
@@ -128,6 +161,13 @@ CREATE TABLE `student_event` (
   `has_diplom` tinyint(1) NOT NULL DEFAULT '0',
   `has_feedback` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `student_event`
+--
+
+INSERT INTO `student_event` (`student_id`, `event_id`, `has_diplom`, `has_feedback`) VALUES
+(2, 27, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -146,12 +186,21 @@ CREATE TABLE `student_point` (
 --
 
 INSERT INTO `student_point` (`student_id`, `point_id`, `has_marked`) VALUES
+(2, 5, 0),
+(2, 6, 0),
+(2, 7, 0),
 (18, 5, 1),
 (18, 6, 0);
 
 --
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `complex_points`
+--
+ALTER TABLE `complex_points`
+  ADD PRIMARY KEY (`point_id`,`name`) USING BTREE;
 
 --
 -- Индексы таблицы `events`
@@ -182,6 +231,13 @@ ALTER TABLE `students`
   ADD UNIQUE KEY `email_unique` (`email`) USING BTREE,
   ADD UNIQUE KEY `phone_unique` (`phone`) USING BTREE,
   ADD KEY `permission` (`permission`);
+
+--
+-- Индексы таблицы `student_complex_point`
+--
+ALTER TABLE `student_complex_point`
+  ADD PRIMARY KEY (`student_id`,`point_id`,`name`),
+  ADD KEY `point_id` (`point_id`,`name`);
 
 --
 -- Индексы таблицы `student_event`
@@ -224,6 +280,12 @@ ALTER TABLE `students`
 --
 
 --
+-- Ограничения внешнего ключа таблицы `complex_points`
+--
+ALTER TABLE `complex_points`
+  ADD CONSTRAINT `complex_points_ibfk_1` FOREIGN KEY (`point_id`) REFERENCES `points` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Ограничения внешнего ключа таблицы `points`
 --
 ALTER TABLE `points`
@@ -234,6 +296,13 @@ ALTER TABLE `points`
 --
 ALTER TABLE `students`
   ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`permission`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `student_complex_point`
+--
+ALTER TABLE `student_complex_point`
+  ADD CONSTRAINT `student_complex_point_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `student_complex_point_ibfk_2` FOREIGN KEY (`point_id`,`name`) REFERENCES `complex_points` (`point_id`, `name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `student_event`

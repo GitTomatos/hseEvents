@@ -51,7 +51,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute(['GET', 'POST'], '/view-event-points/{eventId:\d+}[/]', 'HseEvents\Controller\ViewEventPointsController');
     $r->addRoute('GET', '/view-complex-event-points[/]', 'HseEvents\Controller\ViewComplexEventPointsController');
     $r->addRoute(['GET', 'POST'], '/view-complex-event-points/{pointId:\d+}[/]', 'HseEvents\Controller\ViewComplexEventPointsController');
-    $r->addRoute('GET', '/check-in-to-point/{studentId:\d+}/{pointId:\d+}', 'HseEvents\Controller\CheckInController');
+    $r->addRoute('GET', '/check-in-to-point/{studentId:\d+}/{pointId:\d+}[/]', 'HseEvents\Controller\CheckInController');
+    $r->addRoute('GET', '/get-diplom/{studentId:\d+}/{eventId:\d+}[/]', 'HseEvents\Controller\GetDiplomController');
     $r->addRoute('GET', '/give-error[/]', 'HseEvents\Controller\ControllerGiveError');
 });
 

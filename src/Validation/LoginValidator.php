@@ -33,7 +33,7 @@ class LoginValidator extends AbstractValidator
                 $err = "Студент с такой почтой не найден";
                 $this->addError('login', $err);
             } else {
-                $isPassCorrect = $this->studentRepository->checkPassword($stud, md5($data['password']));
+                $isPassCorrect = $this->studentRepository->checkPassword($stud, $data['password']);
 
                 if (!$isPassCorrect) {
                     $err = "Неправильный пароль";

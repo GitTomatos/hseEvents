@@ -4,6 +4,7 @@ use HseEvents\Config;
 use HseEvents\Database\Connection;
 use HseEvents\Controller\{AccountController,
     CheckInController,
+    GetDiplomController,
     HomepageController,
     LoginController,
     LogoutController,
@@ -97,6 +98,14 @@ $container[AccountController::class] = function ($c) {
 
 $container[CheckInController::class] = function ($c) {
     return new CheckInController(
+        $c[TwigView::class],
+        $c[StudentRepository::class],
+        $c[Session::class]
+    );
+};
+
+$container[GetDiplomController::class] = function ($c) {
+    return new GetDiplomController(
         $c[TwigView::class],
         $c[StudentRepository::class],
         $c[Session::class]

@@ -148,18 +148,22 @@ class __TwigTemplate_7a1b7a74b09f7455b48a7c75c0c7472cb0206a2745fdf04b0b896c56eaf
                     echo "                        ";
                     if (twig_get_attribute($this->env, $this->source, ($context["studentRepository"] ?? null), "isRegedToEvent", [0 => twig_get_attribute($this->env, $this->source, ($context["currentUser"] ?? null), "getId", [], "any", false, false, false, 47), 1 => ($context["eventId"] ?? null)], "any", false, false, false, 47)) {
                         // line 48
-                        echo "                            ";
-                        echo twig_escape_filter($this->env, call_user_func_array($this->env->getFunction('outputButton')->getCallable(), [($context["studentRepository"] ?? null), ($context["currentUser"] ?? null), $context["point"]]), "html", null, true);
-                        echo "
-                            ";
+                        echo "                            <div class=\"mb-4\">
+                                ";
                         // line 49
-                        if (twig_get_attribute($this->env, $this->source, $context["point"], "isComplex", [], "any", false, false, false, 49)) {
-                            // line 50
+                        echo twig_escape_filter($this->env, call_user_func_array($this->env->getFunction('outputQR')->getCallable(), [($context["currentUser"] ?? null), $context["point"]]), "html", null, true);
+                        echo "
+                            </div>
+
+                            ";
+                        // line 52
+                        if (twig_get_attribute($this->env, $this->source, $context["point"], "isComplex", [], "any", false, false, false, 52)) {
+                            // line 53
                             echo "                                <div class='text-center'>
                                     <button class='reg-button btn btn-primary btn-lg mb-5'>
                                         <a href='/view-complex-event-points/";
-                            // line 52
-                            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 52), "html", null, true);
+                            // line 55
+                            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 55), "html", null, true);
                             echo "'>
                                             Посмотреть
                                         </a>
@@ -167,22 +171,16 @@ class __TwigTemplate_7a1b7a74b09f7455b48a7c75c0c7472cb0206a2745fdf04b0b896c56eaf
                                 </div>
                             ";
                         }
-                        // line 58
+                        // line 61
                         echo "                        ";
                     }
-                    // line 59
+                    // line 62
                     echo "                    ";
                 }
-                // line 60
+                // line 63
                 echo "
 
                     ";
-                // line 63
-                echo "                    ";
-                // line 64
-                echo "                    ";
-                // line 65
-                echo "                    ";
                 // line 66
                 echo "                    ";
                 // line 67
@@ -252,16 +250,22 @@ class __TwigTemplate_7a1b7a74b09f7455b48a7c75c0c7472cb0206a2745fdf04b0b896c56eaf
                 // line 99
                 echo "                    ";
                 // line 100
+                echo "                    ";
+                // line 101
+                echo "                    ";
+                // line 102
+                echo "                    ";
+                // line 103
                 echo "
                 ";
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['key'], $context['point'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 102
+            // line 105
             echo "            ";
         }
-        // line 103
+        // line 106
         echo "
 
         </div>
@@ -282,7 +286,7 @@ class __TwigTemplate_7a1b7a74b09f7455b48a7c75c0c7472cb0206a2745fdf04b0b896c56eaf
 
     public function getDebugInfo()
     {
-        return array (  265 => 103,  262 => 102,  255 => 100,  253 => 99,  251 => 98,  249 => 97,  247 => 96,  245 => 95,  243 => 94,  241 => 93,  239 => 92,  237 => 91,  235 => 90,  233 => 89,  231 => 88,  229 => 87,  227 => 86,  225 => 85,  223 => 84,  221 => 83,  219 => 82,  217 => 81,  215 => 80,  213 => 79,  211 => 78,  209 => 77,  207 => 76,  205 => 75,  203 => 74,  201 => 73,  199 => 72,  197 => 71,  195 => 70,  193 => 69,  191 => 68,  189 => 67,  187 => 66,  185 => 65,  183 => 64,  181 => 63,  177 => 60,  174 => 59,  171 => 58,  162 => 52,  158 => 50,  156 => 49,  151 => 48,  148 => 47,  146 => 46,  142 => 45,  139 => 44,  137 => 43,  135 => 42,  133 => 41,  131 => 40,  129 => 39,  127 => 38,  125 => 37,  123 => 36,  121 => 35,  119 => 34,  117 => 33,  115 => 32,  113 => 31,  110 => 29,  105 => 28,  103 => 27,  100 => 26,  96 => 24,  90 => 21,  87 => 20,  85 => 19,  82 => 18,  76 => 15,  73 => 14,  71 => 13,  68 => 12,  65 => 11,  62 => 10,  60 => 9,  57 => 8,  55 => 7,  50 => 4,  46 => 3,  35 => 1,);
+        return array (  269 => 106,  266 => 105,  259 => 103,  257 => 102,  255 => 101,  253 => 100,  251 => 99,  249 => 98,  247 => 97,  245 => 96,  243 => 95,  241 => 94,  239 => 93,  237 => 92,  235 => 91,  233 => 90,  231 => 89,  229 => 88,  227 => 87,  225 => 86,  223 => 85,  221 => 84,  219 => 83,  217 => 82,  215 => 81,  213 => 80,  211 => 79,  209 => 78,  207 => 77,  205 => 76,  203 => 75,  201 => 74,  199 => 73,  197 => 72,  195 => 71,  193 => 70,  191 => 69,  189 => 68,  187 => 67,  185 => 66,  181 => 63,  178 => 62,  175 => 61,  166 => 55,  162 => 53,  160 => 52,  154 => 49,  151 => 48,  148 => 47,  146 => 46,  142 => 45,  139 => 44,  137 => 43,  135 => 42,  133 => 41,  131 => 40,  129 => 39,  127 => 38,  125 => 37,  123 => 36,  121 => 35,  119 => 34,  117 => 33,  115 => 32,  113 => 31,  110 => 29,  105 => 28,  103 => 27,  100 => 26,  96 => 24,  90 => 21,  87 => 20,  85 => 19,  82 => 18,  76 => 15,  73 => 14,  71 => 13,  68 => 12,  65 => 11,  62 => 10,  60 => 9,  57 => 8,  55 => 7,  50 => 4,  46 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -334,7 +338,10 @@ class __TwigTemplate_7a1b7a74b09f7455b48a7c75c0c7472cb0206a2745fdf04b0b896c56eaf
                     {{ outputPointInfo(point) }}
                     {% if (userPermission == 2) %}
                         {% if (attribute(studentRepository, 'isRegedToEvent', [currentUser.getId, eventId])) %}
-                            {{ outputButton(studentRepository, currentUser, point) }}
+                            <div class=\"mb-4\">
+                                {{ outputQR(currentUser, point) }}
+                            </div>
+
                             {% if point.isComplex %}
                                 <div class='text-center'>
                                     <button class='reg-button btn btn-primary btn-lg mb-5'>

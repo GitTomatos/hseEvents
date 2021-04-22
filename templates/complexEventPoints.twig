@@ -34,9 +34,14 @@
                             'getRegedComplexEventPoint',
                             [currentUser.getId, point.getId]
                         ) %}
-                        {% if (regedComplexPoint is empty) or (regedComplexPoint.getName == point.getName) %}
+                        {% if (regedComplexPoint is empty) %}
+                            {{ outputRegisterButton(point) }}
+                        {% elseif (regedComplexPoint.getName == point.getName) %}
                             {{ outputButton(studentRepository, currentUser, point) }}
                         {% endif %}
+
+                        {# {% if (regedComplexPoint is empty) or (regedComplexPoint.getName == point.getName) %} #}
+                        {# {% endif %} #}
                     {% endif %}
 
                 {% endfor %}

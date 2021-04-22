@@ -50,7 +50,9 @@ class __TwigTemplate_cdbaaeb44817351baf757c6bac6449d0c67ab3814b307cb31e38d3e80cc
         echo "    <div class=\"container\">
         <div class='reg-background'>
 
-";
+            ";
+        // line 8
+        echo "            ";
         // line 9
         echo "            ";
         if ( !twig_test_empty(twig_get_attribute($this->env, $this->source, ($context["registeredToEvent"] ?? null), "success", [], "any", false, false, false, 9))) {
@@ -81,7 +83,7 @@ class __TwigTemplate_cdbaaeb44817351baf757c6bac6449d0c67ab3814b307cb31e38d3e80cc
         // line 21
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 21), "html", null, true);
         echo "</p>
-                </h1>                    ";
+                </h1> ";
         // line 22
         $context["a"] = twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 22);
         // line 23
@@ -121,18 +123,34 @@ class __TwigTemplate_cdbaaeb44817351baf757c6bac6449d0c67ab3814b307cb31e38d3e80cc
                                 Отменить регистрацию
                             </button>
                         </div>
+
+                        <div>
+                            <div class='text-center'>
+";
+                // line 49
+                echo "                                    <a href='/get-diplom/";
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentUser"] ?? null), "getId", [], "any", false, false, false, 49), "html", null, true);
+                echo "/";
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 49), "html", null, true);
+                echo "'>
+                                        <p>Получить диплом</p>
+                                    </a>
+";
+                // line 53
+                echo "                            </div>
+                        </div>
                     ";
             }
-            // line 46
+            // line 56
             echo "                </form>
             ";
         }
-        // line 48
+        // line 58
         echo "
-";
-        // line 50
+            ";
+        // line 60
         echo "            <p><a href=\"/view-event-points/";
-        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 50), "html", null, true);
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 60), "html", null, true);
         echo "\">Посмотреть этапы</a></p>
         </div>
     </div>
@@ -152,7 +170,7 @@ class __TwigTemplate_cdbaaeb44817351baf757c6bac6449d0c67ab3814b307cb31e38d3e80cc
 
     public function getDebugInfo()
     {
-        return array (  134 => 50,  131 => 48,  127 => 46,  119 => 40,  111 => 34,  109 => 33,  106 => 32,  104 => 31,  97 => 27,  92 => 25,  88 => 23,  86 => 22,  82 => 21,  77 => 18,  71 => 15,  68 => 14,  66 => 13,  61 => 11,  58 => 10,  55 => 9,  50 => 4,  46 => 3,  35 => 1,);
+        return array (  152 => 60,  149 => 58,  145 => 56,  140 => 53,  131 => 49,  121 => 40,  113 => 34,  111 => 33,  108 => 32,  106 => 31,  99 => 27,  94 => 25,  90 => 23,  88 => 22,  84 => 21,  79 => 18,  73 => 15,  70 => 14,  68 => 13,  63 => 11,  60 => 10,  57 => 9,  55 => 8,  50 => 4,  46 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -163,8 +181,8 @@ class __TwigTemplate_cdbaaeb44817351baf757c6bac6449d0c67ab3814b307cb31e38d3e80cc
     <div class=\"container\">
         <div class='reg-background'>
 
-{#            {{ attribute(currentEvent, 'getId') is defined ? currentEvent.Id : \"no\" }}#}
-{#            {{ attribute(currentUser, 'isRegedToEvent', [currentEvent.getId]) }}#}
+            {# {{ attribute(currentEvent, 'getId') is defined ? currentEvent.Id : \"no\" }} #}
+            {# {{ attribute(currentUser, 'isRegedToEvent', [currentEvent.getId]) }} #}
             {% if registeredToEvent.success is not empty %}
                 <div class=\"alert alert-success\" role=\"alert\">
                     {{ registeredToEvent.success }}
@@ -178,7 +196,7 @@ class __TwigTemplate_cdbaaeb44817351baf757c6bac6449d0c67ab3814b307cb31e38d3e80cc
             <div class=\"text-center py-5\">
                 <h1>
                     <p>ID мероприятия: {{ currentEvent.getId }}</p>
-                </h1>                    {% set a=currentEvent.getId %}
+                </h1> {% set a=currentEvent.getId %}
 
                 <h1>
                     <p>Название: {{ currentEvent.getName }}</p>
@@ -201,11 +219,21 @@ class __TwigTemplate_cdbaaeb44817351baf757c6bac6449d0c67ab3814b307cb31e38d3e80cc
                                 Отменить регистрацию
                             </button>
                         </div>
+
+                        <div>
+                            <div class='text-center'>
+{#                                <button class='reg-button btn btn-primary btn-lg mb-5'>#}
+                                    <a href='/get-diplom/{{ currentUser.getId }}/{{ currentEvent.getId }}'>
+                                        <p>Получить диплом</p>
+                                    </a>
+{#                                </button>#}
+                            </div>
+                        </div>
                     {% endif %}
                 </form>
             {% endif %}
 
-{#            <p><a href=\"/view-event-points?eventId={{ currentEvent.getId }}\">Посмотреть этапы</a></p>#}
+            {# <p><a href=\"/view-event-points?eventId={{ currentEvent.getId }}\">Посмотреть этапы</a></p> #}
             <p><a href=\"/view-event-points/{{ currentEvent.getId }}\">Посмотреть этапы</a></p>
         </div>
     </div>

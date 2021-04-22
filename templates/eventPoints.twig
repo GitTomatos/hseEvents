@@ -45,7 +45,10 @@
                     {{ outputPointInfo(point) }}
                     {% if (userPermission == 2) %}
                         {% if (attribute(studentRepository, 'isRegedToEvent', [currentUser.getId, eventId])) %}
-                            {{ outputButton(studentRepository, currentUser, point) }}
+                            <div class="mb-4">
+                                {{ outputQR(currentUser, point) }}
+                            </div>
+
                             {% if point.isComplex %}
                                 <div class='text-center'>
                                     <button class='reg-button btn btn-primary btn-lg mb-5'>

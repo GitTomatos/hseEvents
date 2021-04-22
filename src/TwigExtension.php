@@ -22,6 +22,9 @@ class TwigExtension extends \Twig\Extension\AbstractExtension
         return [
             new \Twig\TwigFunction('outputPointInfo', [$this, '\HseEvents\TwigExtension::outputPointInfo']),
             new \Twig\TwigFunction('outputButton', [$this, '\HseEvents\TwigExtension::outputButton']),
+            new \Twig\TwigFunction('outputRegisterButton', [$this, '\HseEvents\TwigExtension::outputRegisterButton']),
+            new \Twig\TwigFunction('outputUnregisterButton', [$this, '\HseEvents\TwigExtension::outputUnregisterButton']),
+            new \Twig\TwigFunction('outputQR', [$this, '\HseEvents\TwigExtension::outputQR']),
         ];
     }
 
@@ -44,6 +47,8 @@ class TwigExtension extends \Twig\Extension\AbstractExtension
 
     public function outputRegisterButton(Point $point): void
     {
+        echo "<form action='' method='post'>";
+
         if ($point->isComplex()) {
             echo "<div class='text-center'>
                     <button class='reg-button btn btn-primary btn-lg mb-5'>
@@ -61,11 +66,15 @@ class TwigExtension extends \Twig\Extension\AbstractExtension
                     </button>
                 </div>";
         }
+
+        echo "</form>";
     }
 
 
     public function outputUnregisterButton(Point $point): void
     {
+        echo "<form action='' method='post'>";
+
         echo "<div class='text-center'>
                     <input type='hidden' name='pointId' value=" . $point->getId() . ">
                     <input type='hidden' name='pointName' value='" . $point->getName() . "'>
@@ -74,6 +83,17 @@ class TwigExtension extends \Twig\Extension\AbstractExtension
                             Отменить регистрацию
                     </button >
                 </div >";
+
+        echo "</form>";
+    }
+
+    public function outputQR(Student $currentUser, Point $point): void
+    {
+        $link = 'https://api.qrserver.com/v1/create-qr-code/?data='
+            . 'http://' . $_SERVER['HTTP_HOST'] . '/check-in-to-point/'
+            . $currentUser->getId() . '/' . $point->getId()
+            . '&size=150x150';
+        echo "<img src=" . $link . "alt='qr-code' class='img-center' >";
     }
 
 
@@ -84,18 +104,14 @@ class TwigExtension extends \Twig\Extension\AbstractExtension
         bool $isComplex = false
     )
     {
-        echo "<form action='' method='post'>";
-        if (!$studentRepository->isRegedToPoint($currentUser->getId(), $point->getId())) {
+        if (!$studentRepository->isRegedToComplexPoint($currentUser->getId(), $point->getId())) {
             $this->outputRegisterButton($point);
         } else {
             if (!$studentRepository->isCheckedIn($currentUser->getId(), $point->getId())) {
-                $link = 'https://api.qrserver.com/v1/create-qr-code/?data='
-                    . 'http://' . $_SERVER['HTTP_HOST'] . '/check-in-to-point/'
-                    . $currentUser->getId() . '/' . $point->getId()
-                    . '&size=150x150';
-                echo "<img src=" . $link . "alt='qr-code' class='img-center' >";
+                $this->outputQR($currentUser, $point);
                 $this->outputUnregisterButton($point);
             } else {
+                echo "<form action='' method='post'>";
 
                 echo "<div class='text-center'>";
                 if ($point->isComplex()) {
@@ -111,10 +127,10 @@ class TwigExtension extends \Twig\Extension\AbstractExtension
                     </button>";
                 }
                 echo "</div>";
+                echo "</form>";
 
             }
 
         }
-        echo "</form>";
     }
 }

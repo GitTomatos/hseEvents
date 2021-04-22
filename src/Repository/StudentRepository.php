@@ -68,7 +68,7 @@ class StudentRepository extends AbstractRepository
 
     public function checkPassword(Student $stud, string $passToCheck)
     {
-        return ($stud->getPassword() == $passToCheck);
+        return ($stud->getPassword() === $passToCheck || $stud->getPassword() === md5($passToCheck));
     }
 
 
@@ -92,24 +92,24 @@ class StudentRepository extends AbstractRepository
     }
 
 
-    public function getPoints(int $eventId): array
-    {
-        $sql = "SELECT * FROM student_point WHERE student_id=:studentId";
-
-        $conn = $this->pdo;
-
-        $sth = $conn->prepare($sql);
-        $sth->bindValue(":studentId", $this->id);
-        $sth->execute();
-
-        $sth->setFetchMode(PDO::FETCH_ASSOC);
-
-        $points = array();
-        while ($record = $sth->fetch())
-            $points[] = Point::getById($record['pointId']);
-
-        return $points;
-    }
+//    public function getPoints(int $eventId): array
+//    {
+//        $sql = "SELECT * FROM student_point WHERE student_id=:studentId";
+//
+//        $conn = $this->pdo;
+//
+//        $sth = $conn->prepare($sql);
+//        $sth->bindValue(":studentId", $this->id);
+//        $sth->execute();
+//
+//        $sth->setFetchMode(PDO::FETCH_ASSOC);
+//
+//        $points = array();
+//        while ($record = $sth->fetch())
+//            $points[] = Point::getById($record['pointId']);
+//
+//        return $points;
+//    }
 
 
     public function regToEvent(Student $student, int $eventId): bool
@@ -132,7 +132,7 @@ class StudentRepository extends AbstractRepository
         $sth = $conn->prepare($sql);
         $sth->execute($data);
 
-        $eventPoints = $this->pointRepository->findBy(['event_id' => $eventId, 'is_complex' => 0]);
+        $eventPoints = $this->pointRepository->findBy(['event_id' => $eventId]);
         foreach ($eventPoints as $point) {
             $this->regToPoint($student->getId(), $point->getId());
         }
@@ -230,7 +230,7 @@ class StudentRepository extends AbstractRepository
         $sth = $conn->prepare($sql);
         $sth->execute($data);
 
-        $this->regToPoint($studentId, $pointId);
+//        $this->regToPoint($studentId, $pointId);
     }
 
 
@@ -266,7 +266,7 @@ class StudentRepository extends AbstractRepository
         $sth = $conn->prepare($sql);
         $sth->execute($data);
 
-        $this->unregFromPoint($studentId, $pointId);
+//        $this->unregFromPoint($studentId, $pointId);
     }
 
 
@@ -347,14 +347,14 @@ class StudentRepository extends AbstractRepository
 
 
     public
-    function getRegedEventPoint(int $studentId): ?Point
+    function getUnmarkedEventPoints(int $studentId): array
     {
         $data = [
             'studentId' => $studentId,
-            // 'pointId' => $pointId
+             'hasMarked' => 0,
         ];
 
-        $sql = "SELECT * FROM student_point WHERE student_id = :studentId";
+        $sql = "SELECT * FROM student_point WHERE student_id = :studentId AND has_marked = :hasMarked";
 
         $conn = $this->pdo;
 
@@ -363,13 +363,12 @@ class StudentRepository extends AbstractRepository
 
         $sth->setFetchMode(PDO::FETCH_ASSOC);
 
-        $res = $sth->fetch();
+        $points = [];
+        while ($res = $sth->fetch()) {
+            $points[] = $this->pointRepository->find($res['point_id']);
+        }
 
-        if ($res) {
-            $regedPoint = $this->pointRepository->findOneBy(['id' => $res['point_id']]);
-            return $regedPoint;
-        } else
-            return null;
+        return $points;
     }
 
 
@@ -447,6 +446,31 @@ class StudentRepository extends AbstractRepository
         else
             return false;
     }
+
+
+//    public function isFullyPassEvent(int $studentId, int $eventId): bool
+//    {
+//        $data = [
+//            'studentId' => $studentId,
+//            'eventId' => $eventId,
+//            'hasMarked' => true,
+//        ];
+//
+//        $sql = "SELECT * FROM student_point WHERE student_id = :studentId AND point_id = :pointId AND has_marked = :hasMarked";
+//
+//        $conn = $this->pdo;
+//
+//        $sth = $conn->prepare($sql);
+//        $sth->execute($data);
+//
+//        $res = $sth->fetch();
+//
+//        if ($res)
+//            return true;
+//        else
+//            return false;
+//    }
+
 
     public function getModelClassname(): string
     {

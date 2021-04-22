@@ -49,8 +49,22 @@
                             </p>
                         {% endfor %}
                     {% endif %}
-
                 </div>
+
+{#                <div>#}
+{#                    <p>Оставить фидбэк</p>#}
+{#                </div>#}
+
+{#                <div>#}
+{#                    <div class='text-center'>#}
+{#                        <button class='reg-button btn btn-primary btn-lg mb-5'>#}
+{#                            <a href='/getDiplom/{{ currentUser.getId }}/{{ point.getEventId }}'>#}
+{#                                <p>Получить диплом</p>#}
+{#                            </a>#}
+{#                        </button>#}
+{#                    </div>#}
+{#                </div>#}
+
             </div>
 
         {% endif %}
@@ -179,11 +193,11 @@
             <div>
                 <form action="" method="post">
                     <div class='login-fields'>
-{#                        <select name="eventId">#}
-{#                            {% for key, event in events %}#}
-{#                                <option value={{ event.getId }}>{{ event.getName }}</option>#}
-{#                            {% endfor %}#}
-{#                        </select>#}
+                        {# <select name="eventId"> #}
+                        {# {% for key, event in events %} #}
+                        {# <option value={{ event.getId }}>{{ event.getName }}</option> #}
+                        {# {% endfor %} #}
+                        {# </select> #}
 
                         <select name="pointId">
                             {% for key, point in points %}

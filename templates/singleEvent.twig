@@ -4,8 +4,8 @@
     <div class="container">
         <div class='reg-background'>
 
-{#            {{ attribute(currentEvent, 'getId') is defined ? currentEvent.Id : "no" }}#}
-{#            {{ attribute(currentUser, 'isRegedToEvent', [currentEvent.getId]) }}#}
+            {# {{ attribute(currentEvent, 'getId') is defined ? currentEvent.Id : "no" }} #}
+            {# {{ attribute(currentUser, 'isRegedToEvent', [currentEvent.getId]) }} #}
             {% if registeredToEvent.success is not empty %}
                 <div class="alert alert-success" role="alert">
                     {{ registeredToEvent.success }}
@@ -19,7 +19,7 @@
             <div class="text-center py-5">
                 <h1>
                     <p>ID мероприятия: {{ currentEvent.getId }}</p>
-                </h1>                    {% set a=currentEvent.getId %}
+                </h1> {% set a=currentEvent.getId %}
 
                 <h1>
                     <p>Название: {{ currentEvent.getName }}</p>
@@ -42,11 +42,21 @@
                                 Отменить регистрацию
                             </button>
                         </div>
+
+                        <div>
+                            <div class='text-center'>
+{#                                <button class='reg-button btn btn-primary btn-lg mb-5'>#}
+                                    <a href='/get-diplom/{{ currentUser.getId }}/{{ currentEvent.getId }}'>
+                                        <p>Получить диплом</p>
+                                    </a>
+{#                                </button>#}
+                            </div>
+                        </div>
                     {% endif %}
                 </form>
             {% endif %}
 
-{#            <p><a href="/view-event-points?eventId={{ currentEvent.getId }}">Посмотреть этапы</a></p>#}
+            {# <p><a href="/view-event-points?eventId={{ currentEvent.getId }}">Посмотреть этапы</a></p> #}
             <p><a href="/view-event-points/{{ currentEvent.getId }}">Посмотреть этапы</a></p>
         </div>
     </div>

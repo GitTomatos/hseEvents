@@ -164,9 +164,9 @@ class StudentRepository extends AbstractRepository
         foreach ($eventPoints as $point) {
             if ($point->isComplex()) {
                 $this->unregFromComplexPoint($student->getId(), $point->getId());
-            } else {
-                $this->unregFromPoint($student->getId(), $point->getId());
             }
+
+            $this->unregFromPoint($student->getId(), $point->getId());
         }
 
         return true;
@@ -351,7 +351,7 @@ class StudentRepository extends AbstractRepository
     {
         $data = [
             'studentId' => $studentId,
-             'hasMarked' => 0,
+            'hasMarked' => 0,
         ];
 
         $sql = "SELECT * FROM student_point WHERE student_id = :studentId AND has_marked = :hasMarked";

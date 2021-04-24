@@ -45,9 +45,25 @@
                     {{ outputPointInfo(point) }}
                     {% if (userPermission == 2) %}
                         {% if (attribute(studentRepository, 'isRegedToEvent', [currentUser.getId, eventId])) %}
-                            <div class="mb-4">
-                                {{ outputQR(currentUser, point) }}
-                            </div>
+                            <div class="mb-4 text-center">
+                            {{ outputQR(currentUser, point) }}
+
+                            {% if attribute(studentRepository, "isCheckedIn", [currentUser.getId, point.getId]) %}
+
+                                {% if point.isComplex() %}
+                                    <button class='reg-button btn btn-success btn-lg mt-4 mb-5'>
+                                        <a href='/view-complex-event-points/{{ point.getId }}'>
+                                            Пройдено
+                                        </a>
+                                    </button>
+                                {% else %}
+                                    <input type='hidden' name='pointId' value='{{ point.getId }}'>
+                                    <button class='reg-button btn btn-success btn-lg mt-4 mb-5'>
+                                        Пройдено
+                                    </button>
+                                {% endif %}
+                                </div>
+                            {% endif %}
 
                             {% if point.isComplex %}
                                 <div class='text-center'>

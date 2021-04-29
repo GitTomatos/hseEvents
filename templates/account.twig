@@ -38,32 +38,47 @@
             <div class="after-info">
                 <div class="my-events">
                     <p>Мои мероприятия:</p>
-                    {% set userEvents = attribute(studentRepository, 'getEvents', [currentUser.getId]) %}
-                    {% if userEvents is not empty %}
-                        {% for key, event in userEvents %}
-                            <p>
-                                {# <a href="./view-event?eventId={{ event.getId }}"> #}
-                                <a href="./view-event/{{ event.getId }}">
-                                    {{ event.getName }}
-                                </a>
-                            </p>
+
+                    {% for eventId, eventType in registeredEvents %}
+                        {% set event = attribute(eventRepository, "find", [eventId]) %}
+                        <a href="/view-event/{{ event.getId }}">
+                            {{ event.getName }}
+                        </a>
+                        {% for point in eventType.simple %}
+                            <a href="/view-point/{{ point.getId }}">
+                                <p class="ml-3">- {{ point.getName }}</p>
+                            </a>
                         {% endfor %}
-                    {% endif %}
+
+                        {% if ((eventType.complex | keys).0) is not null %}
+                            {% set point = attribute(pointRepository, "find", [(eventType.complex | keys).0]) %}
+                            <a href="http://192.168.0.95/view-complex-event-points/{{ point.getId }}">
+                                <p class="ml-3">
+                                    {{ point.getName }}
+                                </p>
+                            </a>
+                            {% for key, point in eventType.complex %}
+                                <a href="/view-point/13/{{ point.getName }}">
+                                    <p class="ml-6">- {{ point.getName }}</p>
+                                </a>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
                 </div>
 
-{#                <div>#}
-{#                    <p>Оставить фидбэк</p>#}
-{#                </div>#}
+                {# <div> #}
+                {# <p>Оставить фидбэк</p> #}
+                {# </div> #}
 
-{#                <div>#}
-{#                    <div class='text-center'>#}
-{#                        <button class='reg-button btn btn-primary btn-lg mb-5'>#}
-{#                            <a href='/getDiplom/{{ currentUser.getId }}/{{ point.getEventId }}'>#}
-{#                                <p>Получить диплом</p>#}
-{#                            </a>#}
-{#                        </button>#}
-{#                    </div>#}
-{#                </div>#}
+                {# <div> #}
+                {# <div class='text-center'> #}
+                {# <button class='reg-button btn btn-primary btn-lg mb-5'> #}
+                {# <a href='/getDiplom/{{ currentUser.getId }}/{{ point.getEventId }}'> #}
+                {# <p>Получить диплом</p> #}
+                {# </a> #}
+                {# </button> #}
+                {# </div> #}
+                {# </div> #}
 
             </div>
 

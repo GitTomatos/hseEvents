@@ -10,17 +10,18 @@ use HseEvents\Repository\StudentRepository;
 
 class TwigExtension extends \Twig\Extension\AbstractExtension
 {
-    private array $data;
+    private StudentRepository $studentRepository;
 
-    public function __construct()
+    public function __construct(StudentRepository $studentRepository)
     {
-//        $this->data = $data;
+        $this->studentRepository = $studentRepository;
     }
 
     public function getFunctions()
     {
         return [
             new \Twig\TwigFunction('outputPointInfo', [$this, '\HseEvents\TwigExtension::outputPointInfo']),
+            new \Twig\TwigFunction('outputPointInfo2', [$this, '\HseEvents\TwigExtension::outputPointInfo2']),
             new \Twig\TwigFunction('outputButton', [$this, '\HseEvents\TwigExtension::outputButton']),
             new \Twig\TwigFunction('outputRegisterButton', [$this, '\HseEvents\TwigExtension::outputRegisterButton']),
             new \Twig\TwigFunction('outputUnregisterButton', [$this, '\HseEvents\TwigExtension::outputUnregisterButton']),
@@ -31,17 +32,44 @@ class TwigExtension extends \Twig\Extension\AbstractExtension
     public function outputPointInfo(Point $point)
     {
         echo "<div class='text-center'>
-                        <h1>
-                            <p>ID этапа:" . $point->getId() . "</p>
-                        </h1>
-                        <h1>
-                            <p>ID мероприятия:" . $point->getEventId() . "</p>
-                        </h1>
-                        <h1>
-                            <p>Название:" . $point->getName() . "</p>
-                        </h1>
-                        <p>Описание:" . $point->getDescription() . "</p>
-                    </div>";
+                    <h1>
+                        <p>Название:" . $point->getName() . "</p>
+                    </h1>
+                    <p>Описание:" . $point->getDescription() . "</p>
+                </div>";
+    }
+
+    public function outputPointInfo2(Point $point, Student $currentUser = null, bool $addNameToHref = false)
+    {
+        echo "<article class='post text-center'>
+                    <h2 class='entry-title'><a href='' rel='bookmark'>" . $point->getName() . "</a></h2>
+                    <div class='entry-content entry-excerpt clearfix'>
+                        <p>" . $point->getDescription() . "</p>";
+
+        if ($point->isComplex()) {
+            $href = '/view-complex-event-points/' . $point->getId();
+        } else {
+            $href = '/view-point/' . $point->getId();
+        }
+
+        if ($addNameToHref) {
+            $href .= "/" . $point->getName();
+        }
+
+        if (is_null($currentUser) || !$this->studentRepository->isCheckedIn($currentUser->getId(), $point->getId())) {
+            echo "<a href='$href' class='btn btn-primary'>Посмотреть</a>";
+        } else {
+            echo "<a href='$href' class='btn btn-success'>Посмотреть</a>";
+        }
+
+//        if ($this->studentRepository->isCheckedIn($currentUser->getId(), $point->getId())) {
+//            echo "<a href='$href' class='btn btn-success'>Посмотреть</a>";
+//        } else {
+//            echo "<a href='$href' class='btn btn-primary'>Посмотреть</a>";
+//        }
+        echo "</div>";
+//        $this->outputButton($point);
+        echo "</article>";
     }
 
 
@@ -96,19 +124,30 @@ class TwigExtension extends \Twig\Extension\AbstractExtension
         echo "<img src=" . $link . "alt='qr-code' class='img-center' >";
     }
 
+    public function outputQRButton(Student $currentUser, Point $point): void
+    {
+        $link = 'https://api.qrserver.com/v1/create-qr-code/?data='
+            . 'http://' . $_SERVER['HTTP_HOST'] . '/check-in-to-point/'
+            . $currentUser->getId() . '/' . $point->getId()
+            . '&size=500x500';
+
+        echo "<div class='text-center'>
+                    <a class='btn btn-primary btn-lg' href='" . $link . "'>Посмотреть QR</a>
+                </div >";
+
+    }
+
 
     public function outputButton(
-        StudentRepository $studentRepository,
         Student $currentUser,
-        Point $point,
-        bool $isComplex = false
+        Point $point
     )
     {
-        if (!$studentRepository->isRegedToComplexPoint($currentUser->getId(), $point->getId())) {
+        if (!$this->studentRepository->isRegedToPoint($currentUser->getId(), $point->getId())) {
             $this->outputRegisterButton($point);
         } else {
-            if (!$studentRepository->isCheckedIn($currentUser->getId(), $point->getId())) {
-                $this->outputQR($currentUser, $point);
+            if (!$this->studentRepository->isCheckedIn($currentUser->getId(), $point->getId())) {
+                $this->outputQRButton($currentUser, $point);
                 $this->outputUnregisterButton($point);
             } else {
                 echo "<form action='' method='post'>";

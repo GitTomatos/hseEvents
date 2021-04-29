@@ -18,9 +18,9 @@ class GetDiplomValidator extends AbstractValidator
     public function isValid($data): bool
     {
 //        die("hello");
-        $regedPoints = $this->studentRepository->getUnmarkedEventPoints($data['studentId']);
+        $unmarkedPoints = $this->studentRepository->getUnmarkedEventPoints($data['studentId']);
 
-        if (count($regedPoints) === 0) {
+        if (count($unmarkedPoints) === 0) {
             $isFullyPassed = true;
         } else {
             $isFullyPassed = false;
@@ -38,8 +38,12 @@ class GetDiplomValidator extends AbstractValidator
 //        dump($isReged);
 //        die();
         if (!$isFullyPassed) {
-            $err = "Мероприятие пройдено не полностью!";
-            $this->addError('notFullyPassed', $err);
+            foreach ($unmarkedPoints as $point) {
+//                $err = "Мероприятие пройдено не полностью!";
+                $err = $point->getId();
+                $this->addError('notFullyPassed', $err);
+            }
+
         }
 
         if (count($this->getErrors()) === 0) {

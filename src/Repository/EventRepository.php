@@ -39,6 +39,20 @@ class EventRepository extends AbstractRepository
     }
 
 
+    public function setDiplom(int $studentId, int $eventId) {
+        $data = [
+            ":studentId" => $studentId,
+            ":eventId" => $eventId,
+        ];
+
+        $sql = "UPDATE student_event SET has_diplom = 1 WHERE student_id = :studentId AND event_id = :eventId";
+
+        $conn = $this->pdo;
+
+        $sth = $conn->prepare($sql);
+        $sth->execute($data);
+    }
+
 
     protected function createObject(array $objData, string $modelClassName = null): Model {
         $object = parent::createObject($objData, $modelClassName);

@@ -1,7 +1,7 @@
 * {
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;
+	/*box-sizing: border-box;*/
 }
 
 body {
@@ -21,7 +21,7 @@ body {
 header {
 	background: rgba(255,255,255,0.5)!important;
 	height: 10vh;
-	border: 1px solid red;
+	/*border: 1px solid red;*/
 }
 
 header a {
@@ -36,7 +36,7 @@ button a {
 }
 
 .reg-background {
-	border: 3px solid black;
+	/*border: 3px solid black;*/
 	width: 100%;
 	height: max-content;
 	min-height: 90%;
@@ -57,11 +57,11 @@ button a {
 .container {
 	/*height: max-content;*/
 	min-height: 90vh;
-	border: 1px solid red;
+	/*border: 1px solid red;*/
 }
 
 .background-center {
-	border: 3px solid green;
+	/*border: 3px solid green;*/
 	width: 100%;
 	display: flex;
 	height: 10%;
@@ -191,14 +191,17 @@ button a {
 }
 
 .event-table a {
-	text-decoration: none;
+    display: block;
+    text-decoration: none;
 	color: inherit;
 	text-align: center;
 }
 
+
+
 .event-table tbody tr:hover {
 	background: #f3bd48;
-	font-size: 1.3rem;
+	/*font-size: 1.3rem;*/
 	color: #000;
 }
 
@@ -232,4 +235,6 @@ button a {
     margin-right: auto;
     /*width: 50%;*/
 }
+
+
 

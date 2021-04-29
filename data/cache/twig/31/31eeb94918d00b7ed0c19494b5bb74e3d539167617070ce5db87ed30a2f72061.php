@@ -48,6 +48,7 @@ class __TwigTemplate_7d3f28f8f07a7d7689e4ef205fc7442a887a16c8ea26ecbbf36f3438756
         $macros = $this->macros;
         // line 4
         echo "    <div class=\"container\">
+
         <div class='reg-background'>
 
 
@@ -67,31 +68,31 @@ class __TwigTemplate_7d3f28f8f07a7d7689e4ef205fc7442a887a16c8ea26ecbbf36f3438756
 
 
                 ";
-        // line 23
+        // line 24
         if ( !twig_test_empty(($context["events"] ?? null))) {
-            // line 24
+            // line 25
             echo "                    ";
             $context['_parent'] = $context;
             $context['_seq'] = twig_ensure_traversable(($context["events"] ?? null));
             foreach ($context['_seq'] as $context["key"] => $context["event"]) {
-                // line 25
+                // line 26
                 echo "                        <tr>
                             <td>
                                 ";
-                // line 28
+                // line 29
                 echo "                                <a href=\"/view-event/";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getId", [], "any", false, false, false, 28), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getId", [], "any", false, false, false, 29), "html", null, true);
                 echo "\">
                                     ";
-                // line 29
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getName", [], "any", false, false, false, 29), "html", null, true);
+                // line 30
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getName", [], "any", false, false, false, 30), "html", null, true);
                 echo "
                                 </a>
                             </td>
                             <td>
                                 ";
-                // line 33
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getDescription", [], "any", false, false, false, 33), "html", null, true);
+                // line 34
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getDescription", [], "any", false, false, false, 34), "html", null, true);
                 echo "
                             </td>
                         </tr>
@@ -100,10 +101,10 @@ class __TwigTemplate_7d3f28f8f07a7d7689e4ef205fc7442a887a16c8ea26ecbbf36f3438756
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['key'], $context['event'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 37
+            // line 38
             echo "                ";
         }
-        // line 38
+        // line 39
         echo "
 
                 </tbody>
@@ -128,7 +129,7 @@ class __TwigTemplate_7d3f28f8f07a7d7689e4ef205fc7442a887a16c8ea26ecbbf36f3438756
 
     public function getDebugInfo()
     {
-        return array (  107 => 38,  104 => 37,  94 => 33,  87 => 29,  82 => 28,  78 => 25,  73 => 24,  71 => 23,  50 => 4,  46 => 3,  35 => 1,);
+        return array (  108 => 39,  105 => 38,  95 => 34,  88 => 30,  83 => 29,  79 => 26,  74 => 25,  72 => 24,  50 => 4,  46 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -137,6 +138,7 @@ class __TwigTemplate_7d3f28f8f07a7d7689e4ef205fc7442a887a16c8ea26ecbbf36f3438756
 
 {% block content %}
     <div class=\"container\">
+
         <div class='reg-background'>
 
 

@@ -47,6 +47,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute(['GET', 'POST'], '/registration[/]', 'HseEvents\Controller\RegistrationController');
 //    $r->addRoute('GET', '/view-event[/]', 'HseEvents\Controller\ViewEventController');
     $r->addRoute(['GET', 'POST'], '/view-event/{eventId:\d+}[/]', 'HseEvents\Controller\ViewEventController');
+    $r->addRoute(['GET', 'POST'], '/view-point/{pointId:\d+}[/{complexPointName}]', 'HseEvents\Controller\ViewPointController');
     $r->addRoute('GET', '/view-event-points[/]', 'HseEvents\Controller\ViewEventPointsController');
     $r->addRoute(['GET', 'POST'], '/view-event-points/{eventId:\d+}[/]', 'HseEvents\Controller\ViewEventPointsController');
     $r->addRoute('GET', '/view-complex-event-points[/]', 'HseEvents\Controller\ViewComplexEventPointsController');
@@ -128,6 +129,9 @@ switch ($path) {
         break;
     case '/view-event':
         $controllerName = 'HseEvents\Controller\ViewEventController';
+        break;
+    case '/view-point':
+        $controllerName = 'HseEvents\Controller\ViewPointController';
         break;
     case '/view-event-points':
         $controllerName = 'HseEvents\Controller\ViewEventPointsController';

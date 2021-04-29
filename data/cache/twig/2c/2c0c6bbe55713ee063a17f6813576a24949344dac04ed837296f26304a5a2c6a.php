@@ -149,9 +149,12 @@ class __TwigTemplate_cdbaaeb44817351baf757c6bac6449d0c67ab3814b307cb31e38d3e80cc
         echo "
             ";
         // line 60
-        echo "            <p><a href=\"/view-event-points/";
-        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 60), "html", null, true);
-        echo "\">Посмотреть этапы</a></p>
+        echo "            <div class=\"text-center\">
+                <a class=\"btn btn-primary btn-lg mt-5\" href=\"/view-event-points/";
+        // line 61
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["currentEvent"] ?? null), "getId", [], "any", false, false, false, 61), "html", null, true);
+        echo "\">Посмотреть программу</a>
+            </div>
         </div>
     </div>
 
@@ -170,7 +173,7 @@ class __TwigTemplate_cdbaaeb44817351baf757c6bac6449d0c67ab3814b307cb31e38d3e80cc
 
     public function getDebugInfo()
     {
-        return array (  152 => 60,  149 => 58,  145 => 56,  140 => 53,  131 => 49,  121 => 40,  113 => 34,  111 => 33,  108 => 32,  106 => 31,  99 => 27,  94 => 25,  90 => 23,  88 => 22,  84 => 21,  79 => 18,  73 => 15,  70 => 14,  68 => 13,  63 => 11,  60 => 10,  57 => 9,  55 => 8,  50 => 4,  46 => 3,  35 => 1,);
+        return array (  155 => 61,  152 => 60,  149 => 58,  145 => 56,  140 => 53,  131 => 49,  121 => 40,  113 => 34,  111 => 33,  108 => 32,  106 => 31,  99 => 27,  94 => 25,  90 => 23,  88 => 22,  84 => 21,  79 => 18,  73 => 15,  70 => 14,  68 => 13,  63 => 11,  60 => 10,  57 => 9,  55 => 8,  50 => 4,  46 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -234,7 +237,9 @@ class __TwigTemplate_cdbaaeb44817351baf757c6bac6449d0c67ab3814b307cb31e38d3e80cc
             {% endif %}
 
             {# <p><a href=\"/view-event-points?eventId={{ currentEvent.getId }}\">Посмотреть этапы</a></p> #}
-            <p><a href=\"/view-event-points/{{ currentEvent.getId }}\">Посмотреть этапы</a></p>
+            <div class=\"text-center\">
+                <a class=\"btn btn-primary btn-lg mt-5\" href=\"/view-event-points/{{ currentEvent.getId }}\">Посмотреть программу</a>
+            </div>
         </div>
     </div>
 

@@ -39,13 +39,12 @@ class AccountController extends Controller
         $this->studentRepository = $studentRepository;
         $this->eventRepository = $eventRepository;
         $this->pointRepository = $pointRepository;
-//        $this->data['studentRepository'] = $studentRepository;
-//        $this->data['username'] = $session->get('username');
-//        $this->data['userPermission'] = $session->get('userPermission');
         $this->data = array_merge(
             $this->data,
             [
                 'studentRepository' => $studentRepository,
+                'eventRepository' => $eventRepository,
+                'pointRepository' => $pointRepository,
                 'username' => $session->get('username'),
                 'userPermission' => $session->get('userPermission'),
             ]
@@ -66,6 +65,7 @@ class AccountController extends Controller
                 'postData' => $request->request->all(),
                 'currentUser' => null,
                 'validationErrors' => null,
+                'registeredPoints' => null,
             ]
         );
 //        dd($session);
@@ -77,30 +77,11 @@ class AccountController extends Controller
             header("Location: ./");
         }
 
-
-//        if (isset($_POST['readQr'])) {
-//            require_once(get_template_directory() . "/qr/qr-decoder.php");
-//            $res = decodeQr();
-//            echo "Результат: " . $res;
-//        }
-
-
-        if (isset($_POST['readQr'])) {
-            $curl_file = curl_file_create($_FILES["file"]["tmp_name"], 'mimetype', 'r.png');
-            $ch = curl_init('http://api.qrserver.com/v1/read-qr-code/');
-            curl_setopt($ch, \CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, array(
-                'file' => $curl_file,
-                'MAX_FILE_SIZE' => "1048576"
-            ));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_HEADER, false);
-            $res = curl_exec($ch);
-            curl_close($ch);
-
-            $res = json_decode($res, true)[0]['symbol'][0]['data'];
-            dump($res);
+        if ($this->data['currentUser']->getPermission() == 2) {
+            $events = $this->studentRepository->getEvents($this->data['currentUser']->getId());
+            foreach ($events as $event) {
+                $this->data['registeredEvents'][$event->getId()] = $this->studentRepository->getRegedEventPoints($this->data['currentUser']->getId(), $event->getId());
+            }
         }
 
 
@@ -138,7 +119,7 @@ class AccountController extends Controller
             $validator = new PointValidator($this->pointRepository);
             if ($validator->isValid($pointData)) {
                 $pointData = (new SanitizingFilter())->filter($pointData);
-                $point = new Point($pointData['eventId'], $pointData['name'], $pointData['description']);
+                $point = new Point($pointData['eventId'], $pointData['name'], $pointData['description'], false);
                 $this->pointRepository->save($point);
                 header("Location: ./");
             } else {

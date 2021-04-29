@@ -54,22 +54,22 @@ class __TwigTemplate_03e76152815339f543f4ebc642f51ad4adb35045c22318495758be91819
     ";
         // line 13
         $this->displayBlock('styles', $context, $blocks);
-        // line 19
+        // line 20
         echo "
 </head>
 <body>
 
 ";
-        // line 23
+        // line 24
         $this->displayBlock('header', $context, $blocks);
-        // line 46
+        // line 47
         echo "<main>
     ";
-        // line 47
+        // line 48
         $this->displayBlock('content', $context, $blocks);
-        // line 49
-        echo "    ";
         // line 50
+        echo "    ";
+        // line 51
         echo "</main>
 
 
@@ -100,14 +100,15 @@ class __TwigTemplate_03e76152815339f543f4ebc642f51ad4adb35045c22318495758be91819
               integrity=\"sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I\"
               crossorigin=\"anonymous\">
         <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/css/styles.css\">
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/css/blocks.css\">
     ";
     }
 
-    // line 23
+    // line 24
     public function block_header($context, array $blocks = [])
     {
         $macros = $this->macros;
-        // line 24
+        // line 25
         echo "    <header class=\"header d-flex justify-content-between\">
         <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
             <a href=\"/home\"><p class=\"res-margin ml-2\">Мероприятия</p></a>
@@ -115,9 +116,9 @@ class __TwigTemplate_03e76152815339f543f4ebc642f51ad4adb35045c22318495758be91819
         </div>
 
         ";
-        // line 30
+        // line 31
         if ( !twig_test_empty(($context["username"] ?? null))) {
-            // line 31
+            // line 32
             echo "            <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
                 <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
                 <a href=\"/account\"><p class=\"res-margin\">Личный кабинет</p></a>
@@ -125,7 +126,7 @@ class __TwigTemplate_03e76152815339f543f4ebc642f51ad4adb35045c22318495758be91819
             </div>
         ";
         } else {
-            // line 37
+            // line 38
             echo "            <div class=\"col-lg-4 d-flex justify-content-center align-items-center header-button\">
                 <!-- <img src=\"https://img.icons8.com/cute-clipart/64/000000/bulleted-list.png\"/> -->
                 <a href=\"/registration\"><p class=\"res-margin\">Регистрация</p></a>
@@ -133,17 +134,17 @@ class __TwigTemplate_03e76152815339f543f4ebc642f51ad4adb35045c22318495758be91819
             </div>
         ";
         }
-        // line 43
+        // line 44
         echo "    </header>
 
 ";
     }
 
-    // line 47
+    // line 48
     public function block_content($context, array $blocks = [])
     {
         $macros = $this->macros;
-        // line 48
+        // line 49
         echo "    ";
     }
 
@@ -154,7 +155,7 @@ class __TwigTemplate_03e76152815339f543f4ebc642f51ad4adb35045c22318495758be91819
 
     public function getDebugInfo()
     {
-        return array (  147 => 48,  143 => 47,  137 => 43,  129 => 37,  121 => 31,  119 => 30,  111 => 24,  107 => 23,  99 => 14,  95 => 13,  90 => 9,  86 => 8,  73 => 50,  71 => 49,  69 => 47,  66 => 46,  64 => 23,  58 => 19,  56 => 13,  52 => 11,  50 => 8,  41 => 1,);
+        return array (  148 => 49,  144 => 48,  138 => 44,  130 => 38,  122 => 32,  120 => 31,  112 => 25,  108 => 24,  99 => 14,  95 => 13,  90 => 9,  86 => 8,  73 => 51,  71 => 50,  69 => 48,  66 => 47,  64 => 24,  58 => 20,  56 => 13,  52 => 11,  50 => 8,  41 => 1,);
     }
 
     public function getSourceContext()
@@ -176,6 +177,7 @@ class __TwigTemplate_03e76152815339f543f4ebc642f51ad4adb35045c22318495758be91819
               integrity=\"sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I\"
               crossorigin=\"anonymous\">
         <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/css/styles.css\">
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/css/blocks.css\">
     {% endblock %}
 
 </head>

@@ -27,22 +27,23 @@
             {% if points is not empty %}
                 {% for key, point in points %}
 
-                    {{ outputPointInfo(point) }}
-                    {% if (userPermission == 2) %}
-                        {% set regedComplexPoint = attribute (
-                            studentRepository,
-                            'getRegedComplexEventPoint',
-                            [currentUser.getId, point.getId]
-                        ) %}
-                        {% if (regedComplexPoint is empty) %}
-                            {{ outputRegisterButton(point) }}
-                        {% elseif (regedComplexPoint.getName == point.getName) %}
-                            {{ outputButton(studentRepository, currentUser, point) }}
-                        {% endif %}
-
-                        {# {% if (regedComplexPoint is empty) or (regedComplexPoint.getName == point.getName) %} #}
+{#                    {{ outputPointInfo(point) }}#}
+{#                    {% if (userPermission == 2) %}#}
+                        {# {% set regedComplexPoint = attribute ( #}
+                        {# studentRepository, #}
+                        {# 'getRegedComplexEventPoint', #}
+                        {# [currentUser.getId, point.getId] #}
+                        {# ) %} #}
+                        {# {% if (regedComplexPoint is empty) %} #}
+                        {# {{ outputRegisterButton(point) }} #}
+                        {# {% elseif (regedComplexPoint.getName == point.getName) %} #}
+                        {# {{ outputButton(currentUser, point) }} #}
                         {# {% endif %} #}
-                    {% endif %}
+                        <div class="post-wrapper">
+                            {{ outputPointInfo2(point, currentUser, true) }}
+                        </div>
+
+{#                    {% endif %}#}
 
                 {% endfor %}
             {% endif %}

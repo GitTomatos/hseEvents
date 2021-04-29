@@ -3,7 +3,6 @@
 {% block content %}
     <div class="container">
         <div class='reg-background'>
-
             {% if (userPermission == 2) %}
 
                 {% if (currentUser is not empty) %}
@@ -24,18 +23,23 @@
 
             {% endif %}
 
-            {% if points is not empty %}
-                <div class="backgrd">
-                    <div class="site-content">
-                        {% for key, point in points %}
-                            <div class="post-wrapper">
-                                {{ outputPointInfo2(point, currentUser) }}
-                            </div>
+            <div class="backgrd">
+                <div class="site-content">
+                    <div class="post-wrapper">
+                        {{ outputPointInfo(point) }}
+                        {% if (userPermission == 2) %}
+                            {% if (attribute(studentRepository, 'isRegedToEvent', [currentUser.getId, eventId])) %}
+                                <div class="mb-4 text-center">
+                                    {{ outputButton(currentUser, point) }}
+                                </div>
+                            {% endif %}
 
-                        {% endfor %}
+
+                        {% endif %}
+
                     </div>
                 </div>
-            {% endif %}
+            </div>
 
 
         </div>

@@ -18,10 +18,6 @@
 
             <div class="text-center py-5">
                 <h1>
-                    <p>ID мероприятия: {{ currentEvent.getId }}</p>
-                </h1> {% set a=currentEvent.getId %}
-
-                <h1>
                     <p>Название: {{ currentEvent.getName }}</p>
                 </h1>
                 <p>Описание: {{ currentEvent.getDescription }}</p>
@@ -57,7 +53,9 @@
             {% endif %}
 
             {# <p><a href="/view-event-points?eventId={{ currentEvent.getId }}">Посмотреть этапы</a></p> #}
-            <p><a href="/view-event-points/{{ currentEvent.getId }}">Посмотреть этапы</a></p>
+            <div class="text-center">
+                <a class="btn btn-primary btn-lg mt-5" href="/view-event-points/{{ currentEvent.getId }}">Посмотреть программу</a>
+            </div>
         </div>
     </div>
 

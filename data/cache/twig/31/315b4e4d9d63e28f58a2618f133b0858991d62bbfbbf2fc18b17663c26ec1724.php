@@ -114,111 +114,159 @@ class __TwigTemplate_7a12f21e030cd438a8166c481cff4f8125d24110f5a4df8641e6a38b19e
             <div class=\"after-info\">
                 <div class=\"my-events\">
                     <p>Мои мероприятия:</p>
+
                     ";
-            // line 41
-            $context["userEvents"] = twig_get_attribute($this->env, $this->source, ($context["studentRepository"] ?? null), "getEvents", [0 => twig_get_attribute($this->env, $this->source, ($context["currentUser"] ?? null), "getId", [], "any", false, false, false, 41)], "any", false, false, false, 41);
             // line 42
-            echo "                    ";
-            if ( !twig_test_empty(($context["userEvents"] ?? null))) {
+            $context['_parent'] = $context;
+            $context['_seq'] = twig_ensure_traversable(($context["registeredEvents"] ?? null));
+            foreach ($context['_seq'] as $context["_key"] => $context["event"]) {
                 // line 43
-                echo "                        ";
+                echo "                        <p>";
+                echo twig_escape_filter($this->env, $context["event"], "html", null, true);
+                echo "</p>
+                        ";
+                // line 44
                 $context['_parent'] = $context;
-                $context['_seq'] = twig_ensure_traversable(($context["userEvents"] ?? null));
-                foreach ($context['_seq'] as $context["key"] => $context["event"]) {
-                    // line 44
-                    echo "                            <p>
-                                ";
-                    // line 46
-                    echo "                                <a href=\"./view-event/";
-                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getId", [], "any", false, false, false, 46), "html", null, true);
+                $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, $context["event"], "simple", [], "any", false, false, false, 44));
+                foreach ($context['_seq'] as $context["_key"] => $context["point"]) {
+                    // line 45
+                    echo "                            <a href=\"/view-point/";
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 45), "html", null, true);
                     echo "\">
-                                    ";
-                    // line 47
-                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getName", [], "any", false, false, false, 47), "html", null, true);
-                    echo "
-                                </a>
-                            </p>
+                                <p>";
+                    // line 46
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getName", [], "any", false, false, false, 46), "html", null, true);
+                    echo "</p>
+                            </a>
                         ";
                 }
                 $_parent = $context['_parent'];
-                unset($context['_seq'], $context['_iterated'], $context['key'], $context['event'], $context['_parent'], $context['loop']);
+                unset($context['_seq'], $context['_iterated'], $context['_key'], $context['point'], $context['_parent'], $context['loop']);
                 $context = array_intersect_key($context, $_parent) + $_parent;
+                // line 49
+                echo "
+                        <p>";
+                // line 50
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, twig_get_array_keys_filter(twig_get_attribute($this->env, $this->source, $context["event"], "complex", [], "any", false, false, false, 50)), 0, [], "any", false, false, false, 50), "html", null, true);
+                echo "</p>
+                        ";
                 // line 51
+                $context['_parent'] = $context;
+                $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, $context["event"], "complex", [], "any", false, false, false, 51));
+                foreach ($context['_seq'] as $context["key"] => $context["point"]) {
+                    // line 52
+                    echo "                            <a href=\"/view-point/13/";
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getName", [], "any", false, false, false, 52), "html", null, true);
+                    echo "\">
+                                <pre>   - ";
+                    // line 53
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getName", [], "any", false, false, false, 53), "html", null, true);
+                    echo "</pre>
+                            </a>
+                        ";
+                }
+                $_parent = $context['_parent'];
+                unset($context['_seq'], $context['_iterated'], $context['key'], $context['point'], $context['_parent'], $context['loop']);
+                $context = array_intersect_key($context, $_parent) + $_parent;
+                // line 56
                 echo "                    ";
             }
-            // line 52
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['event'], $context['_parent'], $context['loop']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 57
             echo "                </div>
 
-";
-            // line 57
+                ";
+            // line 60
+            echo "                ";
+            // line 61
+            echo "                ";
+            // line 62
             echo "
-";
+                ";
+            // line 64
+            echo "                ";
+            // line 65
+            echo "                ";
+            // line 66
+            echo "                ";
             // line 67
+            echo "                ";
+            // line 68
+            echo "                ";
+            // line 69
+            echo "                ";
+            // line 70
+            echo "                ";
+            // line 71
+            echo "                ";
+            // line 72
             echo "
             </div>
 
         ";
         }
-        // line 71
+        // line 76
         echo "
 
         ";
-        // line 74
-        echo "        ";
-        // line 75
-        echo "        ";
-        // line 76
-        echo "        ";
-        // line 77
-        echo "        ";
-        // line 78
-        echo "        ";
         // line 79
         echo "        ";
         // line 80
-        echo "
-
-        ";
+        echo "        ";
+        // line 81
+        echo "        ";
+        // line 82
+        echo "        ";
         // line 83
         echo "        ";
         // line 84
         echo "        ";
         // line 85
-        echo "        ";
-        // line 86
-        echo "        ";
-        // line 87
-        echo "        ";
-        // line 88
-        echo "        ";
-        // line 89
         echo "
 
         ";
+        // line 88
+        echo "        ";
+        // line 89
+        echo "        ";
+        // line 90
+        echo "        ";
         // line 91
+        echo "        ";
+        // line 92
+        echo "        ";
+        // line 93
+        echo "        ";
+        // line 94
+        echo "
+
+        ";
+        // line 96
         if ((0 === twig_compare(($context["userPermission"] ?? null), 3))) {
-            // line 92
+            // line 97
             echo "
             <div>
                 <form action=\"\" method=\"post\">
                     <div class='login-fields'>
                         <input type=\"text\" name=\"eventName\" placeholder=\"Название мероприятия\"
                                value=\"";
-            // line 97
-            ((twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "eventName", [], "any", false, false, false, 97)) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "eventName", [], "any", false, false, false, 97), "html", null, true))) : (print (null)));
+            // line 102
+            ((twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "eventName", [], "any", false, false, false, 102)) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "eventName", [], "any", false, false, false, 102), "html", null, true))) : (print (null)));
             echo "\">
 
                         ";
-            // line 99
-            if ( !twig_test_empty(twig_get_attribute($this->env, $this->source, ($context["eventValidationErrors"] ?? null), "name", [], "any", false, false, false, 99))) {
-                // line 100
+            // line 104
+            if ( !twig_test_empty(twig_get_attribute($this->env, $this->source, ($context["eventValidationErrors"] ?? null), "name", [], "any", false, false, false, 104))) {
+                // line 105
                 echo "                            <div>
                                 ";
-                // line 101
+                // line 106
                 $context['_parent'] = $context;
-                $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, ($context["eventValidationErrors"] ?? null), "name", [], "any", false, false, false, 101));
+                $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, ($context["eventValidationErrors"] ?? null), "name", [], "any", false, false, false, 106));
                 foreach ($context['_seq'] as $context["key"] => $context["error"]) {
-                    // line 102
+                    // line 107
                     echo "                                    <p>";
                     echo twig_escape_filter($this->env, $context["error"], "html", null, true);
                     echo "</p>
@@ -227,30 +275,30 @@ class __TwigTemplate_7a12f21e030cd438a8166c481cff4f8125d24110f5a4df8641e6a38b19e
                 $_parent = $context['_parent'];
                 unset($context['_seq'], $context['_iterated'], $context['key'], $context['error'], $context['_parent'], $context['loop']);
                 $context = array_intersect_key($context, $_parent) + $_parent;
-                // line 104
+                // line 109
                 echo "                            </div>
                         ";
             }
-            // line 106
+            // line 111
             echo "
 
                         <input type=\"text\" name=\"eventDescription\" placeholder=\"Описание мероприятия\"
                                value=\"";
-            // line 109
-            ((twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "eventDescription", [], "any", false, false, false, 109)) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "eventDescription", [], "any", false, false, false, 109), "html", null, true))) : (print (null)));
+            // line 114
+            ((twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "eventDescription", [], "any", false, false, false, 114)) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "eventDescription", [], "any", false, false, false, 114), "html", null, true))) : (print (null)));
             echo "\">
 
                         ";
-            // line 111
-            if ( !twig_test_empty(twig_get_attribute($this->env, $this->source, ($context["eventValidationErrors"] ?? null), "description", [], "any", false, false, false, 111))) {
-                // line 112
+            // line 116
+            if ( !twig_test_empty(twig_get_attribute($this->env, $this->source, ($context["eventValidationErrors"] ?? null), "description", [], "any", false, false, false, 116))) {
+                // line 117
                 echo "                            <div>
                                 ";
-                // line 113
+                // line 118
                 $context['_parent'] = $context;
-                $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, ($context["eventValidationErrors"] ?? null), "description", [], "any", false, false, false, 113));
+                $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, ($context["eventValidationErrors"] ?? null), "description", [], "any", false, false, false, 118));
                 foreach ($context['_seq'] as $context["key"] => $context["error"]) {
-                    // line 114
+                    // line 119
                     echo "                                    <p>";
                     echo twig_escape_filter($this->env, $context["error"], "html", null, true);
                     echo "</p>
@@ -259,11 +307,11 @@ class __TwigTemplate_7a12f21e030cd438a8166c481cff4f8125d24110f5a4df8641e6a38b19e
                 $_parent = $context['_parent'];
                 unset($context['_seq'], $context['_iterated'], $context['key'], $context['error'], $context['_parent'], $context['loop']);
                 $context = array_intersect_key($context, $_parent) + $_parent;
-                // line 116
+                // line 121
                 echo "                            </div>
                         ";
             }
-            // line 118
+            // line 123
             echo "
 
                     </div>
@@ -277,49 +325,49 @@ class __TwigTemplate_7a12f21e030cd438a8166c481cff4f8125d24110f5a4df8641e6a38b19e
 
 
             ";
-            // line 130
+            // line 135
             if ( !(null === ($context["events"] ?? null))) {
-                // line 131
+                // line 136
                 echo "                <div>
                     <form action=\"\" method=\"post\">
                         <div class='login-fields'>
                             <select name=\"eventId\">
                                 ";
-                // line 135
+                // line 140
                 $context['_parent'] = $context;
                 $context['_seq'] = twig_ensure_traversable(($context["events"] ?? null));
                 foreach ($context['_seq'] as $context["key"] => $context["event"]) {
-                    // line 136
+                    // line 141
                     echo "                                    <option value=";
-                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getId", [], "any", false, false, false, 136), "html", null, true);
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getId", [], "any", false, false, false, 141), "html", null, true);
                     echo ">";
-                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getName", [], "any", false, false, false, 136), "html", null, true);
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getName", [], "any", false, false, false, 141), "html", null, true);
                     echo "</option>
                                 ";
                 }
                 $_parent = $context['_parent'];
                 unset($context['_seq'], $context['_iterated'], $context['key'], $context['event'], $context['_parent'], $context['loop']);
                 $context = array_intersect_key($context, $_parent) + $_parent;
-                // line 138
+                // line 143
                 echo "                            </select>
 
                             <input type=\"text\" name=\"pointName\" placeholder=\"Название этапа\"
                                    value=\"";
-                // line 141
-                ((twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "pointName", [], "any", false, false, false, 141)) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "pointName", [], "any", false, false, false, 141), "html", null, true))) : (print (null)));
+                // line 146
+                ((twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "pointName", [], "any", false, false, false, 146)) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "pointName", [], "any", false, false, false, 146), "html", null, true))) : (print (null)));
                 echo "\">
 
                             ";
-                // line 143
-                if ( !twig_test_empty(twig_get_attribute($this->env, $this->source, ($context["pointValidationErrors"] ?? null), "name", [], "any", false, false, false, 143))) {
-                    // line 144
+                // line 148
+                if ( !twig_test_empty(twig_get_attribute($this->env, $this->source, ($context["pointValidationErrors"] ?? null), "name", [], "any", false, false, false, 148))) {
+                    // line 149
                     echo "                                <div>
                                     ";
-                    // line 145
+                    // line 150
                     $context['_parent'] = $context;
-                    $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, ($context["pointValidationErrors"] ?? null), "name", [], "any", false, false, false, 145));
+                    $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, ($context["pointValidationErrors"] ?? null), "name", [], "any", false, false, false, 150));
                     foreach ($context['_seq'] as $context["key"] => $context["error"]) {
-                        // line 146
+                        // line 151
                         echo "                                        <p>";
                         echo twig_escape_filter($this->env, $context["error"], "html", null, true);
                         echo "</p>
@@ -328,30 +376,30 @@ class __TwigTemplate_7a12f21e030cd438a8166c481cff4f8125d24110f5a4df8641e6a38b19e
                     $_parent = $context['_parent'];
                     unset($context['_seq'], $context['_iterated'], $context['key'], $context['error'], $context['_parent'], $context['loop']);
                     $context = array_intersect_key($context, $_parent) + $_parent;
-                    // line 148
+                    // line 153
                     echo "                                </div>
                             ";
                 }
-                // line 150
+                // line 155
                 echo "
 
                             <input type=\"text\" name=\"pointDescription\" placeholder=\"Описание этапа\"
                                    value=\"";
-                // line 153
-                ((twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "pointDescription", [], "any", false, false, false, 153)) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "pointDescription", [], "any", false, false, false, 153), "html", null, true))) : (print (null)));
+                // line 158
+                ((twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "pointDescription", [], "any", false, false, false, 158)) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["postData"] ?? null), "pointDescription", [], "any", false, false, false, 158), "html", null, true))) : (print (null)));
                 echo "\">
 
                             ";
-                // line 155
-                if ( !twig_test_empty(twig_get_attribute($this->env, $this->source, ($context["pointValidationErrors"] ?? null), "description", [], "any", false, false, false, 155))) {
-                    // line 156
+                // line 160
+                if ( !twig_test_empty(twig_get_attribute($this->env, $this->source, ($context["pointValidationErrors"] ?? null), "description", [], "any", false, false, false, 160))) {
+                    // line 161
                     echo "                                <div>
                                     ";
-                    // line 157
+                    // line 162
                     $context['_parent'] = $context;
-                    $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, ($context["pointValidationErrors"] ?? null), "description", [], "any", false, false, false, 157));
+                    $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, ($context["pointValidationErrors"] ?? null), "description", [], "any", false, false, false, 162));
                     foreach ($context['_seq'] as $context["key"] => $context["error"]) {
-                        // line 158
+                        // line 163
                         echo "                                        <p>";
                         echo twig_escape_filter($this->env, $context["error"], "html", null, true);
                         echo "</p>
@@ -360,11 +408,11 @@ class __TwigTemplate_7a12f21e030cd438a8166c481cff4f8125d24110f5a4df8641e6a38b19e
                     $_parent = $context['_parent'];
                     unset($context['_seq'], $context['_iterated'], $context['key'], $context['error'], $context['_parent'], $context['loop']);
                     $context = array_intersect_key($context, $_parent) + $_parent;
-                    // line 160
+                    // line 165
                     echo "                                </div>
                             ";
                 }
-                // line 162
+                // line 167
                 echo "
 
                         </div>
@@ -378,29 +426,29 @@ class __TwigTemplate_7a12f21e030cd438a8166c481cff4f8125d24110f5a4df8641e6a38b19e
                 </div>
             ";
             }
-            // line 174
+            // line 179
             echo "
             <div>
                 <form action=\"\" method=\"post\">
                     <div class='login-fields'>
                         <select name=\"eventId\">
                             ";
-            // line 179
+            // line 184
             $context['_parent'] = $context;
             $context['_seq'] = twig_ensure_traversable(($context["events"] ?? null));
             foreach ($context['_seq'] as $context["key"] => $context["event"]) {
-                // line 180
+                // line 185
                 echo "                                <option value=";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getId", [], "any", false, false, false, 180), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getId", [], "any", false, false, false, 185), "html", null, true);
                 echo ">";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getName", [], "any", false, false, false, 180), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["event"], "getName", [], "any", false, false, false, 185), "html", null, true);
                 echo "</option>
                             ";
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['key'], $context['event'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 182
+            // line 187
             echo "                        </select>
 
                     </div>
@@ -416,36 +464,36 @@ class __TwigTemplate_7a12f21e030cd438a8166c481cff4f8125d24110f5a4df8641e6a38b19e
                 <form action=\"\" method=\"post\">
                     <div class='login-fields'>
                         ";
-            // line 197
+            // line 202
             echo "                        ";
-            // line 198
+            // line 203
             echo "                        ";
-            // line 199
+            // line 204
             echo "                        ";
-            // line 200
+            // line 205
             echo "                        ";
-            // line 201
+            // line 206
             echo "
                         <select name=\"pointId\">
                             ";
-            // line 203
+            // line 208
             $context['_parent'] = $context;
             $context['_seq'] = twig_ensure_traversable(($context["points"] ?? null));
             foreach ($context['_seq'] as $context["key"] => $context["point"]) {
-                // line 204
+                // line 209
                 echo "                                <option value=";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 204), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getId", [], "any", false, false, false, 209), "html", null, true);
                 echo ">(";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getEventId", [], "any", false, false, false, 204), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getEventId", [], "any", false, false, false, 209), "html", null, true);
                 echo ") -> ";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getName", [], "any", false, false, false, 204), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["point"], "getName", [], "any", false, false, false, 209), "html", null, true);
                 echo "</option>
                             ";
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['key'], $context['point'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 206
+            // line 211
             echo "                        </select>
 
                     </div>
@@ -460,7 +508,7 @@ class __TwigTemplate_7a12f21e030cd438a8166c481cff4f8125d24110f5a4df8641e6a38b19e
 
         ";
         }
-        // line 219
+        // line 224
         echo "
     </div>
 
@@ -479,7 +527,7 @@ class __TwigTemplate_7a12f21e030cd438a8166c481cff4f8125d24110f5a4df8641e6a38b19e
 
     public function getDebugInfo()
     {
-        return array (  464 => 219,  449 => 206,  436 => 204,  432 => 203,  428 => 201,  426 => 200,  424 => 199,  422 => 198,  420 => 197,  404 => 182,  393 => 180,  389 => 179,  382 => 174,  368 => 162,  364 => 160,  355 => 158,  351 => 157,  348 => 156,  346 => 155,  341 => 153,  336 => 150,  332 => 148,  323 => 146,  319 => 145,  316 => 144,  314 => 143,  309 => 141,  304 => 138,  293 => 136,  289 => 135,  283 => 131,  281 => 130,  267 => 118,  263 => 116,  254 => 114,  250 => 113,  247 => 112,  245 => 111,  240 => 109,  235 => 106,  231 => 104,  222 => 102,  218 => 101,  215 => 100,  213 => 99,  208 => 97,  201 => 92,  199 => 91,  195 => 89,  193 => 88,  191 => 87,  189 => 86,  187 => 85,  185 => 84,  183 => 83,  179 => 80,  177 => 79,  175 => 78,  173 => 77,  171 => 76,  169 => 75,  167 => 74,  163 => 71,  157 => 67,  154 => 57,  150 => 52,  147 => 51,  137 => 47,  132 => 46,  129 => 44,  124 => 43,  121 => 42,  119 => 41,  109 => 34,  103 => 31,  97 => 28,  91 => 25,  85 => 22,  79 => 19,  73 => 16,  67 => 13,  61 => 10,  56 => 7,  54 => 6,  50 => 4,  46 => 3,  35 => 1,);
+        return array (  512 => 224,  497 => 211,  484 => 209,  480 => 208,  476 => 206,  474 => 205,  472 => 204,  470 => 203,  468 => 202,  452 => 187,  441 => 185,  437 => 184,  430 => 179,  416 => 167,  412 => 165,  403 => 163,  399 => 162,  396 => 161,  394 => 160,  389 => 158,  384 => 155,  380 => 153,  371 => 151,  367 => 150,  364 => 149,  362 => 148,  357 => 146,  352 => 143,  341 => 141,  337 => 140,  331 => 136,  329 => 135,  315 => 123,  311 => 121,  302 => 119,  298 => 118,  295 => 117,  293 => 116,  288 => 114,  283 => 111,  279 => 109,  270 => 107,  266 => 106,  263 => 105,  261 => 104,  256 => 102,  249 => 97,  247 => 96,  243 => 94,  241 => 93,  239 => 92,  237 => 91,  235 => 90,  233 => 89,  231 => 88,  227 => 85,  225 => 84,  223 => 83,  221 => 82,  219 => 81,  217 => 80,  215 => 79,  211 => 76,  205 => 72,  203 => 71,  201 => 70,  199 => 69,  197 => 68,  195 => 67,  193 => 66,  191 => 65,  189 => 64,  186 => 62,  184 => 61,  182 => 60,  178 => 57,  172 => 56,  163 => 53,  158 => 52,  154 => 51,  150 => 50,  147 => 49,  138 => 46,  133 => 45,  129 => 44,  124 => 43,  120 => 42,  109 => 34,  103 => 31,  97 => 28,  91 => 25,  85 => 22,  79 => 19,  73 => 16,  67 => 13,  61 => 10,  56 => 7,  54 => 6,  50 => 4,  46 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -524,32 +572,37 @@ class __TwigTemplate_7a12f21e030cd438a8166c481cff4f8125d24110f5a4df8641e6a38b19e
             <div class=\"after-info\">
                 <div class=\"my-events\">
                     <p>Мои мероприятия:</p>
-                    {% set userEvents = attribute(studentRepository, 'getEvents', [currentUser.getId]) %}
-                    {% if userEvents is not empty %}
-                        {% for key, event in userEvents %}
-                            <p>
-                                {# <a href=\"./view-event?eventId={{ event.getId }}\"> #}
-                                <a href=\"./view-event/{{ event.getId }}\">
-                                    {{ event.getName }}
-                                </a>
-                            </p>
+
+                    {% for event in registeredEvents %}
+                        <p>{{ event }}</p>
+                        {% for point in event.simple %}
+                            <a href=\"/view-point/{{ point.getId }}\">
+                                <p>{{ point.getName }}</p>
+                            </a>
                         {% endfor %}
-                    {% endif %}
+
+                        <p>{{ (event.complex | keys).0 }}</p>
+                        {% for key, point in event.complex %}
+                            <a href=\"/view-point/13/{{ point.getName }}\">
+                                <pre>   - {{ point.getName }}</pre>
+                            </a>
+                        {% endfor %}
+                    {% endfor %}
                 </div>
 
-{#                <div>#}
-{#                    <p>Оставить фидбэк</p>#}
-{#                </div>#}
+                {# <div> #}
+                {# <p>Оставить фидбэк</p> #}
+                {# </div> #}
 
-{#                <div>#}
-{#                    <div class='text-center'>#}
-{#                        <button class='reg-button btn btn-primary btn-lg mb-5'>#}
-{#                            <a href='/getDiplom/{{ currentUser.getId }}/{{ point.getEventId }}'>#}
-{#                                <p>Получить диплом</p>#}
-{#                            </a>#}
-{#                        </button>#}
-{#                    </div>#}
-{#                </div>#}
+                {# <div> #}
+                {# <div class='text-center'> #}
+                {# <button class='reg-button btn btn-primary btn-lg mb-5'> #}
+                {# <a href='/getDiplom/{{ currentUser.getId }}/{{ point.getEventId }}'> #}
+                {# <p>Получить диплом</p> #}
+                {# </a> #}
+                {# </button> #}
+                {# </div> #}
+                {# </div> #}
 
             </div>
 

@@ -92,26 +92,6 @@ class StudentRepository extends AbstractRepository
     }
 
 
-//    public function getPoints(int $eventId): array
-//    {
-//        $sql = "SELECT * FROM student_point WHERE student_id=:studentId";
-//
-//        $conn = $this->pdo;
-//
-//        $sth = $conn->prepare($sql);
-//        $sth->bindValue(":studentId", $this->id);
-//        $sth->execute();
-//
-//        $sth->setFetchMode(PDO::FETCH_ASSOC);
-//
-//        $points = array();
-//        while ($record = $sth->fetch())
-//            $points[] = Point::getById($record['pointId']);
-//
-//        return $points;
-//    }
-
-
     public function regToEvent(Student $student, int $eventId): bool
     {
 
@@ -272,6 +252,12 @@ class StudentRepository extends AbstractRepository
 
     public function isRegedToPoint(int $studentId, int $pointId): bool
     {
+        $point = $this->pointRepository->find($pointId);
+        if ($point->isComplex()) {
+           return $this->isRegedToComplexPoint($studentId, $pointId);
+        }
+
+
         $data = [
             'studentId' => $studentId,
             'pointId' => $pointId,
@@ -370,6 +356,42 @@ class StudentRepository extends AbstractRepository
 
         return $points;
     }
+
+
+    public function getRegedEventPoints(int $studentId, int $eventId): array
+    {
+        $sql = "SELECT points.*
+                    FROM points
+                    JOIN student_point ON student_point.point_id = points.id
+                    WHERE student_id = :studentId AND event_id = :eventId";
+
+        $conn = $this->pdo;
+
+        $sth = $conn->prepare($sql);
+        $sth->bindValue(":studentId", $studentId);
+        $sth->bindValue(":eventId", $eventId);
+        $sth->execute();
+
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+
+        $points = array();
+        $points['simple'] = null;
+        $points['complex'] = null;
+
+        while ($pointData = $sth->fetch()) {
+            if ($pointData['is_complex'] == 1) {
+                $complexPoint = $this->getRegedComplexEventPoint($studentId, $pointData['id']);
+                if (!is_null($complexPoint)) {
+                    $points['complex'][$pointData['id']] = $complexPoint;
+                }
+            } else {
+                $points['simple'][] = $this->pointRepository->find($pointData['id']);
+            }
+        }
+
+        return $points;
+    }
+
 
 
     public function getRegedComplexEventPoint(int $studentId, int $pointId): ?Point

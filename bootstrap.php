@@ -11,7 +11,8 @@ use HseEvents\Controller\{AccountController,
     RegistrationController,
     ViewComplexEventPointsController,
     ViewEventController,
-    ViewEventPointsController};
+    ViewEventPointsController,
+    ViewPointController};
 use HseEvents\View\TwigView;
 use HseEvents\Repository\{StudentRepository, EventRepository, PointRepository};
 use HseEvents\View\PhpView;
@@ -29,6 +30,9 @@ date_default_timezone_set("Europe/Moscow");
 
 $container = new Container();
 
+$container[Session::class] = function ($c) {
+    return new Session();
+};
 
 $container['config'] = function ($c) {
     return new Config(include __DIR__ . '/config/config.php');
@@ -38,14 +42,6 @@ $container[\Twig\Loader\LoaderInterface::class] = function ($c) {
     return new \Twig\Loader\FilesystemLoader($c['config']['templatePath']);
 };
 
-$container['twig'] = function ($c) {
-    $twig = new \Twig\Environment($c[\Twig\Loader\LoaderInterface::class], [
-        'cache' => $c['config']['twigCachePath'],
-        'debug' => true,
-    ]);
-    $twig->addExtension(new \HseEvents\TwigExtension());
-    return $twig;
-};
 
 $container[PhpView::class] = function ($c) {
     return new PhpView($c['config']['templatePath']);
@@ -82,8 +78,18 @@ $container[PointRepository::class] = function ($c) {
     return new PointRepository($c[PDO::class]);
 };
 
-$container[Session::class] = function ($c) {
-    return new Session();
+
+
+$container['twig'] = function ($c) {
+    $twig = new \Twig\Environment($c[\Twig\Loader\LoaderInterface::class], [
+        'cache' => $c['config']['twigCachePath'],
+        'debug' => true,
+    ]);
+    $twig->addExtension(new \HseEvents\TwigExtension(
+        $c[StudentRepository::class]
+    ));
+    $twig->addExtension(new \Twig\Extension\DebugExtension());
+    return $twig;
 };
 
 $container[AccountController::class] = function ($c) {
@@ -108,6 +114,8 @@ $container[GetDiplomController::class] = function ($c) {
     return new GetDiplomController(
         $c[TwigView::class],
         $c[StudentRepository::class],
+        $c[EventRepository::class],
+        $c[PointRepository::class],
         $c[Session::class]
     );
 };
@@ -149,6 +157,16 @@ $container[ViewEventController::class] = function ($c) {
         $c[TwigView::class],
         $c[StudentRepository::class],
         $c[EventRepository::class],
+        $c[Session::class]
+    );
+};
+
+$container[ViewPointController::class] = function ($c) {
+    return new ViewPointController(
+        $c[TwigView::class],
+        $c[StudentRepository::class],
+        $c[EventRepository::class],
+        $c[PointRepository::class],
         $c[Session::class]
     );
 };

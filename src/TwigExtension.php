@@ -33,9 +33,11 @@ class TwigExtension extends \Twig\Extension\AbstractExtension
     {
         echo "<div class='text-center'>
                     <h1>
-                        <p>Название:" . $point->getName() . "</p>
+                        <p>" . $point->getName() . "</p>
                     </h1>
-                    <p>Описание:" . $point->getDescription() . "</p>
+                    <p>
+                        <pre>" . $point->getDescription() . "</pre>                
+                    </p>
                 </div>";
     }
 

@@ -1,0 +1,51 @@
+{% extends "layout/layout.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class='reg-background'>
+            {% if (userPermission == 2) %}
+
+                {% if (currentUser is not empty) %}
+                    {% set regedPoint = attribute(studentRepository, 'getRegedEventPoint', [currentUser.getId]) %}
+                {% endif %}
+
+                {% if registeredToPoint.success is not empty %}
+                    <div class="alert alert-success" role="alert">
+                        {{ registeredToPoint.success }}
+                    </div>
+                {% endif %}
+
+                {% if errors.regErrors.0 is not empty %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ errors.regErrors.0 }}
+                    </div>
+                {% endif %}
+
+            {% endif %}
+
+
+            <div class="backgrd">
+                <div class="site-content">
+                    <div class="post-wrapper">
+                        {{ outputPointInfo(point) }}
+                        {% if (userPermission == 2) %}
+                            {% if (attribute(studentRepository, 'isRegedToEvent', [currentUser.getId, eventId])) %}
+                                <div class="mb-4 text-center">
+                                    {{ outputButton(currentUser, point) }}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
+                        <div class="text-center">
+                            {% set eventUri = '/view-event-points/' ~ eventId %}
+                            <a href='{{ eventUri }}' class="btn btn-primary">Вернуться к программе мероприятия</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}

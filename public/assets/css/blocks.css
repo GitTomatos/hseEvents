@@ -6,7 +6,8 @@
     padding: 1.5rem;
     box-sizing: border-box;
     background-color: rgba(0, 0, 0, 0.4);
-    border-bottom: 1px solid;
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
     word-wrap: break-word;
     margin-bottom: 10px;
     width: 1000px;
@@ -37,8 +38,7 @@
 
 .entry-title a:link,
 .entry-title a:visited {
-    color: #202020;
-    color: var(--title-color);
+    color: white;
     text-decoration: none;
 }
 

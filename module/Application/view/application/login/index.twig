@@ -1,0 +1,53 @@
+{% extends "layout/layout.twig" %}
+
+{% block content %}
+    <div class="container">
+        <!-- <div class="background-center"> -->
+        <div class="reg-background">
+
+            <div class="text-center">
+                <h1> Войти в аккаунт </h1>
+            </div>
+
+
+            <form action="" method="post">
+                <div class='login-fields'>
+                    <input type="text" name="userLogin" placeholder="Введите логин"
+                           value="{{ postData.userLogin ?: null }}">
+
+                    {% if errors.login is not empty %}
+                        <div>
+                            {% for key, error in errors.login %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+
+                    <input type="password" name="userPass" placeholder="Введите пароль"
+                           value="{{ postData.userPass ?: null }}"
+                    >
+
+                    {% if errors.password is not empty %}
+                        <div>
+                            {% for key, error in errors.password %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+                <div class="text-center">
+                    <button class="reg-button btn btn-primary btn-lg mt-5" type="submit" name="login" value="Register">
+                        Войти
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock %}

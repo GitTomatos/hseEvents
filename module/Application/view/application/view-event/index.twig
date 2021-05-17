@@ -1,0 +1,64 @@
+{% extends "layout/layout.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class='reg-background'>
+
+            {# {{ attribute(currentEvent, 'getId') is defined ? currentEvent.Id : "no" }} #}
+            {# {{ attribute(currentUser, 'isRegedToEvent', [currentEvent.getId]) }} #}
+            {% if registeredToEvent.success is not empty %}
+                <div class="alert alert-success" role="alert">
+                    {{ registeredToEvent.success }}
+                </div>
+            {% elseif registeredToEvent.unsuccess is not empty %}
+                <div class="alert alert-danger" role="alert">
+                    {{ registeredToEvent.unsuccess }}
+                </div>
+            {% endif %}
+
+            <div class="text-center py-5">
+                <h1>
+                    <p>{{ currentEvent.getName }}</p>
+                </h1>
+                <p>{{ currentEvent.getDescription }}</p>
+            </div>
+
+
+            {% if (username is not empty) and (userPermission == 2) %}
+                <form action="" method="post">
+                    {% if not attribute(studentRepository, 'isRegedToEvent', [currentUser.getId, currentEvent.getId]) %}
+                        <div class="text-center">
+                            <button class="reg-button btn btn-primary btn-lg mt-5" name="regStudToEvent">
+                                Зарегистрироваться
+                            </button>
+                        </div>
+                    {% else %}
+                        <div class="text-center">
+                            <button class="reg-button btn btn-primary btn-lg mt-5" name="unregStudFromEvent">
+                                Отменить регистрацию
+                            </button>
+                        </div>
+
+
+                    {% endif %}
+                </form>
+            {% endif %}
+
+            {# <p><a href="/view-event-points?eventId={{ currentEvent.getId }}">Посмотреть этапы</a></p> #}
+            <div class="text-center">
+                <a class="btn btn-primary btn-lg mt-5" href="/view-event-points/{{ currentEvent.getId }}">Посмотреть
+                    программу</a>
+            </div>
+
+            <div class='text-center'>
+                {# <button class='reg-button btn btn-primary btn-lg mb-5'> #}
+                <a class="btn btn-primary btn-lg mt-5"
+                   href='/get-diplom/{{ currentUser.getId }}/{{ currentEvent.getId }}'>
+                    Получить диплом
+                </a>
+                {# </button> #}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

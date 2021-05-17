@@ -236,5 +236,10 @@ button a {
     /*width: 50%;*/
 }
 
+.head-text {
+    font-size: 1.5rem;
+    font-style: oblique;
+    font-weight: bold;
+}
 
 
